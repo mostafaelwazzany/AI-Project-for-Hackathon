@@ -1,0 +1,4 @@
+pymupdf4llm==1.28.2
+tiktoken==0.13.0
+sentence-transformers==5.7.0
+chromadb==1.5.9

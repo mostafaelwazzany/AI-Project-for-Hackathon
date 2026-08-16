@@ -1,0 +1,27 @@
+{
+  "source_id": "nice_ng151_colorectal_cancer",
+  "title": "Colorectal cancer",
+  "publisher": "National Institute for Health and Care Excellence (NICE)",
+  "guideline_code": "NG151",
+  "published_date": "2020-01-29",
+  "last_content_update": "2021-12-15",
+  "last_reviewed_online": "2026-04-29",
+  "downloaded_date": "2026-08-16",
+  "source_url": "https://www.nice.org.uk/guidance/ng151",
+  "pdf_url": "https://www.nice.org.uk/guidance/ng151/resources/colorectal-cancer-pdf-66141835244485",
+  "local_file": "data/raw/nice_ng151_colorectal_cancer.pdf",
+  "page_count": 51,
+  "sha256": "95E6813444E8F19895A499ABCDE9FE230854B7AD19E01EA494757F5D1DDFDBEC",
+  "text_layer": true,
+  "ocr_required": false,
+  "intended_scope": [
+    "risk reduction in Lynch syndrome",
+    "local colon cancer",
+    "local rectal cancer",
+    "follow-up after curative treatment"
+  ],
+  "excluded_initial_scope": [
+    "advanced or metastatic colorectal cancer"
+  ],
+  "licence_status": "Approved for use in the hackathon prototype, as confirmed by the project team on 2026-08-16."
+}

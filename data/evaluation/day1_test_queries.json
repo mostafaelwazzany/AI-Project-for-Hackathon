@@ -1,0 +1,50 @@
+[
+  {
+    "name": "early_rectal_cancer_en",
+    "language": "en",
+    "query": "What treatment options are recommended for early rectal cancer?",
+    "top_k": 5,
+    "expected_any_chunk_ids": [
+      "ng151-rec-1-3-3",
+      "ng151-table-1-p10",
+      "ng151-table-1-p11",
+      "ng151-table-1-p12"
+    ]
+  },
+  {
+    "name": "bowel_obstruction_en",
+    "language": "en",
+    "query": "How should acute left-sided large bowel obstruction be managed?",
+    "top_k": 5,
+    "expected_any_chunk_ids": [
+      "ng151-rec-1-3-1",
+      "ng151-rec-1-3-2"
+    ]
+  },
+  {
+    "name": "curative_surgery_followup_en",
+    "language": "en",
+    "query": "What follow-up is recommended after curative colorectal cancer surgery?",
+    "top_k": 5,
+    "expected_any_chunk_ids": ["ng151-rec-1-6-1"]
+  },
+  {
+    "name": "early_rectal_cancer_ar",
+    "language": "ar",
+    "query": "ما خيارات العلاج الموصى بها لسرطان المستقيم المبكر؟",
+    "top_k": 5,
+    "expected_any_chunk_ids": [
+      "ng151-rec-1-3-3",
+      "ng151-table-1-p10",
+      "ng151-table-1-p11",
+      "ng151-table-1-p12"
+    ]
+  },
+  {
+    "name": "curative_surgery_followup_ar",
+    "language": "ar",
+    "query": "ما المتابعة المطلوبة بعد جراحة علاج سرطان القولون والمستقيم؟",
+    "top_k": 5,
+    "expected_any_chunk_ids": ["ng151-rec-1-6-1"]
+  }
+]

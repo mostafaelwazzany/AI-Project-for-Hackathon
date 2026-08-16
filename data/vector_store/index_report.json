@@ -1,0 +1,27 @@
+{
+  "created_at_utc": "2026-08-16T13:06:04.694575+00:00",
+  "collection": "nice_ng151_colorectal",
+  "database_path": "F:\\Creativa Hackathon\\data\\vector_store\\chroma",
+  "scope": "initial",
+  "chunk_count": 33,
+  "stored_vector_count": 33,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "embedding_dimension": 384,
+  "embeddings_normalized": true,
+  "distance_metric": "cosine",
+  "model_license": "MIT",
+  "document_embedding_prefix": "passage: ",
+  "query_embedding_prefix": "query: ",
+  "chunks_path": "F:\\Creativa Hackathon\\data\\chunks\\nice_ng151_colorectal_cancer_chunks.jsonl",
+  "chunks_sha256": "ba58131cc462f3759a010a9e16318759c51a00af444313c4e997e0ba0d4e45e6",
+  "packages": {
+    "sentence-transformers": "5.7.0",
+    "chromadb": "1.5.9"
+  },
+  "required_metadata_fields": [
+    "document_name",
+    "section_title",
+    "page_number",
+    "chunk_id"
+  ]
+}

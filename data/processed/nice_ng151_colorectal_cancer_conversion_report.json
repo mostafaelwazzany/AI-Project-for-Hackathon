@@ -1,0 +1,17 @@
+{
+  "source_id": "nice_ng151_colorectal_cancer",
+  "input_pdf": "F:\\Creativa Hackathon\\data\\raw\\nice_ng151_colorectal_cancer.pdf",
+  "input_sha256": "95E6813444E8F19895A499ABCDE9FE230854B7AD19E01EA494757F5D1DDFDBEC",
+  "converter": "pymupdf4llm",
+  "converter_version": "1.28.2",
+  "ocr_used": false,
+  "page_count": 51,
+  "empty_pages": [],
+  "total_characters": 83477,
+  "markdown_heading_lines": 119,
+  "generated_at_utc": "2026-08-16T12:01:38.435942+00:00",
+  "outputs": {
+    "markdown": "F:\\Creativa Hackathon\\data\\processed\\nice_ng151_colorectal_cancer.md",
+    "pages_jsonl": "F:\\Creativa Hackathon\\data\\processed\\nice_ng151_colorectal_cancer_pages.jsonl"
+  }
+}
