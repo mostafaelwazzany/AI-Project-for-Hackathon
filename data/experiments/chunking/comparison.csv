@@ -1,0 +1,4 @@
+chunk_size,overlap,chunks,recommendation_chunks,average_recommendation_chars,top_k,found,total,found_rate,arabic_found,arabic_total,english_found,english_total,average_strict_precision,selected,selection_reason
+300,50,119,71,420.7,5,32,40,0.8,14,20,18,20,0.215,no,
+500,80,103,69,427.1,5,32,40,0.8,14,20,18,20,0.215,yes,accuracy tie; kept the existing baseline
+700,100,93,69,427.1,5,32,40,0.8,14,20,18,20,0.215,no,
