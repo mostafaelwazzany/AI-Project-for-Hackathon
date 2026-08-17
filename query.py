@@ -51,6 +51,7 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
                 "score": 1 - float(distance),
                 "page_number": metadata["page_number"],
                 "section_title": metadata["section_title"],
+                "content_type": metadata.get("content_type", "unknown"),
                 "source_url": metadata["source_url"],
                 "text": document,
             }
@@ -64,7 +65,7 @@ def print_results(question: str, rows: list[dict]) -> None:
         preview = " ".join(row["text"].split())[:220]
         print(
             f"{row['rank']}. score={row['score']:.4f} | page={row['page_number']} "
-            f"| {row['chunk_id']}\n   {preview}"
+            f"| type={row['content_type']} | {row['chunk_id']}\n   {preview}"
         )
 
 

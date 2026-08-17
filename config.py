@@ -12,6 +12,8 @@ PAGES_PATH = ROOT / "data" / "processed" / "pages.jsonl"
 CHUNKS_PATH = ROOT / "data" / "chunks" / "chunks.jsonl"
 CHROMA_PATH = ROOT / "data" / "vector_store" / "chroma"
 TEST_QUERIES_PATH = ROOT / "data" / "evaluation" / "test_queries.json"
+TEST_QUESTIONS_PATH = ROOT / "data" / "evaluation" / "test_questions.csv"
+EVALUATION_RESULTS_PATH = ROOT / "data" / "evaluation" / "evaluation_results.csv"
 
 # Guideline information used in citations
 DOCUMENT_NAME = "Colorectal cancer"
@@ -22,9 +24,11 @@ SOURCE_URL = "https://www.nice.org.uk/guidance/ng151"
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 80
 
-# MVP scope: recommendations 1.1, 1.2, 1.3 and 1.6 only.
-# This excludes advanced/metastatic treatment and the later rationale pages.
-PAGES_TO_INDEX = list(range(7, 18)) + [26, 27]
+# Useful guideline content only:
+# overview/general guidance (5-6), recommendations and glossary (7-28),
+# and rationale/impact (30-48). Cover, contents, research questions,
+# committee/update pages and the ISBN page are excluded.
+PAGES_TO_INDEX = list(range(5, 29)) + list(range(30, 49))
 
 # Keep the tested multilingual Sentence Transformer model.
 EMBEDDING_MODEL = "intfloat/multilingual-e5-small"

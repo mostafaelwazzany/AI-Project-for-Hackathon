@@ -98,6 +98,21 @@ def split_page(text: str, size: int, overlap: int) -> list[str]:
     return parts
 
 
+def content_type_for_page(page_number: int) -> str:
+    """Label each useful part of the guideline for filtered retrieval later."""
+    if page_number == 5:
+        return "overview"
+    if page_number == 6:
+        return "guidance_context"
+    if 7 <= page_number <= 26:
+        return "recommendation"
+    if 27 <= page_number <= 28:
+        return "glossary"
+    if 30 <= page_number <= 48:
+        return "rationale"
+    raise ValueError(f"Page {page_number} has no configured content type")
+
+
 def chunk_pages(pages: list[dict]) -> list[dict]:
     """Create citation-ready chunks while keeping every chunk on one PDF page."""
     max_chars = config.CHUNK_SIZE * 4
@@ -107,6 +122,7 @@ def chunk_pages(pages: list[dict]) -> list[dict]:
     for page in pages:
         if page["page_number"] not in config.PAGES_TO_INDEX:
             continue
+        content_type = content_type_for_page(page["page_number"])
         page_chunks = split_page(page["text"], max_chars, overlap_chars)
         for chunk_number, content in enumerate(page_chunks, start=1):
             chunk_id = f"ng151-p{page['page_number']}-c{chunk_number}"
@@ -121,6 +137,7 @@ def chunk_pages(pages: list[dict]) -> list[dict]:
                     "document_name": config.DOCUMENT_NAME,
                     "page_number": page["page_number"],
                     "section_title": page["section_title"],
+                    "content_type": content_type,
                     "source_url": config.SOURCE_URL,
                     "content": content,
                     "text": text_for_embedding,
@@ -162,6 +179,7 @@ def build_index(chunks: list[dict]) -> None:
                 "document_name": chunk["document_name"],
                 "page_number": chunk["page_number"],
                 "section_title": chunk["section_title"],
+                "content_type": chunk["content_type"],
                 "chunk_id": chunk["chunk_id"],
                 "source_url": chunk["source_url"],
             }
