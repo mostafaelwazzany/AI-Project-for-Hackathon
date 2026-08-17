@@ -4,3 +4,4 @@ __pycache__/
 tmp/
 data/models/
 .sites-runtime/
+.codex_tmp/
