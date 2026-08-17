@@ -26,16 +26,28 @@ def load_pdf() -> list[dict]:
     )
 
     pages = []
+    previous_heading = ""
+    previous_heading_level = 0
     for page_number, raw_page in enumerate(raw_pages, start=1):
         text = raw_page.get("text", "").strip()
-        heading = next(
-            (
-                re.sub(r"[*_#]", "", line).strip()
-                for line in text.splitlines()
-                if line.strip().startswith("#")
-            ),
-            f"Page {page_number}",
-        )
+        headings = []
+        for line in text.splitlines():
+            match = re.match(r"^(#{1,6})\s+(.+)", line.strip())
+            if match:
+                clean_heading = re.sub(r"[*_]", "", match.group(2)).strip()
+                headings.append((len(match.group(1)), clean_heading))
+
+        if headings:
+            heading_level, heading = headings[0]
+            if (
+                previous_heading
+                and heading_level == previous_heading_level
+                and heading[:1].islower()
+            ):
+                heading = f"{previous_heading} {heading}"
+            previous_heading_level, previous_heading = headings[-1]
+        else:
+            heading = previous_heading or f"Page {page_number}"
         pages.append(
             {
                 "page_number": page_number,

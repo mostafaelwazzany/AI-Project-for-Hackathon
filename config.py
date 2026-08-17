@@ -11,7 +11,6 @@ MARKDOWN_PATH = ROOT / "data" / "processed" / "guideline.md"
 PAGES_PATH = ROOT / "data" / "processed" / "pages.jsonl"
 CHUNKS_PATH = ROOT / "data" / "chunks" / "chunks.jsonl"
 CHROMA_PATH = ROOT / "data" / "vector_store" / "chroma"
-TEST_QUERIES_PATH = ROOT / "data" / "evaluation" / "test_queries.json"
 TEST_QUESTIONS_PATH = ROOT / "data" / "evaluation" / "test_questions.csv"
 EVALUATION_RESULTS_PATH = ROOT / "data" / "evaluation" / "evaluation_results.csv"
 
@@ -19,6 +18,10 @@ EVALUATION_RESULTS_PATH = ROOT / "data" / "evaluation" / "evaluation_results.csv
 DOCUMENT_NAME = "Colorectal cancer"
 GUIDELINE_CODE = "NICE NG151"
 SOURCE_URL = "https://www.nice.org.uk/guidance/ng151"
+
+
+# Structure-aware Recursive Character Chunking with Overlap
+# document-based chunking with recursive splitting and overlap.
 
 # Chunking settings. The starter kit also uses an approximate 4 chars/token.
 CHUNK_SIZE = 500

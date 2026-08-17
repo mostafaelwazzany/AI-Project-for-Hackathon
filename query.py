@@ -2,13 +2,11 @@
 
 Run:
     python query.py "What follow-up is recommended after surgery?"
-    python query.py --test
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 
 import chromadb
@@ -31,6 +29,7 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
     results = collection.query(
         query_embeddings=[query_vector.tolist()],
         n_results=min(top_k, collection.count()),
+        where={"content_type": "recommendation"},
         include=["documents", "metadatas", "distances"],
     )
 
@@ -49,6 +48,7 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
                 "rank": rank,
                 "chunk_id": chunk_id,
                 "score": 1 - float(distance),
+                "document_name": metadata["document_name"],
                 "page_number": metadata["page_number"],
                 "section_title": metadata["section_title"],
                 "content_type": metadata.get("content_type", "unknown"),
@@ -62,27 +62,17 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
 def print_results(question: str, rows: list[dict]) -> None:
     print(f"\nQuestion: {question}")
     for row in rows:
-        preview = " ".join(row["text"].split())[:220]
-        print(
-            f"{row['rank']}. score={row['score']:.4f} | page={row['page_number']} "
-            f"| type={row['content_type']} | {row['chunk_id']}\n   {preview}"
-        )
-
-
-def run_tests() -> None:
-    """Run known questions and check whether an expected page is returned."""
-    tests = json.loads(config.TEST_QUERIES_PATH.read_text(encoding="utf-8"))
-    passed = 0
-    for test in tests:
-        rows = search(test["question"], test.get("top_k", config.TOP_K))
-        returned_pages = {row["page_number"] for row in rows}
-        success = bool(returned_pages & set(test["expected_pages"]))
-        passed += int(success)
-        print_results(test["question"], rows)
-        print(f"PASS={success} | expected pages={test['expected_pages']}")
-    print(f"\nTests passed: {passed}/{len(tests)}")
-    if passed != len(tests):
-        raise SystemExit(1)
+        print("\n" + "=" * 80)
+        print(f"Rank: {row['rank']}")
+        print(f"Similarity score: {row['score']:.4f}")
+        print(f"Document: {row['document_name']}")
+        print(f"Section: {row['section_title']}")
+        print(f"Page: {row['page_number']}")
+        print(f"Content type: {row['content_type']}")
+        print(f"Chunk ID: {row['chunk_id']}")
+        print(f"Source: {row['source_url']}")
+        print("-" * 80)
+        print(row["text"].strip())
 
 
 def main() -> None:
@@ -91,15 +81,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("question", nargs="?")
     parser.add_argument("--top-k", type=int, default=config.TOP_K)
-    parser.add_argument("--test", action="store_true")
     args = parser.parse_args()
 
-    if args.test:
-        run_tests()
-    elif args.question:
+    if args.question:
         print_results(args.question, search(args.question, args.top_k))
     else:
-        parser.error("Write a question or use --test")
+        parser.error("Write a question")
 
 
 if __name__ == "__main__":
