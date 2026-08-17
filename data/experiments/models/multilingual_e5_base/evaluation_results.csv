@@ -1,0 +1,43 @@
+﻿id,variant,language,question,expected_source,expected_recommendations,top_k,status,found,best_rank,relevant_in_top_k,precision_at_k,top_score,top_chunk_id,top_page
+1,1,ar,هل الأسبرين بيقلل خطر سرطان القولون لمرضى متلازمة لينش؟,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,0.8242,ng151-p7-c2,7
+1,2,ar,إيه دور الأسبرين في الوقاية من سرطان الأمعاء عند مرضى لينش؟,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,0.8078,ng151-p7-c2,7
+1,1,en,Does aspirin reduce colorectal cancer risk in Lynch syndrome patients?,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,0.9237,ng151-p7-c2,7
+1,2,en,What is aspirin's role in preventing colon cancer for Lynch syndrome patients?,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,0.9123,ng151-p7-c2,7
+2,1,ar,إيه علاجات سرطان المستقيم المبكر المتاحة؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,1,0.2,0.8053,ng151-p10-c2,10
+2,2,ar,لو عندي سرطان مستقيم في مرحلة مبكرة اختياراتي إيه؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,1,0.2,0.8073,ng151-p10-c2,10
+2,1,en,What treatments are available for early rectal cancer?,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,FAIL,no,,0,0.0,0.873,ng151-p13-c1,13
+2,2,en,"If I have early-stage rectal cancer, what are my options?",Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,2,1,0.2,0.8585,ng151-p13-c2,13
+3,1,ar,هل المريض ياخد علاج إشعاعي قبل جراحة سرطان المستقيم؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,2,2,0.4,0.8014,ng151-p10-c2,10
+3,2,ar,إمتى بيتحدد إن المريض محتاج علاج إشعاعي قبل العملية؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,1,0.2,0.7766,ng151-p13-c2,13
+3,1,en,Is preoperative radiotherapy given before rectal cancer surgery?,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,0.8967,ng151-p13-c2,13
+3,2,en,When is preoperative radiotherapy indicated before surgery?,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,0.8528,ng151-p13-c2,13
+4,1,ar,هل الجراحة بالمنظار أفضل من الجراحة المفتوحة لسرطان المستقيم؟,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,4,1,0.2,0.7945,ng151-p17-c2,17
+4,2,ar,إيه التقنية الجراحية الموصى بيها لسرطان المستقيم؟,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,4,1,0.2,0.7968,ng151-p14-c4,14
+4,1,en,Is laparoscopic surgery better than open surgery for rectal cancer?,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,1,1,0.2,0.8952,ng151-p14-c2,14
+4,2,en,What surgical technique is recommended for rectal cancer?,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,1,1,0.2,0.8865,ng151-p14-c2,14
+5,1,ar,كام عملية المفروض المستشفى تعملها سنويًا لسرطان المستقيم؟,Recommendations 1.3.13-1.3.14 - Page 15,1.3.13;1.3.14,5,PASS,yes,3,2,0.4,0.7712,ng151-p11-c1,11
+5,2,ar,فيه حد أدنى لعدد العمليات في المستشفى أو للجراح؟,Recommendations 1.3.13-1.3.14 - Page 15,1.3.13;1.3.14,5,PASS,yes,4,2,0.4,0.7625,ng151-p23-c1,23
+5,1,en,How many rectal cancer operations should a hospital perform per year?,Recommendations 1.3.13-1.3.14 - Page 15,1.3.13;1.3.14,5,PASS,yes,1,2,0.4,0.8738,ng151-p15-c3,15
+5,2,en,Is there a minimum volume threshold for hospitals or surgeons?,Recommendations 1.3.13-1.3.14 - Page 15,1.3.13;1.3.14,5,PASS,yes,1,2,0.4,0.8216,ng151-p15-c4,15
+6,1,ar,مدة العلاج الكيماوي المساعد بعد جراحة سرطان القولون قد إيه؟,Recommendation 1.3.18 - Page 17,1.3.18,5,PASS,yes,2,1,0.2,0.8149,ng151-p16-c1,16
+6,2,ar,هل 3 شهور علاج كيماوي كفاية ولا لازم 6 شهور؟,Recommendation 1.3.18 - Page 17,1.3.18,5,PASS,yes,4,1,0.2,0.7906,ng151-p18-c1,18
+6,1,en,How long is adjuvant chemotherapy after colon cancer surgery?,Recommendation 1.3.18 - Page 17,1.3.18,5,PASS,yes,2,1,0.2,0.894,ng151-p16-c1,16
+6,2,en,"Is 3 months of chemotherapy enough, or is 6 months required?",Recommendation 1.3.18 - Page 17,1.3.18,5,PASS,yes,2,1,0.2,0.8635,ng151-p16-c1,16
+7,1,ar,إيه التحاليل الجينية المطلوبة لمرضى سرطان القولون المنتشر؟,Recommendation 1.4.1 - Page 18,1.4.1,5,PASS,yes,4,1,0.2,0.8051,ng151-p18-c1,18
+7,2,ar,هل لازم اختبار RAS وBRAF قبل العلاج الموجه؟,Recommendation 1.4.1 - Page 18,1.4.1,5,PASS,yes,1,1,0.2,0.8034,ng151-p18-c2,18
+7,1,en,What genetic tests are needed for metastatic colorectal cancer patients?,Recommendation 1.4.1 - Page 18,1.4.1,5,PASS,yes,1,1,0.2,0.8711,ng151-p18-c2,18
+7,2,en,Is RAS and BRAF testing required before targeted therapy?,Recommendation 1.4.1 - Page 18,1.4.1,5,PASS,yes,1,1,0.2,0.8523,ng151-p18-c2,18
+8,1,ar,إيه علاج سرطان القولون اللي انتشر للكبد؟,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,FAIL,no,,0,0.0,0.8035,ng151-p19-c4,19
+8,2,ar,لو المريض عنده ورم ثانوي في الكبد الخيارات إيه؟,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,FAIL,no,,0,0.0,0.7983,ng151-p23-c1,23
+8,1,en,What is the treatment for colorectal cancer that has spread to the liver?,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,1,2,0.4,0.8601,ng151-p24-c2,24
+8,2,en,"If a patient has a secondary liver tumour, what are the options?",Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,5,1,0.2,0.8324,ng151-p24-c3,24
+9,1,ar,إزاي بيتابعوا المريض بعد جراحة سرطان القولون؟,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,1,1,0.2,0.7843,ng151-p26-c2,26
+9,2,ar,إيه الفحوصات الدورية بعد العلاج الشافي؟,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,1,1,0.2,0.7706,ng151-p26-c2,26
+9,1,en,How is a patient followed up after colorectal cancer surgery?,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,1,1,0.2,0.8618,ng151-p26-c2,26
+9,2,en,What routine tests happen after curative treatment?,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,3,1,0.2,0.8066,ng151-p18-c1,18
+10,1,ar,إيه هو LARS وإزاي بيتعالج؟,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,3,0.6,0.7788,ng151-p26-c5,26
+10,2,ar,إيه المشاكل اللي بتحصل بعد جراحة حفظ العضلة العاصرة؟,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,3,1,0.2,0.7841,ng151-p23-c1,23
+10,1,en,What is LARS and how is it treated?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,3,0.6,0.8409,ng151-p26-c4,26
+10,2,en,What problems occur after sphincter-preserving surgery?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,1,0.2,0.8439,ng151-p26-c3,26
+11,1,ar,إيه أعراض سرطان المعدة؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,0.7923,ng151-p26-c3,26
+11,1,en,What are the symptoms of stomach cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,0.8479,ng151-p26-c3,26

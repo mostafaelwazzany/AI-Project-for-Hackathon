@@ -31,7 +31,7 @@ CHUNK_OVERLAP = 80
 PAGES_TO_INDEX = list(range(5, 29)) + list(range(30, 49))
 
 # Keep the tested multilingual Sentence Transformer model.
-EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
+EMBEDDING_MODEL = "intfloat/multilingual-e5-base"
 EMBEDDING_BATCH_SIZE = 16
 
 # Vector database and search settings
