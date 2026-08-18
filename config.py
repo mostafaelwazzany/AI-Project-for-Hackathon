@@ -43,7 +43,7 @@ EMBEDDING_LOCAL_FILES_ONLY = True
 COLLECTION_NAME = "nice_ng151_colorectal"
 TOP_K = 5
 
-# Day 3 grounded generation settings
-GENERATION_MODEL = "gemini-3.6-flash"
+# Day 3 grounded generation settings (Groq free cloud API)
+GENERATION_MODEL = "qwen/qwen3.6-27b"
 GENERATION_MAX_OUTPUT_TOKENS = 1000
 MIN_RETRIEVAL_SCORE = 0.60
