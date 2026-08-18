@@ -41,11 +41,19 @@ def contains_recommendation(text: str, recommendation: str) -> bool:
     return re.search(pattern, text) is not None
 
 
-def is_relevant(document: str, page: int, source: str, expected: list[str]) -> bool:
+def page_numbers(page_label: str) -> set[int]:
+    """Expand stored page labels such as '10-12' into their page numbers."""
+    numbers = [int(value) for value in re.findall(r"\d+", str(page_label))]
+    if len(numbers) == 2:
+        return set(range(numbers[0], numbers[1] + 1))
+    return set(numbers)
+
+
+def is_relevant(document: str, page_label: str, source: str, expected: list[str]) -> bool:
     """Match expected recommendations; Table 1 spans PDF pages 10-12."""
     if any(contains_recommendation(document, item) for item in expected):
         return True
-    return "Table 1" in source and page in {10, 11, 12}
+    return "Table 1" in source and bool(page_numbers(page_label) & {10, 11, 12})
 
 
 def evaluate(top_k: int) -> list[dict]:
@@ -85,7 +93,7 @@ def evaluate(top_k: int) -> list[dict]:
         relevant_ranks = []
         for rank, (_, document, metadata, _) in enumerate(retrieved, start=1):
             if not out_of_scope and is_relevant(
-                document, int(metadata["page_number"]), source, expected
+                document, metadata["page_number"], source, expected
             ):
                 relevant_ranks.append(rank)
 

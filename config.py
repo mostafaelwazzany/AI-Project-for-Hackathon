@@ -23,8 +23,10 @@ SOURCE_URL = "https://www.nice.org.uk/guidance/ng151"
 # Structure-aware Recursive Character Chunking with Overlap
 # document-based chunking with recursive splitting and overlap.
 
-# Chunking settings. The starter kit also uses an approximate 4 chars/token.
-CHUNK_SIZE = 500
+# Chunking settings measured with the multilingual-e5-base tokenizer.
+# Content-token budget. 450 leaves room for the retrieval metadata and stays
+# within multilingual-e5-base's 512-token model limit.
+CHUNK_SIZE = 450
 CHUNK_OVERLAP = 80
 
 # Useful guideline content only:
