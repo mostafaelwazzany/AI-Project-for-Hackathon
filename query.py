@@ -19,7 +19,10 @@ import config
 @lru_cache(maxsize=1)
 def get_embedding_model() -> SentenceTransformer:
     """Load the embedding model once per running application."""
-    return SentenceTransformer(config.EMBEDDING_MODEL)
+    return SentenceTransformer(
+        config.EMBEDDING_MODEL,
+        local_files_only=config.EMBEDDING_LOCAL_FILES_ONLY,
+    )
 
 
 @lru_cache(maxsize=1)

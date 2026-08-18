@@ -36,6 +36,8 @@ PAGES_TO_INDEX = list(range(5, 29)) + list(range(30, 49))
 # Keep the tested multilingual Sentence Transformer model.
 EMBEDDING_MODEL = "intfloat/multilingual-e5-base"
 EMBEDDING_BATCH_SIZE = 16
+# The model is already downloaded. Avoid slow Hugging Face network checks at runtime.
+EMBEDDING_LOCAL_FILES_ONLY = True
 
 # Vector database and search settings
 COLLECTION_NAME = "nice_ng151_colorectal"

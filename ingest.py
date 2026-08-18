@@ -149,7 +149,10 @@ def chunk_pages(pages: list[dict]) -> list[dict]:
 
 def build_index(chunks: list[dict]) -> None:
     """Embed all chunks with Sentence Transformers and save them in Chroma."""
-    model = SentenceTransformer(config.EMBEDDING_MODEL)
+    model = SentenceTransformer(
+        config.EMBEDDING_MODEL,
+        local_files_only=config.EMBEDDING_LOCAL_FILES_ONLY,
+    )
     texts = [f"passage: {chunk['text']}" for chunk in chunks]
     embeddings = model.encode_document(
         texts,
