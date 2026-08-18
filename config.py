@@ -40,3 +40,8 @@ EMBEDDING_BATCH_SIZE = 16
 # Vector database and search settings
 COLLECTION_NAME = "nice_ng151_colorectal"
 TOP_K = 5
+
+# Day 3 grounded generation settings
+GENERATION_MODEL = "gemini-3.6-flash"
+GENERATION_MAX_OUTPUT_TOKENS = 1000
+MIN_RETRIEVAL_SCORE = 0.60

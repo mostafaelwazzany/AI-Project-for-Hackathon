@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from functools import lru_cache
 
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -15,17 +16,29 @@ from sentence_transformers import SentenceTransformer
 import config
 
 
+@lru_cache(maxsize=1)
+def get_embedding_model() -> SentenceTransformer:
+    """Load the embedding model once per running application."""
+    return SentenceTransformer(config.EMBEDDING_MODEL)
+
+
+@lru_cache(maxsize=1)
+def get_collection():
+    """Open the persistent Chroma collection once per running application."""
+    client = chromadb.PersistentClient(path=str(config.CHROMA_PATH))
+    return client.get_collection(
+        name=config.COLLECTION_NAME, embedding_function=None
+    )
+
+
 def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
     """Embed a question and return the closest chunks from Chroma."""
-    model = SentenceTransformer(config.EMBEDDING_MODEL)
+    model = get_embedding_model()
     query_vector = model.encode_query(
         f"query: {question}", normalize_embeddings=True
     )
 
-    client = chromadb.PersistentClient(path=str(config.CHROMA_PATH))
-    collection = client.get_collection(
-        name=config.COLLECTION_NAME, embedding_function=None
-    )
+    collection = get_collection()
     results = collection.query(
         query_embeddings=[query_vector.tolist()],
         n_results=min(top_k, collection.count()),

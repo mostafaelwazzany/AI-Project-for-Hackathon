@@ -10,6 +10,7 @@ import json
 import re
 
 import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import pymupdf4llm
 from sentence_transformers import SentenceTransformer
 
@@ -68,28 +69,13 @@ def load_pdf() -> list[dict]:
 
 
 def split_text(text: str, size: int, overlap: int) -> list[str]:
-    """Split text near paragraph or sentence boundaries with small overlap."""
-    chunks = []
-    start = 0
-    while start < len(text):
-        end = min(start + size, len(text))
-        if end < len(text):
-            search_from = start + int(size * 0.6)
-            possible_ends = [
-                text.rfind(separator, search_from, end)
-                for separator in ("\n\n", ". ", "\n", " ")
-            ]
-            natural_end = max(possible_ends)
-            if natural_end > start:
-                end = natural_end + 1
-
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
-        if end >= len(text):
-            break
-        start = max(end - overlap, start + 1)
-    return chunks
+    """Use LangChain recursive splitting when a recommendation is too large."""
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=size,
+        chunk_overlap=overlap,
+        separators=["\n\n", "\n", ". ", " ", ""],
+    )
+    return splitter.split_text(text)
 
 
 def split_page(text: str, size: int, overlap: int) -> list[str]:

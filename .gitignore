@@ -5,3 +5,4 @@ tmp/
 data/models/
 .sites-runtime/
 .codex_tmp/
+.env
