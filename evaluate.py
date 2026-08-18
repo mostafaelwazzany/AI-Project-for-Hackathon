@@ -56,6 +56,14 @@ def is_relevant(document: str, page_label: str, source: str, expected: list[str]
     return "Table 1" in source and bool(page_numbers(page_label) & {10, 11, 12})
 
 
+def average_precision_at_k(relevant_ranks: list[int], expected_count: int, top_k: int) -> float:
+    """Calculate AP@k from the ranks that contain expected evidence."""
+    if not relevant_ranks:
+        return 0.0
+    precision_sum = sum(position / rank for position, rank in enumerate(relevant_ranks, start=1))
+    return precision_sum / min(expected_count, top_k)
+
+
 def evaluate(top_k: int) -> list[dict]:
     """Embed all questions once, search recommendations, and score the results."""
     questions = load_questions()
@@ -103,11 +111,17 @@ def evaluate(top_k: int) -> list[dict]:
             found = ""
             best_rank = ""
             precision = ""
+            average_precision = ""
+            reciprocal_rank = ""
         else:
             status = "PASS" if relevant_ranks else "FAIL"
             found = "yes" if relevant_ranks else "no"
             best_rank = min(relevant_ranks) if relevant_ranks else ""
             precision = round(len(relevant_ranks) / top_k, 4)
+            average_precision = round(
+                average_precision_at_k(relevant_ranks, len(expected), top_k), 4
+            )
+            reciprocal_rank = round(1 / relevant_ranks[0], 4) if relevant_ranks else 0
 
         report.append(
             {
@@ -123,6 +137,8 @@ def evaluate(top_k: int) -> list[dict]:
                 "best_rank": best_rank,
                 "relevant_in_top_k": len(relevant_ranks) if not out_of_scope else "",
                 "precision_at_k": precision,
+                "average_precision_at_k": average_precision,
+                "reciprocal_rank": reciprocal_rank,
                 "top_score": round(1 - float(top_distance), 4),
                 "top_chunk_id": top_id,
                 "top_page": top_metadata["page_number"],
@@ -139,18 +155,49 @@ def save_report(rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def print_summary(rows: list[dict]) -> None:
+def build_summary(rows: list[dict]) -> dict:
+    """Calculate one summary row that can be opened directly in Excel."""
     scored = [row for row in rows if row["status"] != "REVIEW_REFUSAL"]
     passed = [row for row in scored if row["status"] == "PASS"]
-    average_precision = sum(float(row["precision_at_k"]) for row in scored) / len(scored)
+    mean_precision = sum(float(row["precision_at_k"]) for row in scored) / len(scored)
+    map_at_k = sum(float(row["average_precision_at_k"]) for row in scored) / len(scored)
+    mean_reciprocal_rank = sum(float(row["reciprocal_rank"]) for row in scored) / len(scored)
 
-    print(f"\nFound expected evidence: {len(passed)}/{len(scored)}")
-    print(f"Found rate: {len(passed) / len(scored):.1%}")
-    print(f"Average strict Precision@k: {average_precision:.4f}")
+    summary = {
+        "top_k": rows[0]["top_k"],
+        "total_questions": len(rows),
+        "scored_questions": len(scored),
+        "out_of_scope_questions": len(rows) - len(scored),
+        "found_expected_evidence": len(passed),
+        "found_rate": round(len(passed) / len(scored), 4),
+        "mean_precision_at_k": round(mean_precision, 4),
+        "map_at_k": round(map_at_k, 4),
+        "mrr": round(mean_reciprocal_rank, 4),
+    }
     for language in sorted({row["language"] for row in scored}):
         language_rows = [row for row in scored if row["language"] == language]
         language_passed = sum(row["status"] == "PASS" for row in language_rows)
-        print(f"{language.upper()} found rate: {language_passed}/{len(language_rows)}")
+        summary[f"{language}_found_rate"] = round(language_passed / len(language_rows), 4)
+        summary[f"{language}_found_count"] = f"{language_passed}/{len(language_rows)}"
+    return summary
+
+
+def save_summary(summary: dict) -> None:
+    """Save overall results separately from per-question details."""
+    with config.EVALUATION_SUMMARY_PATH.open("w", encoding="utf-8-sig", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=list(summary))
+        writer.writeheader()
+        writer.writerow(summary)
+
+
+def print_summary(rows: list[dict], summary: dict) -> None:
+    print(f"\nFound expected evidence: {summary['found_expected_evidence']}/{summary['scored_questions']}")
+    print(f"Found rate: {summary['found_rate']:.1%}")
+    print(f"Mean Precision@k: {summary['mean_precision_at_k']:.4f}")
+    print(f"MAP@k (average ranking quality): {summary['map_at_k']:.4f}")
+    print(f"MRR (how early the first correct result appears): {summary['mrr']:.4f}")
+    for language in sorted({row["language"] for row in rows if row["status"] != "REVIEW_REFUSAL"}):
+        print(f"{language.upper()} found rate: {summary[f'{language}_found_count']}")
 
     for row in rows:
         if row["status"] == "REVIEW_REFUSAL":
@@ -159,6 +206,7 @@ def print_summary(rows: list[dict]) -> None:
                 f"-> choose a refusal threshold after comparing score distributions"
             )
     print(f"Saved report: {config.EVALUATION_RESULTS_PATH}")
+    print(f"Saved summary: {config.EVALUATION_SUMMARY_PATH}")
 
 
 def main() -> None:
@@ -170,7 +218,9 @@ def main() -> None:
 
     rows = evaluate(args.top_k)
     save_report(rows)
-    print_summary(rows)
+    summary = build_summary(rows)
+    save_summary(summary)
+    print_summary(rows, summary)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,7 @@ CHUNKS_PATH = ROOT / "data" / "chunks" / "chunks.jsonl"
 CHROMA_PATH = ROOT / "data" / "vector_store" / "chroma"
 TEST_QUESTIONS_PATH = ROOT / "data" / "evaluation" / "test_questions.csv"
 EVALUATION_RESULTS_PATH = ROOT / "data" / "evaluation" / "evaluation_results.csv"
+EVALUATION_SUMMARY_PATH = ROOT / "data" / "evaluation" / "evaluation_summary.csv"
 
 # Guideline information used in citations
 DOCUMENT_NAME = "Colorectal cancer"

@@ -41,3 +41,27 @@ id,variant,language,text,expected_source
 10,2,en,What problems occur after sphincter-preserving surgery?,Recommendations 1.6.2-1.6.4 - Page 26
 11,1,ar,إيه أعراض سرطان المعدة؟,NOT COVERED - expect refusal
 11,1,en,What are the symptoms of stomach cancer?,NOT COVERED - expect refusal
+12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendation 1.2.1 - Page 7
+12,2,ar,ما خيارات العلاج وفوائده ومخاطره التي يجب أن أعرفها قبل العلاج؟,Recommendation 1.2.1 - Page 7
+12,1,en,What information should the care team explain to a person with colorectal cancer?,Recommendation 1.2.1 - Page 7
+12,2,en,What treatment options benefits and risks should be explained before colorectal cancer treatment?,Recommendation 1.2.1 - Page 7
+13,1,ar,ما النصائح التي يجب إعطاؤها للمريض قبل الخروج من المستشفى بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9
+13,2,ar,كيف يستعد المريض للخروج بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9
+13,1,en,What advice should be given before discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9
+13,2,en,How should a person prepare for discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9
+14,1,ar,ما الإجراء المناسب لانسداد الأمعاء الغليظة في الجهة اليسرى عندما يكون العلاج تلطيفياً؟,Recommendation 1.3.1 - Page 9
+14,2,ar,هل يمكن استخدام دعامة في الانسداد الحاد للقولون قبل العلاج التلطيفي؟,Recommendation 1.3.1 - Page 9
+14,1,en,What is recommended for acute left-sided large bowel obstruction when treatment is palliative?,Recommendation 1.3.1 - Page 9
+14,2,en,Can a stent be used for acute left-sided bowel obstruction with palliative intent?,Recommendation 1.3.1 - Page 9
+15,1,ar,متى يمكن التفكير في الجراحة الروبوتية لسرطان المستقيم؟,Recommendation 1.3.10 - Page 14
+15,2,ar,هل الجراحة الروبوتية موصى بها لكل مرضى سرطان المستقيم؟,Recommendation 1.3.10 - Page 14
+15,1,en,When can robotic surgery be considered for rectal cancer?,Recommendation 1.3.10 - Page 14
+15,2,en,Is robotic surgery recommended for every person with rectal cancer?,Recommendation 1.3.10 - Page 14
+16,1,ar,متى يتم التفكير في العلاج المضاد للسرطان قبل العملية لمريض سرطان القولون؟,Recommendation 1.3.16 - Page 16
+16,2,ar,هل العلاج الجهازي قبل الجراحة مناسب لسرطان القولون cT4؟,Recommendation 1.3.16 - Page 16
+16,1,en,When should preoperative systemic anticancer therapy be considered for colon cancer?,Recommendation 1.3.16 - Page 16
+16,2,en,Is preoperative systemic therapy considered for cT4 colon cancer?,Recommendation 1.3.16 - Page 16
+17,1,ar,كيف يتم تقييم أعراض متلازمة LARS بعد جراحة سرطان المستقيم؟,Recommendation 1.6.3 - Page 26
+17,2,ar,هل توجد استبيانات معتمدة لتقييم متلازمة الاستئصال الأمامي المنخفض؟,Recommendation 1.6.3 - Page 26
+17,1,en,How should LARS symptoms be assessed after rectal cancer surgery?,Recommendation 1.6.3 - Page 26
+17,2,en,Are validated questionnaires used to assess low anterior resection syndrome?,Recommendation 1.6.3 - Page 26
