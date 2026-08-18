@@ -23,18 +23,25 @@ def clean_markdown(text: str) -> str:
     text = text.replace("\u00a0", " ").replace("\ufffd", "-")
     # Keep the words inside formatting tags; <br> is common inside table cells.
     # A space is cleaner than a punctuation mark when a table cell was wrapped.
+    # Regex101: <br\s*/?>
     text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+    # Regex101: </?(?:u|strong|em|b|i)>
     text = re.sub(r"</?(?:u|strong|em|b|i)>", "", text, flags=re.IGNORECASE)
+    # Regex101: \*{1,3}
     text = re.sub(r"\*{1,3}", "", text)
+    # Regex101: (?m)^\s{0,3}#{1,6}\s+
     text = re.sub(r"(?m)^\s{0,3}#{1,6}\s+", "", text)
     # The converter uses semicolons as visual line breaks inside table cells.
+    # Regex101: \s*;\s*
     text = re.sub(r"\s*;\s*", " ", text)
 
     cleaned_lines = []
     for line in text.splitlines():
+        # Regex101: [ \t]+
         line = re.sub(r"[ \t]+", " ", line).strip()
         cleaned_lines.append(line)
     text = "\n".join(cleaned_lines)
+    # Regex101: \n{3,}
     return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 
@@ -54,8 +61,10 @@ def load_pdf() -> list[dict]:
         raw_text = raw_page.get("text", "").strip()
         headings = []
         for line in raw_text.splitlines():
+            # Regex101: ^(#{1,6})\s+(.+)
             match = re.match(r"^(#{1,6})\s+(.+)", line.strip())
             if match:
+                # Regex101: [*_]
                 clean_heading = re.sub(r"[*_]", "", match.group(2)).strip()
                 headings.append((len(match.group(1)), clean_heading))
 
@@ -102,6 +111,7 @@ def split_text(text: str, tokenizer) -> list[str]:
 
 def split_page(text: str, tokenizer) -> list[str]:
     """Start a new chunk at each NICE recommendation number when possible."""
+    # Regex101: (?m)^(?:-\s*)?\d+\.\d+\.\d+\b
     starts = [
         match.start()
         for match in re.finditer(r"(?m)^(?:-\s*)?\d+\.\d+\.\d+\b", text)
@@ -135,6 +145,7 @@ def content_type_for_page(page_number: int) -> str:
 
 def table_id_for(content: str, active_table_id: str) -> str:
     """Give multi-page Markdown tables one stable identifier."""
+    # Regex101: \bTable\s+(\d+)\b
     match = re.search(r"\bTable\s+(\d+)\b", content, flags=re.IGNORECASE)
     if match:
         return f"nice-ng151-table-{match.group(1)}"
@@ -143,7 +154,9 @@ def table_id_for(content: str, active_table_id: str) -> str:
 
 def is_heading_only(content: str) -> bool:
     """Do not index page-fragment headings with no searchable evidence."""
+    # Regex101: [^A-Za-z0-9]
     compact = re.sub(r"[^A-Za-z0-9]", "", content)
+    # Regex101: ^\s*-?\s*\d+\.\d+\.\d+\b
     has_recommendation = bool(re.match(r"^\s*-?\s*\d+\.\d+\.\d+\b", content))
     return len(compact) < 80 and not has_recommendation and "|" not in content
 
@@ -162,6 +175,7 @@ def is_cross_page_continuation(previous: dict, current: dict) -> bool:
         return True
 
     previous_text = previous["content"].rstrip()
+    # Regex101: ^\s*-?\s*\d+\.\d+\.\d+\b
     current_starts_new_recommendation = bool(
         re.match(r"^\s*-?\s*\d+\.\d+\.\d+\b", current["content"])
     )

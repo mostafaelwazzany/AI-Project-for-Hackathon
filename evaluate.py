@@ -25,6 +25,7 @@ def load_questions() -> list[dict]:
 
 def expected_recommendations(source: str) -> list[str]:
     """Read recommendation numbers and expand simple ranges such as 1.5.14-1.5.17."""
+    # Regex101: \d+\.\d+\.\d+
     numbers = re.findall(r"\d+\.\d+\.\d+", source)
     if len(numbers) != 2:
         return numbers
@@ -37,12 +38,15 @@ def expected_recommendations(source: str) -> list[str]:
 
 
 def contains_recommendation(text: str, recommendation: str) -> bool:
+    # Regex101 template (replace 1.6.1 with the expected recommendation):
+    # (?<![\d.])1\.6\.1(?![\d.])
     pattern = rf"(?<![\d.]){re.escape(recommendation)}(?![\d.])"
     return re.search(pattern, text) is not None
 
 
 def page_numbers(page_label: str) -> set[int]:
     """Expand stored page labels such as '10-12' into their page numbers."""
+    # Regex101: \d+
     numbers = [int(value) for value in re.findall(r"\d+", str(page_label))]
     if len(numbers) == 2:
         return set(range(numbers[0], numbers[1] + 1))

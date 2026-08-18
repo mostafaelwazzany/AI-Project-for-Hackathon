@@ -63,10 +63,12 @@ def correct_section_title(section_title: str, text: str) -> str:
     metadata may say 1.3 while the chunk itself starts with recommendation
     1.2.7.  Citations should follow the recommendation, not the later heading.
     """
+    # Regex101: ^\s*-?\s*(1\.\d+)\.\d+
     match = re.match(r"^\s*-?\s*(1\.\d+)\.\d+", text)
     if not match:
         return section_title
     expected = NUMBERED_SECTIONS.get(match.group(1))
+    # Regex101: ^1\.\d+\b
     if expected and re.match(r"^1\.\d+\b", section_title) and not section_title.startswith(match.group(1)):
         return expected
     return section_title
@@ -139,6 +141,7 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
     if patient_information:
         rows.sort(
             key=lambda row: (
+                # Regex101: ^\s*-?\s*1\.2\.\d+
                 1 if re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]) else 0,
                 row["score"],
             ),

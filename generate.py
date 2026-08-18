@@ -72,6 +72,7 @@ question differs from the wording of a recommendation.
 
 
 def is_arabic(text: str) -> bool:
+    # Regex101: [\u0600-\u06FF]
     return bool(re.search(r"[\u0600-\u06FF]", text))
 
 
@@ -184,6 +185,10 @@ def is_valid_answer(answer: str, allowed_citations: set[str], arabic: bool) -> b
         "Excerpt",
         "Citation",
     )
+    # Regex101 English example:
+    # ^Recommendation:\s*.+?\n\s*Excerpt:\s*.+?\n\s*Citation:\s*(.+)$
+    # Regex101 Arabic example:
+    # ^التوصية:\s*.+?\n\s*النص الداعم:\s*.+?\n\s*المصدر:\s*(.+)$
     pattern = re.compile(
         rf"^{re.escape(labels[0])}:\s*.+?\n\s*{re.escape(labels[1])}:\s*.+?\n\s*{re.escape(labels[2])}:\s*(.+)$",
         re.DOTALL,
@@ -195,6 +200,7 @@ def is_valid_answer(answer: str, allowed_citations: set[str], arabic: bool) -> b
     citation_text = match.group(1).strip()
     if citation_text in {"[No citation]", "[لا يوجد مصدر]"}:
         return True
+    # Regex101: \[[^\]]+\]
     cited = re.findall(r"\[[^\]]+\]", citation_text)
     return bool(cited) and all(citation in allowed_citations for citation in cited)
 
@@ -218,6 +224,10 @@ def repair_answer_citation(
         "Excerpt",
         "Citation",
     )
+    # Regex101 English example:
+    # ^(Recommendation:\s*.+?\n\s*Excerpt:\s*.+?\n\s*Citation:\s*)(.+)$
+    # Regex101 Arabic example:
+    # ^(التوصية:\s*.+?\n\s*النص الداعم:\s*.+?\n\s*المصدر:\s*)(.+)$
     pattern = re.compile(
         rf"^({re.escape(labels[0])}:\s*.+?\n\s*{re.escape(labels[1])}:\s*.+?\n\s*{re.escape(labels[2])}:\s*)(.+)$",
         re.DOTALL,
@@ -236,6 +246,7 @@ def repair_answer_citation(
     if any(marker in answer for marker in no_evidence_markers):
         return None
 
+    # Regex101: \[[^\]]+\]
     cited = re.findall(r"\[[^\]]+\]", source_text)
     if cited and all(citation in allowed_citations for citation in cited):
         return answer.strip()
