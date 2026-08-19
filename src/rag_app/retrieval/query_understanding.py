@@ -1,4 +1,4 @@
-"""Understand Arabic/English questions before retrieval without another API call."""
+"""Bilingual intent classification and query reformulation without API calls."""
 
 from __future__ import annotations
 

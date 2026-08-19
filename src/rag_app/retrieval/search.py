@@ -1,8 +1,4 @@
-"""Search the local Chroma index.
-
-Run:
-    python query.py "What follow-up is recommended after surgery?"
-"""
+"""Multi-search retrieval with reranking."""
 
 from __future__ import annotations
 
@@ -14,8 +10,8 @@ from functools import lru_cache
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-import config
-from query_understanding import keyword_score, understand_question
+from .. import config
+from .query_understanding import keyword_score, understand_question
 
 
 NUMBERED_SECTIONS = {
@@ -59,7 +55,7 @@ def expand_question(question: str) -> str:
     The source guideline calls this topic "Information for people with
     colorectal cancer".  Arabic questions such as "what should the care team
     explain?" may use different wording, so this small bilingual expansion
-    helps the embedding model retrieve recommendations 1.2.1–1.2.7.
+    helps the embedding model retrieve recommendations 1.2.1-1.2.7.
     """
     if is_patient_information_question(question):
         return (
@@ -196,7 +192,3 @@ def main() -> None:
         print_results(args.question, search(args.question, args.top_k))
     else:
         parser.error("Write a question")
-
-
-if __name__ == "__main__":
-    main()

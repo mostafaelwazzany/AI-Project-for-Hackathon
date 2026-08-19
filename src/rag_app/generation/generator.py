@@ -1,8 +1,4 @@
-"""Day 3 grounded RAG pipeline: retrieve -> generate -> cite or refuse.
-
-Run:
-    python generate.py "What follow-up is recommended after surgery?"
-"""
+"""Grounded RAG generation pipeline: retrieve -> generate -> cite or refuse."""
 
 from __future__ import annotations
 
@@ -12,14 +8,15 @@ import re
 import sys
 from functools import lru_cache
 
-import arabic_reshaper
-from bidi.algorithm import get_display
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 
-import config
-from query import get_embedding_model, search
+from .. import config
+from ..retrieval.search import get_embedding_model, search
+from ..utils.text import is_arabic, terminal_display
+from .citation import citation_for
+from .prompt_builder import SYSTEM_PROMPT, build_context, output_instructions
 
 
 REFUSAL = (
@@ -41,133 +38,6 @@ ARABIC_DISCLAIMER = (
     "تنبيه: هذه الإجابة المبنية على الدليل للمعلومات فقط، ولا تغني عن استشارة "
     "طبيب أو ممارس صحي مؤهل."
 )
-
-ARABIC_SECTIONS = {
-    "1.1 Reduction in risk of colorectal cancer in people with Lynch syndrome": "1.1 تقليل خطر سرطان القولون والمستقيم لدى الأشخاص المصابين بمتلازمة لينش",
-    "1.2 Information for people with colorectal cancer": "1.2 معلومات للأشخاص المصابين بسرطان القولون والمستقيم",
-    "1.3 Management of local disease": "1.3 علاج المرض الموضعي",
-    "1.3 Colorectal cancer recognition and referral": "1.3 التعرّف على سرطان القولون والمستقيم والإحالة",
-    "1.4 Molecular biomarkers to guide systemic anticancer therapy": "1.4 المؤشرات الحيوية الجزيئية لتوجيه العلاج الجهازي المضاد للسرطان",
-    "1.5 Management of advanced or metastatic colorectal cancer": "1.5 علاج سرطان القولون والمستقيم المتقدم أو المنتشر",
-    "Follow-up for detection of local recurrence and distant metastases": "المتابعة لاكتشاف الانتكاس الموضعي والنقائل البعيدة",
-    "People with rectal cancer": "الأشخاص المصابون بسرطان المستقيم",
-    "People with colon cancer": "الأشخاص المصابون بسرطان القولون",
-    "People with locally advanced or recurrent rectal cancer": "الأشخاص المصابون بسرطان المستقيم المتقدم موضعياً أو الناكس",
-    "Surgery for people with rectal cancer": "الجراحة للأشخاص المصابين بسرطان المستقيم",
-    "Surgical technique for people with rectal cancer": "التقنية الجراحية لسرطان المستقيم",
-    "Surgical technique for people with colon cancer": "التقنية الجراحية لسرطان القولون",
-    "Preoperative treatment for people with rectal cancer": "العلاج قبل الجراحة لسرطان المستقيم",
-    "Other systemic anticancer therapy for untreated disease": "العلاج الجهازي المضاد للسرطان الآخر للمرض غير المعالج",
-    "BRAF V600E mutation-positive disease": "المرض الإيجابي لطفرة BRAF V600E",
-    "Neurotrophic tyrosine receptor kinase (NTRK) fusion-positive solid tumours": "الأورام الصلبة الإيجابية لاندماج NTRK",
-    "People with metastatic colorectal cancer in the lung": "سرطان القولون والمستقيم المنتشر إلى الرئة",
-    "People with metastatic colorectal cancer in the peritoneum": "سرطان القولون والمستقيم المنتشر إلى الصفاق",
-}
-
-SYSTEM_PROMPT = """You are a citation-bound clinical guideline assistant.
-Answer only from the retrieved guideline passages. Do not use medical knowledge
-outside the passages. Do not guess diagnoses, dosages, thresholds, or intervals.
-
-If the passages do not directly answer the question, refuse. Do not try to be
-helpful by adding outside information.
-
-A question may be broad. If one or more passages contain directly relevant
-recommendations, answer by combining only those recommendations. In particular,
-for a question about information that a care team should explain, passages about
-treatment options, benefits, risks, side effects, and treatment-plan changes
-are direct supporting evidence. Do not refuse merely because the wording of the
-question differs from the wording of a recommendation.
-
-This assistant is exclusively about colorectal cancer. If a short question
-mentions symptoms, stages, treatment, surgery or follow-up without repeating
-the cancer type, interpret it as referring to colorectal cancer unless the user
-explicitly names a different disease.
-
-If a question asks for symptoms of a particular stage but the passage lists
-warning symptoms without assigning them to stages, clearly say that the
-retrieved NICE passage does not classify those symptoms by stage, then give the
-relevant warning symptoms from the passage. Never label a symptom as belonging
-to a stage unless the passage explicitly does so.
-
-Use calibrated language: say “the guideline recommends” when the passage is a
-direct recommendation; say “the guideline suggests” only when the passage is
-partial or indirect. Never present an inference as a definite clinical fact.
-
-Be concise. The recommendation must be at most 70 words. Use only one short
-supporting excerpt of at most 80 words and then immediately provide the citation.
-Do not list every retrieved passage or repeat the same point.
-
-"""
-
-
-def is_arabic(text: str) -> bool:
-    # Regex101: [\u0600-\u06FF]
-    return bool(re.search(r"[\u0600-\u06FF]", text))
-
-
-def terminal_display(text: str) -> str:
-    """Make Arabic readable in VS Code's LTR-only integrated terminal.
-
-    VS Code's terminal renderer does not consistently apply Arabic shaping or
-    bidirectional layout.  This affects display only: generate() still returns
-    normal Unicode Arabic for a future web interface or file output.
-    """
-    if not is_arabic(text):
-        return text
-    return "\n".join(
-        get_display(arabic_reshaper.reshape(line)) if line else ""
-        for line in text.splitlines()
-    )
-
-
-def output_instructions(arabic: bool) -> str:
-    if arabic:
-        return """Reply in Arabic and use exactly this format:
-التوصية:
-<إجابة قصيرة مباشرة، أو رسالة الرفض>
-
-النص الداعم:
-<ترجمة عربية أمينة للنص الداعم فقط، أو "لم يتم العثور على نص داعم.">
-
-المصدر:
-<مصدر واحد أو أكثر من المصادر المقدمة كما هو تماماً، أو "[لا يوجد مصدر]">"""
-    return """Reply in English and use exactly this format:
-Recommendation:
-<a short direct answer, or the refusal message>
-
-Excerpt:
-<the exact supporting text from one retrieved passage, or "No supporting passage found.">
-
-Citation:
-<one or more citations copied exactly from the provided passages, or "[No citation]">"""
-
-
-def citation_for(row: dict, arabic: bool) -> str:
-    """Create the required document / section / page citation."""
-    if arabic:
-        section = ARABIC_SECTIONS.get(row["section_title"], row["section_title"])
-        if row["document_name"] == config.NG12_DOCUMENT_NAME:
-            return f"[NICE NG12: الاشتباه بالسرطان والتعرّف عليه والإحالة، القسم: {section}، الصفحة: {row['page_number']}]"
-        return f"[NICE NG151: سرطان القولون والمستقيم، القسم: {section}، الصفحة: {row['page_number']}]"
-    return (
-        f"[{row['document_name']}, Section: {row['section_title']}, "
-        f"Page: {row['page_number']}]"
-    )
-
-
-def build_context(rows: list[dict], arabic: bool) -> tuple[str, set[str]]:
-    """Pass the retrieved chunks to Gemini exactly as they were indexed."""
-    passages = []
-    allowed_citations = set()
-    for row in rows:
-        citation = citation_for(row, arabic)
-        allowed_citations.add(citation)
-        passages.append(
-            f"PASSAGE {row['rank']}\n"
-            f"{citation}\n"
-            f"Text:\n{row['text'].strip()}"
-        )
-    return "\n\n---\n\n".join(passages), allowed_citations
 
 
 def refusal_output(arabic: bool) -> str:
@@ -193,7 +63,7 @@ def add_disclaimer(answer: str, arabic: bool) -> str:
 
 
 def quota_output(arabic: bool) -> str:
-    """Return a clear, formatted message when Groq's free quota is temporarily full."""
+    """Return a clear message when Groq's free quota is temporarily full."""
     if arabic:
         return (
             "التوصية:\n"
@@ -258,7 +128,7 @@ def stage_symptoms_output(row: dict, arabic: bool) -> str:
 
 
 def is_valid_answer(answer: str, allowed_citations: set[str], arabic: bool) -> bool:
-    """Fail safely if Gemini ignores the required grounded answer format."""
+    """Fail safely if the LLM ignores the required grounded answer format."""
     labels = ("التوصية", "النص الداعم", "المصدر") if arabic else (
         "Recommendation",
         "Excerpt",
@@ -290,9 +160,9 @@ def repair_answer_citation(
     primary_citation: str,
     arabic: bool,
 ) -> str | None:
-    """Keep a grounded answer when Gemini formats its citation imperfectly.
+    """Keep a grounded answer when the LLM formats its citation imperfectly.
 
-    Gemini occasionally gives a useful answer and excerpt but slightly changes an
+    The LLM occasionally gives a useful answer and excerpt but slightly changes an
     Arabic section name in the citation.  The old code rejected the whole reply
     in that case.  Here we keep only a correctly structured, supported answer
     and replace its source line with the exact citation from our metadata.
@@ -337,7 +207,7 @@ def repair_answer_citation(
 
 
 def response_text(content: object) -> str:
-    """Read Gemini's text whether its response is a string or content blocks."""
+    """Read the LLM's text whether its response is a string or content blocks."""
     if isinstance(content, str):
         return content.strip()
     if isinstance(content, list):
@@ -462,9 +332,6 @@ def generate(question: str, rows: list[dict] | None = None) -> str:
     try:
         response = (prompt | model).invoke({"question": question, "context": context})
     except Exception as error:
-        # Groq returns 429 when the free-tier request
-        # limit is reached.  Keep the interactive application alive instead of
-        # exposing a long SDK traceback to the user.
         message = str(error)
         if "RESOURCE_EXHAUSTED" in message or "429" in message:
             return add_disclaimer(quota_output(arabic), arabic)
@@ -517,7 +384,3 @@ def main() -> None:
         print(answer if args.raw_output else terminal_display(answer))
     else:
         parser.error("Write a question or use --interactive")
-
-
-if __name__ == "__main__":
-    main()

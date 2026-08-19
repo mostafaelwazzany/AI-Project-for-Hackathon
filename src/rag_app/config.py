@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Input and output paths
 PDF_PATH = ROOT / "data" / "raw" / "nice_ng151_colorectal_cancer.pdf"

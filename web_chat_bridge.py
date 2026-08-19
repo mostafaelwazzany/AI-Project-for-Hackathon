@@ -10,8 +10,9 @@ import unicodedata
 
 from dotenv import load_dotenv
 
-from generate import generate, is_arabic
-from query import get_collection, get_embedding_model, search
+from src.rag_app.generation.generator import generate
+from src.rag_app.utils.text import is_arabic
+from src.rag_app.retrieval.search import get_collection, get_embedding_model, search
 
 
 def friendly_error(question: str) -> str:

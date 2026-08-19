@@ -1,101 +1,12 @@
-"""Simple Day 1 ingestion pipeline: PDF -> chunks -> embeddings -> Chroma.
-
-Run:
-    python ingest.py
-"""
+"""Structure-aware recursive chunking with token counting."""
 
 from __future__ import annotations
 
-import json
 import re
 
-import chromadb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import pymupdf4llm
-from sentence_transformers import SentenceTransformer
 
-import config
-
-
-def clean_markdown(text: str) -> str:
-    """Remove PDF-conversion noise while preserving text, bullets and tables."""
-    text = text.replace("\r\n", "\n").replace("\r", "\n")
-    text = text.replace("\u00a0", " ").replace("\ufffd", "-")
-    # Keep the words inside formatting tags; <br> is common inside table cells.
-    # A space is cleaner than a punctuation mark when a table cell was wrapped.
-    # Regex101: <br\s*/?>
-    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
-    # Regex101: </?(?:u|strong|em|b|i)>
-    text = re.sub(r"</?(?:u|strong|em|b|i)>", "", text, flags=re.IGNORECASE)
-    # Regex101: \*{1,3}
-    text = re.sub(r"\*{1,3}", "", text)
-    # Regex101: (?m)^\s{0,3}#{1,6}\s+
-    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s+", "", text)
-    # The converter uses semicolons as visual line breaks inside table cells.
-    # Regex101: \s*;\s*
-    text = re.sub(r"\s*;\s*", " ", text)
-
-    cleaned_lines = []
-    for line in text.splitlines():
-        # Regex101: [ \t]+
-        line = re.sub(r"[ \t]+", " ", line).strip()
-        cleaned_lines.append(line)
-    text = "\n".join(cleaned_lines)
-    # Regex101: \n{3,}
-    return re.sub(r"\n{3,}", "\n\n", text).strip()
-
-
-def load_pdf() -> list[dict]:
-    """Read the PDF and return one text record per page."""
-    if not config.PDF_PATH.is_file():
-        raise FileNotFoundError(f"PDF not found: {config.PDF_PATH}")
-
-    raw_pages = pymupdf4llm.to_markdown(
-        str(config.PDF_PATH), page_chunks=True, header=False, footer=False
-    )
-
-    pages = []
-    previous_heading = ""
-    previous_heading_level = 0
-    for page_number, raw_page in enumerate(raw_pages, start=1):
-        raw_text = raw_page.get("text", "").strip()
-        headings = []
-        for line in raw_text.splitlines():
-            # Regex101: ^(#{1,6})\s+(.+)
-            match = re.match(r"^(#{1,6})\s+(.+)", line.strip())
-            if match:
-                # Regex101: [*_]
-                clean_heading = re.sub(r"[*_]", "", match.group(2)).strip()
-                headings.append((len(match.group(1)), clean_heading))
-
-        if headings:
-            heading_level, heading = headings[0]
-            if (
-                previous_heading
-                and heading_level == previous_heading_level
-                and heading[:1].islower()
-            ):
-                heading = f"{previous_heading} {heading}"
-            previous_heading_level, previous_heading = headings[-1]
-        else:
-            heading = previous_heading or f"Page {page_number}"
-        pages.append(
-            {
-                "page_number": page_number,
-                "section_title": heading,
-                "text": clean_markdown(raw_text),
-            }
-        )
-
-    config.MARKDOWN_PATH.parent.mkdir(parents=True, exist_ok=True)
-    config.MARKDOWN_PATH.write_text(
-        "\n\n---\n\n".join(
-            f"<!-- PAGE: {page['page_number']} -->\n\n{page['text']}" for page in pages
-        ),
-        encoding="utf-8",
-    )
-    write_jsonl(config.PAGES_PATH, pages)
-    return pages
+from .. import config
 
 
 def split_text(text: str, tokenizer) -> list[str]:
@@ -257,6 +168,7 @@ def chunk_pages(pages: list[dict], tokenizer) -> list[dict]:
         content_type = content_type_for_page(page["page_number"])
         page_chunks = split_page(page["text"], tokenizer)
         for chunk_number, content in enumerate(page_chunks, start=1):
+            from .pdf_loader import clean_markdown
             content = clean_markdown(content)
             table_id = table_id_for(content, active_table_id)
             if table_id:
@@ -309,83 +221,6 @@ def chunk_pages(pages: list[dict], tokenizer) -> list[dict]:
             )
 
     config.CHUNKS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    from ..utils.io import write_jsonl
     write_jsonl(config.CHUNKS_PATH, chunks)
     return chunks
-
-
-def build_index(chunks: list[dict], model: SentenceTransformer) -> None:
-    """Embed all chunks with Sentence Transformers and save them in Chroma."""
-    texts = [f"passage: {chunk['text']}" for chunk in chunks]
-    embeddings = model.encode_document(
-        texts,
-        batch_size=config.EMBEDDING_BATCH_SIZE,
-        normalize_embeddings=True,
-        show_progress_bar=True,
-    )
-
-    config.CHROMA_PATH.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(config.CHROMA_PATH))
-    if config.COLLECTION_NAME in {item.name for item in client.list_collections()}:
-        client.delete_collection(config.COLLECTION_NAME)
-
-    collection = client.create_collection(
-        name=config.COLLECTION_NAME,
-        embedding_function=None,
-        configuration={"hnsw": {"space": "cosine"}},
-    )
-    collection.add(
-        ids=[chunk["chunk_id"] for chunk in chunks],
-        documents=[chunk["content"] for chunk in chunks],
-        embeddings=embeddings.tolist(),
-        metadatas=[
-            {
-                "document_name": chunk["document_name"],
-                "page_number": chunk["page_number"],
-                "section_title": chunk["section_title"],
-                "content_type": chunk["content_type"],
-                "chunk_id": chunk["chunk_id"],
-                "source_url": chunk["source_url"],
-                "table_id": chunk["table_id"],
-            }
-            for chunk in chunks
-        ],
-    )
-
-
-def write_jsonl(path, records: list[dict]) -> None:
-    """Write one JSON object per line."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as file:
-        for record in records:
-            file.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
-def main() -> None:
-    print("1. Reading PDF...")
-    pages = load_pdf()
-    print(f"   Loaded {len(pages)} pages")
-
-    print(f"2. Loading tokenizer from {config.EMBEDDING_MODEL}...")
-    model = SentenceTransformer(
-        config.EMBEDDING_MODEL,
-        local_files_only=config.EMBEDDING_LOCAL_FILES_ONLY,
-    )
-
-    print("3. Creating cleaned, token-aware chunks...")
-    chunks = chunk_pages(pages, model.tokenizer)
-    from supplementary_sources import load_ng12_colorectal_chunks
-    supplementary = load_ng12_colorectal_chunks(model.tokenizer)
-    chunks.extend(supplementary)
-    write_jsonl(config.CHUNKS_PATH, chunks)
-    print(f"   Created {len(chunks)} chunks")
-    print(f"   Included {len(supplementary)} colorectal recognition/referral chunks from NICE NG12")
-
-    print(f"4. Creating embeddings with {config.EMBEDDING_MODEL}...")
-    build_index(chunks, model)
-    print(f"   Saved {len(chunks)} vectors to Chroma")
-
-    print('\nDone. Try: python query.py "your question"')
-
-
-if __name__ == "__main__":
-    main()
