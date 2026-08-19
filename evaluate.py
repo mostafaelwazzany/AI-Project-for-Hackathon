@@ -11,11 +11,13 @@ import argparse
 import json
 import re
 import csv
+import sys
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
 import config
+from query import expand_question
 
 
 def load_questions() -> list[dict]:
@@ -54,27 +56,35 @@ def page_numbers(page_label: str) -> set[int]:
     return set(numbers)
 
 
-def is_relevant(document: str, page_label: str, source: str, expected: list[str]) -> bool:
+def is_relevant(document: str, metadata: dict, source: str, expected: list[str]) -> bool:
     """Match expected recommendations; Table 1 spans PDF pages 10-12."""
+    if "NG12" in source and metadata.get("document_name") != config.NG12_DOCUMENT_NAME:
+        return False
+
     if any(contains_recommendation(document, item) for item in expected):
         return True
-    return "Table 1" in source and bool(page_numbers(page_label) & {10, 11, 12})
+    return "Table 1" in source and bool(page_numbers(metadata["page_number"]) & {10, 11, 12})
 
 
 def average_precision_at_k(relevant_ranks: list[int], expected_count: int, top_k: int) -> float:
     """Calculate AP@k from the ranks that contain expected evidence."""
     if not relevant_ranks:
         return 0.0
-    precision_sum = sum(position / rank for position, rank in enumerate(relevant_ranks, start=1))
-    return precision_sum / min(expected_count, top_k)
+    limit = min(expected_count, top_k)
+    capped_ranks = relevant_ranks[:limit]
+    precision_sum = sum(position / rank for position, rank in enumerate(capped_ranks, start=1))
+    return precision_sum / limit
 
 
 def evaluate(top_k: int) -> list[dict]:
-    """Embed all questions once, search recommendations, and score the results."""
+    """Embed all questions, search recommendations, and score the results."""
     questions = load_questions()
-    model = SentenceTransformer(config.EMBEDDING_MODEL)
-    embeddings = model.encode_query(
-        [f"query: {row['text']}" for row in questions],
+    model = SentenceTransformer(
+        config.EMBEDDING_MODEL,
+        local_files_only=config.EMBEDDING_LOCAL_FILES_ONLY,
+    )
+    embeddings = model.encode(
+        [f"query: {expand_question(row['text'])}" for row in questions],
         batch_size=config.EMBEDDING_BATCH_SIZE,
         normalize_embeddings=True,
         show_progress_bar=True,
@@ -105,9 +115,7 @@ def evaluate(top_k: int) -> list[dict]:
 
         relevant_ranks = []
         for rank, (_, document, metadata, _) in enumerate(retrieved, start=1):
-            if not out_of_scope and is_relevant(
-                document, metadata["page_number"], source, expected
-            ):
+            if not out_of_scope and is_relevant(document, metadata, source, expected):
                 relevant_ranks.append(rank)
 
         top_id, _, top_metadata, top_distance = retrieved[0]
@@ -176,7 +184,53 @@ def build_summary(rows: list[dict]) -> dict:
         language_passed = sum(row["status"] == "PASS" for row in language_rows)
         summary[f"{language}_found_rate"] = round(language_passed / len(language_rows), 4)
         summary[f"{language}_found_count"] = f"{language_passed}/{len(language_rows)}"
+
+    first_rank_values = [
+        int(row["best_rank"])
+        for row in scored
+        if row["best_rank"] != ""
+    ]
+    summary["rank_1_count"] = sum(rank == 1 for rank in first_rank_values)
+    summary["top_3_count"] = sum(rank <= 3 for rank in first_rank_values)
+    summary["top_5_count"] = sum(rank <= 5 for rank in first_rank_values)
+    summary["missed_count"] = len(scored) - len(first_rank_values)
+    summary["average_first_correct_rank"] = (
+        round(sum(first_rank_values) / len(first_rank_values), 2)
+        if first_rank_values
+        else 0
+    )
     return summary
+
+
+def build_json_report(rows: list[dict], summary: dict) -> dict:
+    """Return summary plus per-question rows for the web analysis page."""
+    rank_distribution = [
+        {
+            "name": "Rank 1",
+            "count": summary["rank_1_count"],
+            "rate": round(summary["rank_1_count"] / summary["scored_questions"], 4),
+        },
+        {
+            "name": "Top 3",
+            "count": summary["top_3_count"],
+            "rate": round(summary["top_3_count"] / summary["scored_questions"], 4),
+        },
+        {
+            "name": "Top 5",
+            "count": summary["top_5_count"],
+            "rate": round(summary["top_5_count"] / summary["scored_questions"], 4),
+        },
+        {
+            "name": "Missed",
+            "count": summary["missed_count"],
+            "rate": round(summary["missed_count"] / summary["scored_questions"], 4),
+        },
+    ]
+    return {
+        "summary": summary,
+        "rank_distribution": rank_distribution,
+        "rows": rows,
+    }
 
 
 def print_summary(rows: list[dict], summary: dict) -> None:
@@ -196,7 +250,25 @@ def print_summary(rows: list[dict], summary: dict) -> None:
             )
 
 
+def save_reports(rows: list[dict], summary: dict) -> None:
+    """Save detailed CSV and compact JSON for the analysis page/history."""
+    results_path = config.TEST_QUESTIONS_PATH.parent / "evaluation_results.csv"
+    summary_path = config.TEST_QUESTIONS_PATH.parent / "evaluation_summary.json"
+
+    with results_path.open("w", encoding="utf-8-sig", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+
+    summary_path.write_text(
+        json.dumps(build_json_report(rows, summary), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser()
     parser.add_argument("--top-k", type=int, default=config.TOP_K)
     parser.add_argument(
@@ -210,10 +282,12 @@ def main() -> None:
 
     rows = evaluate(args.top_k)
     summary = build_summary(rows)
+    save_reports(rows, summary)
     if args.json:
-        print(json.dumps(summary, ensure_ascii=False))
+        print(json.dumps(build_json_report(rows, summary), ensure_ascii=False))
     else:
         print_summary(rows, summary)
+        print(f"Saved report: {config.TEST_QUESTIONS_PATH.parent / 'evaluation_results.csv'}")
 
 
 if __name__ == "__main__":

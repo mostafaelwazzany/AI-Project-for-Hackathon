@@ -41,9 +41,9 @@ id,variant,language,text,expected_source
 10,2,en,What problems occur after sphincter-preserving surgery?,Recommendations 1.6.2-1.6.4 - Page 26
 11,1,ar,إيه أعراض سرطان المعدة؟,NOT COVERED - expect refusal
 11,1,en,What are the symptoms of stomach cancer?,NOT COVERED - expect refusal
-12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendation 1.2.1 - Page 7
+12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendations 1.2.1-1.2.7 - Pages 7-9
 12,2,ar,ما خيارات العلاج وفوائده ومخاطره التي يجب أن أعرفها قبل العلاج؟,Recommendation 1.2.1 - Page 7
-12,1,en,What information should the care team explain to a person with colorectal cancer?,Recommendation 1.2.1 - Page 7
+12,1,en,What information should the care team explain to a person with colorectal cancer?,Recommendations 1.2.1-1.2.7 - Pages 7-9
 12,2,en,What treatment options benefits and risks should be explained before colorectal cancer treatment?,Recommendation 1.2.1 - Page 7
 13,1,ar,ما النصائح التي يجب إعطاؤها للمريض قبل الخروج من المستشفى بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9
 13,2,ar,كيف يستعد المريض للخروج بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9
@@ -65,3 +65,67 @@ id,variant,language,text,expected_source
 17,2,ar,هل توجد استبيانات معتمدة لتقييم متلازمة الاستئصال الأمامي المنخفض؟,Recommendation 1.6.3 - Page 26
 17,1,en,How should LARS symptoms be assessed after rectal cancer surgery?,Recommendation 1.6.3 - Page 26
 17,2,en,Are validated questionnaires used to assess low anterior resection syndrome?,Recommendation 1.6.3 - Page 26
+18,1,ar,لماذا قد تتغير خطة علاج سرطان القولون والمستقيم أثناء الرعاية؟,Recommendation 1.2.2 - Page 7
+18,1,en,Why might a colorectal cancer treatment plan change during care?,Recommendation 1.2.2 - Page 7
+19,1,ar,ما معنى بروتوكولات التعافي السريع بعد جراحة سرطان القولون والمستقيم؟,Recommendation 1.2.3 - Page 8
+19,1,en,What should patients be told about enhanced recovery after surgery protocols?,Recommendation 1.2.3 - Page 8
+20,1,ar,ما الآثار الجانبية التي يجب مناقشتها بعد جراحة سرطان القولون والمستقيم؟,Recommendation 1.2.4 - Page 8
+20,1,en,What side effects should specialists discuss after colorectal cancer surgery?,Recommendation 1.2.4 - Page 8
+21,1,ar,لماذا يجب متابعة الآثار الجانبية أثناء العلاج غير الجراحي؟,Recommendation 1.2.5 - Page 8
+21,1,en,Why should side effects be monitored during non-surgical colorectal cancer treatment?,Recommendation 1.2.5 - Page 8
+22,1,ar,ما المعلومات المطلوبة عن الآثار قصيرة وطويلة المدى بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.6 - Page 8
+22,1,en,What information is needed about short-term and long-term side effects after colorectal cancer treatment?,Recommendation 1.2.6 - Page 8
+23,1,ar,لو انسداد القولون الأيسر الحاد والعلاج ممكن يكون شافي ما الخيارات؟,Recommendation 1.3.2 - Page 9
+23,1,en,For acute left-sided large bowel obstruction with curative intent what options are offered?,Recommendation 1.3.2 - Page 9
+24,1,ar,متى يتم تقديم الجراحة لمريض سرطان المستقيم القابل للاستئصال؟,Recommendation 1.3.6 - Page 13
+24,1,en,When is surgery offered for resectable rectal cancer?,Recommendation 1.3.6 - Page 13
+25,1,ar,هل يمكن تأجيل الجراحة بعد استجابة كاملة للعلاج قبل العملية؟,Recommendation 1.3.7 - Page 13
+25,1,en,Can surgery be deferred after a complete clinical and radiological response to neoadjuvant treatment?,Recommendation 1.3.7 - Page 13
+26,1,ar,متى يفضل التفكير في الجراحة المفتوحة لسرطان المستقيم؟,Recommendation 1.3.9 - Page 14
+26,1,en,When should open surgery be considered for rectal cancer?,Recommendation 1.3.9 - Page 14
+27,1,ar,هل جراحة transanal TME مستخدمة عادة أم في إطار بحثي فقط؟,Recommendation 1.3.11 - Page 14
+27,1,en,Is transanal total mesorectal excision used routinely or only in research?,Recommendation 1.3.11 - Page 14
+28,1,ar,متى يحال مريض سرطان المستقيم المتقدم أو الراجع إلى مركز متخصص؟,Recommendation 1.3.12 - Page 15
+28,1,en,When should locally advanced or recurrent rectal cancer be referred to a specialist centre?,Recommendation 1.3.12 - Page 15
+29,1,ar,ما العلاج الكيماوي المساعد المقترح لسرطان المستقيم المرحلة الثالثة؟,Recommendation 1.3.15 - Page 15
+29,1,en,What adjuvant chemotherapy is offered for stage 3 rectal cancer?,Recommendation 1.3.15 - Page 15
+30,1,ar,هل الاستئصال بالمنظار مناسب لعلاج سرطان القولون؟,Recommendation 1.3.17 - Page 17
+30,1,en,Is laparoscopic resection an option for treating colon cancer?,Recommendation 1.3.17 - Page 17
+31,1,ar,ما العلاج المناعي لسرطان القولون والمستقيم المنتشر غير القابل للاستئصال مع MSI عالي أو نقص MMR؟,Recommendations 1.5.1-1.5.2 - Page 19
+31,1,en,What immunotherapy options are recommended for untreated metastatic colorectal cancer with high MSI or MMR deficiency?,Recommendations 1.5.1-1.5.2 - Page 19
+32,1,ar,ما العلاجات الموجهة لسرطان القولون والمستقيم المنتشر RAS wild-type؟,Recommendations 1.5.3-1.5.4 - Pages 19-20
+32,1,en,What targeted therapies are options for untreated RAS wild-type metastatic colorectal cancer?,Recommendations 1.5.3-1.5.4 - Pages 19-20
+33,1,ar,متى يستخدم bevacizumab أو capecitabine في سرطان القولون والمستقيم المنتشر غير المعالج؟,Recommendations 1.5.5-1.5.6 - Page 20
+33,1,en,When are bevacizumab or capecitabine used for untreated metastatic colorectal cancer?,Recommendations 1.5.5-1.5.6 - Page 20
+34,1,ar,ما خيارات العلاج بعد العلاج الكيماوي لسرطان القولون والمستقيم المنتشر مع MSI عالي أو نقص MMR؟,Recommendations 1.5.7-1.5.8 - Pages 20-21
+34,1,en,What options are recommended after chemotherapy for metastatic colorectal cancer with high MSI or MMR deficiency?,Recommendations 1.5.7-1.5.8 - Pages 20-21
+35,1,ar,ما علاج سرطان القولون والمستقيم المنتشر مع طفرة BRAF V600E بعد علاج سابق؟,Recommendation 1.5.9 - Page 21
+35,1,en,What is recommended for BRAF V600E mutation-positive metastatic colorectal cancer after previous treatment?,Recommendation 1.5.9 - Page 21
+36,1,ar,متى يستخدم bevacizumab كعلاج خط ثاني لسرطان القولون والمستقيم المنتشر؟,Recommendation 1.5.10 - Page 21
+36,1,en,When is bevacizumab used as second-line treatment for metastatic colorectal cancer?,Recommendation 1.5.10 - Page 21
+37,1,ar,ما الدواء المذكور للأورام الصلبة ذات اندماج NTRK عندما لا توجد خيارات مناسبة؟,Recommendation 1.5.13 - Page 22
+37,1,en,What drug is mentioned for NTRK fusion-positive solid tumours when there are no satisfactory options?,Recommendation 1.5.13 - Page 22
+38,1,ar,هل SIRT يقدم كعلاج أولي لنقائل سرطان القولون والمستقيم في الكبد غير المناسبة للعلاج الموضعي؟,Recommendation 1.5.18 - Page 24
+38,1,en,Is SIRT offered as first-line treatment for colorectal liver metastases unsuitable for local treatment?,Recommendation 1.5.18 - Page 24
+39,1,ar,ما الخيارات المحلية لنقائل سرطان القولون والمستقيم في الرئة؟,Recommendation 1.5.19 - Page 24
+39,1,en,What local treatment options are considered for colorectal cancer lung metastases?,Recommendation 1.5.19 - Page 24
+40,1,ar,متى يتم التفكير في أخذ عينة من آفة واحدة في الرئة؟,Recommendation 1.5.20 - Page 25
+40,1,en,When should biopsy be considered for a single lung lesion?,Recommendation 1.5.20 - Page 25
+41,1,ar,ما التعامل مع نقائل سرطان القولون والمستقيم المحدودة في الصفاق؟,Recommendation 1.5.21 - Page 25
+41,1,en,How are colorectal cancer metastases limited to the peritoneum managed?,Recommendation 1.5.21 - Page 25
+42,1,ar,ما أعراض الاشتباه في سرطان القولون والمستقيم التي تستدعي اختبار FIT؟,Recommendation 1.3.1 - NG12 Pages 14-15
+42,1,en,What suspected colorectal cancer symptoms should prompt FIT testing?,Recommendation 1.3.1 - NG12 Pages 14-15
+43,1,ar,ما نتيجة FIT التي تستدعي إحالة مسار سرطان مشتبه به؟,Recommendation 1.3.2 - NG12 Page 15
+43,1,en,What FIT result should trigger a suspected cancer pathway referral for colorectal cancer?,Recommendation 1.3.2 - NG12 Page 15
+44,1,ar,ماذا يحدث لو لم يرجع المريض عينة البراز أو كانت نتيجة FIT أقل من 10 مع قلق سريري قوي؟,Recommendation 1.3.3 - NG12 Page 15
+44,1,en,What if a patient does not return a faecal sample or FIT is below 10 but clinical concern remains strong?,Recommendation 1.3.3 - NG12 Page 15
+45,1,ar,هل يحتاج بعض الناس مساعدة إضافية لإرجاع عينة FIT؟,Recommendation 1.3.4 - NG12 Page 16
+45,1,en,Should professionals consider extra help or support for returning a FIT sample?,Recommendation 1.3.4 - NG12 Page 16
+46,1,ar,هل كتلة المستقيم تستدعي إحالة لمسار سرطان مشتبه به؟,Recommendation 1.3.5 - NG12 Page 16
+46,1,en,Does a rectal mass need suspected cancer pathway referral for colorectal cancer?,Recommendation 1.3.5 - NG12 Page 16
+47,1,ar,ما أعراض سرطان البنكرياس؟,NOT COVERED - expect refusal
+47,1,en,What are the symptoms of pancreatic cancer?,NOT COVERED - expect refusal
+48,1,ar,ما علاج سرطان الثدي؟,NOT COVERED - expect refusal
+48,1,en,What is the treatment for breast cancer?,NOT COVERED - expect refusal
+49,1,ar,هل مرض السكري يسبب ألم في القدم؟,NOT COVERED - expect refusal
+49,1,en,Does diabetes cause foot pain?,NOT COVERED - expect refusal

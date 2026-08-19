@@ -19,6 +19,30 @@ INTENTS = {
         "description": "follow-up surveillance after curative colorectal cancer surgery recurrence CEA CT",
         "cues": ("متابعة", "هتابع", "بعد الجراحة", "بعد العملية", "follow-up", "follow up", "after surgery", "after curative", "surveillance", "recurrence"),
     },
+    "early_rectal_treatment": {
+        "description": "early rectal cancer treatment choices table 1 transanal excision TAE TAMIS TEMS endoscopic submucosal dissection ESD total mesorectal excision TME",
+        "cues": ("سرطان المستقيم المبكر", "مرحلة مبكرة", "early rectal cancer", "early-stage rectal cancer"),
+    },
+    "bowel_obstruction_stent": {
+        "description": "acute left-sided large bowel obstruction stenting palliative intent",
+        "cues": ("انسداد", "دعامة", "stent", "stenting", "bowel obstruction", "large bowel obstruction", "palliative intent"),
+    },
+    "liver_metastases": {
+        "description": "colorectal cancer liver metastases liver resection perioperative systemic anticancer therapy local ablative techniques chemotherapy",
+        "cues": ("انتشر للكبد", "ثانوي في الكبد", "نقائل الكبد", "metastatic colorectal cancer in the liver", "spread to the liver", "liver metastases", "secondary liver tumour"),
+    },
+    "resectable_rectal_surgery": {
+        "description": "resectable rectal cancer offer surgery after discussion by a multidisciplinary team MDT",
+        "cues": ("سرطان المستقيم القابل للاستئصال", "قابل للاستئصال", "resectable rectal cancer"),
+    },
+    "lung_metastases": {
+        "description": "colorectal cancer lung metastases consider metastasectomy stereotactic ablative body radiotherapy SABR thermal ablation",
+        "cues": ("نقائل الرئة", "انتشر للرئة", "الرئة", "lung metastases", "spread to the lung", "pulmonary metastases"),
+    },
+    "peritoneal_metastases": {
+        "description": "colorectal cancer metastases limited to the peritoneum systemic anticancer therapy referral to specialist cytoreductive surgery and HIPEC centre",
+        "cues": ("نقائل الصفاق", "الصفاق", "البريتون", "peritoneum", "peritoneal metastases", "peritoneal carcinomatosis"),
+    },
     "treatment": {
         "description": "colorectal cancer treatment options surgery radiotherapy systemic anticancer therapy palliative care",
         "cues": ("علاج", "كيماوي", "اشعاع", "treatment", "chemotherapy", "radiotherapy"),
@@ -34,6 +58,10 @@ INTENTS = {
     "biomarkers": {
         "description": "colorectal cancer molecular biomarkers RAS BRAF mismatch repair NTRK",
         "cues": ("طفرة", "تحليل جيني", "مؤشرات", "biomarker", "braf", "ras", "ntrk"),
+    },
+    "msi_mmr_immunotherapy": {
+        "description": "untreated unresectable or metastatic colorectal cancer high microsatellite instability MSI or mismatch repair MMR deficiency pembrolizumab nivolumab ipilimumab immunotherapy",
+        "cues": ("msi", "mmr", "العلاج المناعي", "مناعي", "immunotherapy", "pembrolizumab", "nivolumab", "ipilimumab"),
     },
 }
 

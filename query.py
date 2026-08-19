@@ -15,7 +15,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 import config
-from query_understanding import keyword_score, understand_question
+from query_understanding import keyword_score, normalize_question, understand_question
 
 
 NUMBERED_SECTIONS = {
@@ -53,8 +53,100 @@ def is_patient_information_question(question: str) -> bool:
     return any(cue in question for cue in patient_information_cues)
 
 
+def is_early_rectal_treatment_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "سرطان المستقيم المبكر",
+        "مرحلة مبكرة",
+        "early rectal cancer",
+        "early stage rectal cancer",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_bowel_obstruction_stent_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "انسداد",
+        "دعامة",
+        "stent",
+        "stenting",
+        "bowel obstruction",
+        "large bowel obstruction",
+        "palliative intent",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_liver_metastases_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "انتشر للكبد",
+        "ثانوي في الكبد",
+        "نقائل الكبد",
+        "spread to the liver",
+        "liver metastases",
+        "secondary liver tumour",
+        "metastatic colorectal cancer in the liver",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_resectable_rectal_surgery_question(question: str) -> bool:
+    question = normalize_question(question)
+    if "غير قابل للاستئصال" in question or "unresectable" in question:
+        return False
+    cues = (
+        "سرطان المستقيم القابل للاستئصال",
+        "قابل للاستئصال",
+        "resectable rectal cancer",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_lung_metastases_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "نقائل الرئة",
+        "انتشر للرئة",
+        "الرئة",
+        "lung metastases",
+        "spread to the lung",
+        "pulmonary metastases",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_peritoneal_metastases_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "نقائل الصفاق",
+        "الصفاق",
+        "البريتون",
+        "peritoneum",
+        "peritoneal metastases",
+        "peritoneal carcinomatosis",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_msi_mmr_immunotherapy_question(question: str) -> bool:
+    question = normalize_question(question)
+    cues = (
+        "msi",
+        "mmr",
+        "العلاج المناعي",
+        "مناعي",
+        "immunotherapy",
+        "pembrolizumab",
+        "nivolumab",
+        "ipilimumab",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
 def expand_question(question: str) -> str:
-    """Add the guideline's wording for patient-information questions.
+    """Add the guideline's wording for common user phrasings.
 
     The source guideline calls this topic "Information for people with
     colorectal cancer".  Arabic questions such as "what should the care team
@@ -66,6 +158,62 @@ def expand_question(question: str) -> str:
             f"{question}\n"
             "Information for people with colorectal cancer: treatment options, "
             "benefits, risks, side effects and treatment plan."
+        )
+    if is_early_rectal_treatment_question(question):
+        return (
+            f"{question}\n"
+            "Early rectal cancer treatment choices in table 1: transanal excision "
+            "TAE TAMIS TEMS, endoscopic submucosal dissection ESD, total "
+            "mesorectal excision TME."
+        )
+    if is_bowel_obstruction_stent_question(question):
+        normalized = normalize_question(question)
+        intent_text = (
+            "Offer either stenting or emergency surgery for people presenting "
+            "with acute left-sided large bowel obstruction if potentially "
+            "curative treatment is suitable for them."
+            if "curative" in normalized or "شافي" in normalized
+            else "Acute left-sided large bowel obstruction: consider stenting "
+            "for people going to have treatment with palliative intent."
+        )
+        return (
+            f"{question}\n"
+            f"{intent_text}"
+        )
+    if is_liver_metastases_question(question):
+        return (
+            f"{question}\n"
+            "People with metastatic colorectal cancer in the liver: liver "
+            "resection, perioperative systemic anticancer therapy, chemotherapy "
+            "with local ablative techniques, colorectal liver metastases."
+        )
+    if is_msi_mmr_immunotherapy_question(question):
+        return (
+            f"{question}\n"
+            "Untreated unresectable or metastatic colorectal cancer with high "
+            "microsatellite instability MSI or mismatch repair MMR deficiency: "
+            "pembrolizumab, nivolumab plus ipilimumab immunotherapy. "
+            "Recommendations 1.5.1 and 1.5.2."
+        )
+    if is_resectable_rectal_surgery_question(question):
+        return (
+            f"{question}\n"
+            "Recommendation 1.3.6. Offer surgery to people with rectal cancer "
+            "cT1-T2 cN1-N2 M0 or cT3-T4 any cN M0 who have a resectable tumour. "
+            "Resectable rectal cancer surgery."
+        )
+    if is_lung_metastases_question(question):
+        return (
+            f"{question}\n"
+            "Colorectal cancer lung metastases: consider metastasectomy, "
+            "stereotactic ablative body radiotherapy SABR, or thermal ablation."
+        )
+    if is_peritoneal_metastases_question(question):
+        return (
+            f"{question}\n"
+            "Colorectal cancer metastases limited to the peritoneum: offer "
+            "systemic anticancer therapy and discuss referral to a specialist "
+            "cytoreductive surgery and HIPEC centre."
         )
     return question
 
@@ -160,6 +308,27 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
                 boost = 0.12
             elif re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]):
                 boost = 0.06
+        elif understanding["intent"] == "early_rectal_treatment":
+            if row["chunk_id"].startswith("ng151-p10-12") or re.match(r"^\s*-?\s*1\.3\.3\b", row["text"]):
+                boost = 0.12
+        elif understanding["intent"] == "bowel_obstruction_stent":
+            if re.match(r"^\s*-?\s*1\.3\.1\b", row["text"]):
+                boost = 0.14
+        elif understanding["intent"] == "liver_metastases":
+            if re.search(r"\b1\.5\.(1[5-8])\b", row["text"]) or "liver metastases" in row["text"].lower():
+                boost = 0.12
+        elif understanding["intent"] == "resectable_rectal_surgery":
+            if re.match(r"^\s*-?\s*1\.3\.6\b", row["text"]):
+                boost = 0.14
+        elif understanding["intent"] == "lung_metastases":
+            if re.match(r"^\s*-?\s*1\.5\.19\b", row["text"]):
+                boost = 0.14
+        elif understanding["intent"] == "peritoneal_metastases":
+            if re.match(r"^\s*-?\s*1\.5\.21\b", row["text"]):
+                boost = 0.14
+        elif understanding["intent"] == "msi_mmr_immunotherapy":
+            if re.match(r"^\s*-?\s*1\.5\.[12]\b", row["text"]):
+                boost = 0.14
         row["rerank_score"] = row["score"] + (0.08 * lexical) + boost
 
     rows.sort(key=lambda row: row["rerank_score"], reverse=True)
