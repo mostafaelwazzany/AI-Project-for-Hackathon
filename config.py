@@ -1,5 +1,6 @@
 """All project settings in one easy-to-read file."""
 
+import os
 from pathlib import Path
 
 
@@ -43,8 +44,9 @@ PAGES_TO_INDEX = list(range(5, 29)) + list(range(30, 49))
 # Keep the tested multilingual Sentence Transformer model.
 EMBEDDING_MODEL = "intfloat/multilingual-e5-base"
 EMBEDDING_BATCH_SIZE = 16
-# The model is already downloaded. Avoid slow Hugging Face network checks at runtime.
-EMBEDDING_LOCAL_FILES_ONLY = True
+# Locally the model is already downloaded, so this avoids slow Hugging Face checks.
+# On Render, the model cache is new, so allow the first boot to download it.
+EMBEDDING_LOCAL_FILES_ONLY = os.getenv("EMBEDDING_LOCAL_FILES_ONLY", "true").lower() == "true"
 
 # Vector database and search settings
 COLLECTION_NAME = "nice_ng151_colorectal"

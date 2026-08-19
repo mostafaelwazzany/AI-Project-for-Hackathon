@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: colorectal-cancer-assistant
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: PYTHON_EXECUTABLE
+        value: python3
+      - key: EMBEDDING_LOCAL_FILES_ONLY
+        value: "false"
+      - key: GROQ_API_KEY
+        sync: false

@@ -14,6 +14,18 @@ from generate import generate, is_arabic
 from query import get_collection, get_embedding_model, search
 
 
+def source_from_row(row: dict) -> dict:
+    """Return source metadata needed by the web UI."""
+    return {
+        "url": row["source_url"],
+        "text": row["text"],
+        "document": row["document_name"],
+        "page": str(row["page_number"]),
+        "section": row["section_title"],
+        "chunk_id": row["chunk_id"],
+    }
+
+
 def friendly_error(question: str) -> str:
     if is_arabic(question):
         return "تعذر تجهيز الإجابة مؤقتًا. حاول إرسال السؤال مرة أخرى."
@@ -50,15 +62,8 @@ def main() -> None:
                 rows = search(question)
                 result = {
                     "answer": generate(question, rows),
-                    "source": (
-                        {
-                            "url": rows[0]["source_url"],
-                            "text": rows[0]["text"],
-                            "document": rows[0]["document_name"],
-                        }
-                        if rows
-                        else None
-                    ),
+                    "source": source_from_row(rows[0]) if rows else None,
+                    "sources": [source_from_row(row) for row in rows],
                 }
             except Exception as error:
                 # A fast tokenizer can rarely keep a bad state in a long-lived
@@ -69,15 +74,8 @@ def main() -> None:
                 rows = search(question)
                 result = {
                     "answer": generate(question, rows),
-                    "source": (
-                        {
-                            "url": rows[0]["source_url"],
-                            "text": rows[0]["text"],
-                            "document": rows[0]["document_name"],
-                        }
-                        if rows
-                        else None
-                    ),
+                    "source": source_from_row(rows[0]) if rows else None,
+                    "sources": [source_from_row(row) for row in rows],
                 }
         except Exception as error:
             print(f"Chat bridge error: {error}", file=sys.stderr, flush=True)

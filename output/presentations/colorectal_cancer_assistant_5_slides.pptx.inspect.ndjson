@@ -1,0 +1,155 @@
+{"kind":"deck","id":"pr/4tf83d","name":"Deck"}
+{"kind":"layout","layoutId":"22ea331b-8ca1-42b0-92ae-cb6af0597d0c","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"3722f53b-9182-4e63-8ef1-7beda1f26bde","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/nfgk4x","slide":1,"title":"Colorectal Cancer Assistant","textShapes":14}
+{"kind":"shape","id":"sh/8fi9kb6d","slide":1,"bbox":[970,-170,420,420]}
+{"kind":"shape","id":"sh/7e9srqps","slide":1,"bbox":[-170,470,360,360]}
+{"kind":"textbox","id":"sh/6d0rilo7","slide":1,"text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,78,730,76]}
+{"kind":"textbox","id":"sh/lcrapg7m","slide":1,"text":"A bilingual RAG assistant grounded in official NICE guidance.","textPreview":"A bilingual RAG assistant grounded in official NICE guidance.","textChars":61,"textLines":1,"bbox":[76,174,760,44]}
+{"kind":"shape","id":"sh/kbi9gb61","slide":1,"bbox":[76,286,340,170]}
+{"kind":"textbox","id":"sh/za9sn6pw","slide":1,"text":"Scope","textPreview":"Scope","textChars":5,"textLines":1,"bbox":[106,316,280,28]}
+{"kind":"shape","id":"sh/y90re1ob","slide":1,"bbox":[106,377,9,9]}
+{"kind":"textbox","id":"sh/58va10n6","slide":1,"text":"Colorectal cancer only","textPreview":"Colorectal cancer only","textChars":22,"textLines":1,"bbox":[128,368,238,38]}
+{"kind":"shape","id":"sh/472tsv6l","slide":1,"bbox":[106,419,9,9]}
+{"kind":"textbox","id":"sh/mlcradsb","slide":1,"text":"Arabic + English Q&A","textPreview":"Arabic + English Q&A","textChars":20,"textLines":1,"bbox":[128,410,238,38]}
+{"kind":"shape","id":"sh/nml8jitw","slide":1,"bbox":[470,286,320,170]}
+{"kind":"textbox","id":"sh/o7u9cnah","slide":1,"text":"Data","textPreview":"Data","textChars":4,"textLines":1,"bbox":[500,316,260,28]}
+{"kind":"shape","id":"sh/983qlsb2","slide":1,"bbox":[500,365,9,9]}
+{"kind":"textbox","id":"sh/ehs76dsf","slide":1,"text":"2 NICE PDF files indexed","textPreview":"2 NICE PDF files indexed","textChars":24,"textLines":1,"bbox":[522,356,238,38]}
+{"kind":"shape","id":"sh/zi18fitk","slide":1,"bbox":[500,407,9,9]}
+{"kind":"textbox","id":"sh/0jap8na5","slide":1,"text":"NG151 main guideline","textPreview":"NG151 main guideline","textChars":20,"textLines":1,"bbox":[522,398,238,38]}
+{"kind":"shape","id":"sh/1kjqhsbq","slide":1,"bbox":[500,449,9,9]}
+{"kind":"textbox","id":"sh/ydwrixsj","slide":1,"text":"NG12 colorectal referral","textPreview":"NG12 colorectal referral","textChars":24,"textLines":1,"bbox":[522,440,238,38]}
+{"kind":"shape","id":"sh/je58r294","slide":1,"bbox":[844,286,310,170]}
+{"kind":"textbox","id":"sh/v6dwna54","slide":1,"text":"Team","textPreview":"Team","textChars":4,"textLines":1,"bbox":[874,316,250,28]}
+{"kind":"textbox","id":"sh/ul4vu54j","slide":1,"text":"Mostafa Ayman, Menna Adel,\nAsr Mohamed, Roaa Youssef,\nNour Soft","textPreview":"Mostafa Ayman, Menna Adel, | Asr Mohamed, Roaa Youssef, | Nour Soft","textChars":63,"textLines":3,"bbox":[874,366,250,72]}
+{"kind":"textbox","id":"sh/h8fepkna","slide":1,"text":"Sources: config.py, data/raw NICE PDFs. Data files used: 2 PDFs.","textPreview":"Sources: config.py, data/raw NICE PDFs. Data files used: 2 PDFs.","textChars":64,"textLines":1,"bbox":[72,636,1080,20]}
+{"kind":"textbox","id":"sh/w7mxwfmp","slide":1,"text":"15-minute project presentation","textPreview":"15-minute project presentation","textChars":30,"textLines":1,"bbox":[72,672,360,24]}
+{"kind":"textbox","id":"sh/jaxwra5g","slide":1,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[1168,672,40,24]}
+{"kind":"notes","id":"nt/nfgk4x","slide":1,"text":"[Timing: 2 minutes]\nIntroduce the problem and scope clearly. Say: this is not a general medical chatbot; it is a colorectal cancer guideline assistant grounded in NICE.\n[Sources]\nconfig.py, data/raw/nice_ng151_colorectal_cancer.pdf, data/raw/nice_ng12_suspected_cancer.pdf."}
+{"kind":"slide","id":"sl/y9do47","slide":2,"title":"PIPELINE","textShapes":25}
+{"kind":"shape","id":"sh/cnalcjeh","slide":2,"bbox":[970,-170,420,420]}
+{"kind":"shape","id":"sh/bm1k3exw","slide":2,"bbox":[-170,470,360,360]}
+{"kind":"textbox","id":"sh/al8ja9wr","slide":2,"text":"PIPELINE","textPreview":"PIPELINE","textChars":8,"textLines":1,"bbox":[72,50,500,26]}
+{"kind":"textbox","id":"sh/lcj29ove","slide":2,"text":"From PDF to searchable clinical evidence","textPreview":"From PDF to searchable clinical evidence","textChars":40,"textLines":1,"bbox":[72,86,910,88]}
+{"kind":"textbox","id":"sh/kbalgjet","slide":2,"text":"Parsing, cleaning, and chunking were built to keep recommendations and citations usable.","textPreview":"Parsing, cleaning, and chunking were built to keep recommendations and citations usable.","textChars":88,"textLines":1,"bbox":[72,176,900,48]}
+{"kind":"shape","id":"sh/za1k7ed8","slide":2,"bbox":[72,286,248,118]}
+{"kind":"shape","id":"sh/yps3e9wn","slide":2,"bbox":[90,308,38,38]}
+{"kind":"textbox","id":"sh/tg32d8va","slide":2,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[90,314,38,20]}
+{"kind":"textbox","id":"sh/8fulk3ep","slide":2,"text":"Parsing","textPreview":"Parsing","textChars":7,"textLines":1,"bbox":[142,306,158,26]}
+{"kind":"textbox","id":"sh/mdw321gz","slide":2,"text":"pymupdf4llm converts PDF pages to Markdown.","textPreview":"pymupdf4llm converts PDF pages to Markdown.","textChars":43,"textLines":1,"bbox":[142,339,158,46]}
+{"kind":"shape","id":"sh/ne5kb6xk","slide":2,"bbox":[348,286,248,118]}
+{"kind":"shape","id":"sh/ofel4ry5","slide":2,"bbox":[366,308,38,38]}
+{"kind":"textbox","id":"sh/9gn2dwfq","slide":2,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[366,314,38,20]}
+{"kind":"textbox","id":"sh/ahg361gb","slide":2,"text":"Cleaning","textPreview":"Cleaning","textChars":8,"textLines":1,"bbox":[418,306,158,26]}
+{"kind":"textbox","id":"sh/bipkf6xw","slide":2,"text":"Remove PDF noise while preserving bullets and tables.","textPreview":"Remove PDF noise while preserving bullets and tables.","textChars":53,"textLines":1,"bbox":[418,339,158,46]}
+{"kind":"shape","id":"sh/w3yl8by1","slide":2,"bbox":[624,286,248,118]}
+{"kind":"shape","id":"sh/x472hgfm","slide":2,"bbox":[642,308,38,38]}
+{"kind":"textbox","id":"sh/qlcjuhgr","slide":2,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[642,314,38,20]}
+{"kind":"textbox","id":"sh/rmlk3mhc","slide":2,"text":"Chunking","textPreview":"Chunking","textChars":8,"textLines":1,"bbox":[694,306,158,26]}
+{"kind":"textbox","id":"sh/vqh0vix4","slide":2,"text":"Structure-aware recursive splitting by recommendations.","textPreview":"Structure-aware recursive splitting by recommendations.","textChars":55,"textLines":1,"bbox":[694,339,158,46]}
+{"kind":"shape","id":"sh/up8z2dwj","slide":2,"bbox":[900,286,248,118]}
+{"kind":"shape","id":"sh/hsjix8va","slide":2,"bbox":[918,308,38,38]}
+{"kind":"textbox","id":"sh/grah43ep","slide":2,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[918,314,38,20]}
+{"kind":"textbox","id":"sh/7mh0ryx8","slide":2,"text":"Indexing","textPreview":"Indexing","textChars":8,"textLines":1,"bbox":[970,306,158,26]}
+{"kind":"textbox","id":"sh/6l8zytwn","slide":2,"text":"Embed chunks and store vectors in Chroma.","textPreview":"Embed chunks and store vectors in Chroma.","textChars":41,"textLines":1,"bbox":[970,339,158,46]}
+{"kind":"shape","id":"sh/tozit8fe","slide":2,"bbox":[160,470,240,112]}
+{"kind":"textbox","id":"sh/8nqh03et","slide":2,"text":"Chunk size","textPreview":"Chunk size","textChars":10,"textLines":1,"bbox":[180,487,200,24]}
+{"kind":"textbox","id":"sh/ril032dc","slide":2,"text":"450 tokens","textPreview":"450 tokens","textChars":10,"textLines":1,"bbox":[180,518,200,40]}
+{"kind":"shape","id":"sh/qhszaxwr","slide":2,"bbox":[520,470,220,112]}
+{"kind":"textbox","id":"sh/onmx4zu9","slide":2,"text":"Overlap","textPreview":"Overlap","textChars":7,"textLines":1,"bbox":[540,487,180,24]}
+{"kind":"textbox","id":"sh/9ovexkvu","slide":2,"text":"80 tokens","textPreview":"80 tokens","textChars":9,"textLines":1,"bbox":[540,518,180,40]}
+{"kind":"shape","id":"sh/m14f2pcj","slide":2,"bbox":[860,470,220,112]}
+{"kind":"textbox","id":"sh/n2dwvudo","slide":2,"text":"Final chunks","textPreview":"Final chunks","textChars":12,"textLines":1,"bbox":[880,487,180,24]}
+{"kind":"textbox","id":"sh/wr6x8zul","slide":2,"text":"95","textPreview":"95","textChars":2,"textLines":1,"bbox":[880,518,180,40]}
+{"kind":"textbox","id":"sh/xsfe14v6","slide":2,"text":"Chunk experiments tested: 300/50, 450/80, 600/100","textPreview":"Chunk experiments tested: 300/50, 450/80, 600/100","textChars":49,"textLines":1,"bbox":[258,600,760,24]}
+{"kind":"textbox","id":"sh/ap4f6pcf","slide":2,"text":"Sources: ingest.py, config.py. Tested chunk configs: 300/50, 450/80, 600/100.","textPreview":"Sources: ingest.py, config.py. Tested chunk configs: 300/50, 450/80, 600/100.","textChars":77,"textLines":1,"bbox":[72,636,1080,20]}
+{"kind":"textbox","id":"sh/bqdwzud0","slide":2,"text":"15-minute project presentation","textPreview":"15-minute project presentation","textChars":30,"textLines":1,"bbox":[72,672,360,24]}
+{"kind":"textbox","id":"sh/kv6xcjuh","slide":2,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[1168,672,40,24]}
+{"kind":"notes","id":"nt/y9do47","slide":2,"text":"[Timing: 3 minutes]\nExplain chunking simply: it is document-based + recursive + token-aware. We did not use blind fixed-size only, because guidelines have recommendations and tables.\nMention experiments: 450/80 was selected because it gave the best balance in our evaluation.\n[Sources]\ningest.py, config.py, web/lib/data.ts chunkData."}
+{"kind":"slide","id":"sl/h7mjy1","slide":3,"title":"RETRIEVAL","textShapes":18}
+{"kind":"shape","id":"sh/i543y9ov","slide":3,"bbox":[970,-170,420,420]}
+{"kind":"shape","id":"sh/58vm947m","slide":3,"bbox":[-170,470,360,360]}
+{"kind":"textbox","id":"sh/47ml0j61","slide":3,"text":"RETRIEVAL","textPreview":"RETRIEVAL","textChars":9,"textLines":1,"bbox":[72,50,500,26]}
+{"kind":"textbox","id":"sh/v2t43upk","slide":3,"text":"multilingual-e5-base retrieves the evidence before the LLM answers","textPreview":"multilingual-e5-base retrieves the evidence before the LLM answers","textChars":66,"textLines":1,"bbox":[72,86,910,88]}
+{"kind":"textbox","id":"sh/uhk3upoz","slide":3,"text":"Similarity search uses normalized embeddings and Chroma cosine distance.","textPreview":"Similarity search uses normalized embeddings and Chroma cosine distance.","textChars":72,"textLines":1,"bbox":[72,176,900,48]}
+{"kind":"shape","id":"sh/h4vm547q","slide":3,"bbox":[72,286,230,112]}
+{"kind":"textbox","id":"sh/g3mlwz65","slide":3,"text":"Embedding model","textPreview":"Embedding model","textChars":15,"textLines":1,"bbox":[92,303,190,24]}
+{"kind":"textbox","id":"sh/7et4zup8","slide":3,"text":"e5-base","textPreview":"e5-base","textChars":7,"textLines":1,"bbox":[92,334,190,40]}
+{"kind":"shape","id":"sh/6dk3qpo3","slide":3,"bbox":[326,286,220,112]}
+{"kind":"textbox","id":"sh/8j2ps3y1","slide":3,"text":"Vector DB","textPreview":"Vector DB","textChars":9,"textLines":1,"bbox":[346,303,180,24]}
+{"kind":"textbox","id":"sh/94vq18fm","slide":3,"text":"Chroma","textPreview":"Chroma","textChars":6,"textLines":1,"bbox":[346,334,180,40]}
+{"kind":"shape","id":"sh/mhk7qtgv","slide":3,"bbox":[570,286,180,112]}
+{"kind":"textbox","id":"sh/7it8zyxg","slide":3,"text":"Production k","textPreview":"Production k","textChars":12,"textLines":1,"bbox":[590,303,140,24]}
+{"kind":"textbox","id":"sh/kf2pojyp","slide":3,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[590,334,140,40]}
+{"kind":"shape","id":"sh/lgbqxofa","slide":3,"bbox":[774,286,190,112]}
+{"kind":"textbox","id":"sh/ydk7mtgz","slide":3,"text":"Test set","textPreview":"Test set","textChars":8,"textLines":1,"bbox":[794,303,150,24]}
+{"kind":"textbox","id":"sh/zet8vyx4","slide":3,"text":"130 Qs","textPreview":"130 Qs","textChars":6,"textLines":1,"bbox":[794,334,150,40]}
+{"kind":"shape","id":"sh/4bm90ny9","slide":3,"bbox":[988,286,180,112]}
+{"kind":"textbox","id":"sh/5cfq9sfu","slide":3,"text":"In-scope","textPreview":"In-scope","textChars":8,"textLines":1,"bbox":[1008,303,140,24]}
+{"kind":"textbox","id":"sh/dsbqds7y","slide":3,"text":"122","textPreview":"122","textChars":3,"textLines":1,"bbox":[1008,334,140,40]}
+{"kind":"shape","id":"sh/rqt8bips","slide":3,"bbox":[812,448,320,140]}
+{"kind":"textbox","id":"sh/qp07id87","slide":3,"text":"Final retrieval metrics","textPreview":"Final retrieval metrics","textChars":23,"textLines":1,"bbox":[838,474,270,24]}
+{"kind":"textbox","id":"sh/5orq987m","slide":3,"text":"Found Rate@5: 100%\nPrecision@5: 25.74%\nMAP@5: 82.63%\nMRR: 86.15%","textPreview":"Found Rate@5: 100% | Precision@5: 25.74% | MAP@5: 82.63% | MRR: 86.15%","textChars":64,"textLines":4,"bbox":[838,512,270,68]}
+{"kind":"textbox","id":"sh/43ipg3q1","slide":3,"text":"Sources: evaluate.py, data/evaluation/evaluation_summary.json, web/lib/data.ts.","textPreview":"Sources: evaluate.py, data/evaluation/evaluation_summary.json, web/lib/data.ts.","textChars":79,"textLines":1,"bbox":[72,636,1080,20]}
+{"kind":"textbox","id":"sh/32987ypg","slide":3,"text":"15-minute project presentation","textPreview":"15-minute project presentation","textChars":30,"textLines":1,"bbox":[72,672,360,24]}
+{"kind":"textbox","id":"sh/i107ed8b","slide":3,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[1168,672,40,24]}
+{"kind":"chart","id":"ch/obupwvi1","slide":3,"name":"","chartType":"bar","bbox":[90,438,650,170]}
+{"kind":"notes","id":"nt/h7mjy1","slide":3,"text":"[Timing: 4 minutes]\nExplain Precision vs Found Rate: Precision@5 is lower because we retrieve 5 chunks and usually only one exact expected recommendation is counted. Found Rate@5 is the key RAG metric because it confirms the right evidence reaches the generator.\nSay why k=5: it reached 100% found rate on the current test set, while k=1 missed many.\n[Sources]\nevaluate.py, data/evaluation/evaluation_summary.json, data/evaluation/evaluation_summary_k1/k3/k4.json."}
+{"kind":"slide","id":"sl/42k4x9","slide":4,"title":"GENERATION + DEMO","textShapes":15}
+{"kind":"shape","id":"sh/s72pkn2h","slide":4,"bbox":[970,-170,420,420]}
+{"kind":"shape","id":"sh/r6tor21c","slide":4,"bbox":[-170,470,360,360]}
+{"kind":"textbox","id":"sh/q5k7ixkr","slide":4,"text":"GENERATION + DEMO","textPreview":"GENERATION + DEMO","textChars":17,"textLines":1,"bbox":[72,50,500,26]}
+{"kind":"textbox","id":"sh/54b6psj6","slide":4,"text":"The LLM is only allowed to write from retrieved passages","textPreview":"The LLM is only allowed to write from retrieved passages","textChars":56,"textLines":1,"bbox":[72,86,910,88]}
+{"kind":"textbox","id":"sh/43ipgn2l","slide":4,"text":"Demo video should be under 4 minutes and show success, refusal, and citation grounding.","textPreview":"Demo video should be under 4 minutes and show success, refusal, and citation grounding.","textChars":87,"textLines":1,"bbox":[72,176,900,48]}
+{"kind":"shape","id":"sh/329oni10","slide":4,"bbox":[74,270,500,238]}
+{"kind":"textbox","id":"sh/i107edkf","slide":4,"text":"Generation model","textPreview":"Generation model","textChars":16,"textLines":1,"bbox":[106,302,420,28]}
+{"kind":"textbox","id":"sh/90vq1cja","slide":4,"text":"Groq + Qwen 3.6 27B","textPreview":"Groq + Qwen 3.6 27B","textChars":19,"textLines":1,"bbox":[106,342,420,34]}
+{"kind":"shape","id":"sh/ozmps7ip","slide":4,"bbox":[106,407,9,9]}
+{"kind":"textbox","id":"sh/29sryho7","slide":4,"text":"Gemini was tested; quota limits affected demos","textPreview":"Gemini was tested; quota limits affected demos","textChars":46,"textLines":1,"bbox":[128,398,368,38]}
+{"kind":"shape","id":"sh/3a18rm5s","slide":4,"bbox":[106,451,9,9]}
+{"kind":"textbox","id":"sh/4ba90r6d","slide":4,"text":"Prompt builds: recommendation + excerpt + source","textPreview":"Prompt builds: recommendation + excerpt + source","textChars":48,"textLines":1,"bbox":[128,442,368,38]}
+{"kind":"shape","id":"sh/pc3qtwny","slide":4,"bbox":[106,495,9,9]}
+{"kind":"textbox","id":"sh/ulsruhob","slide":4,"text":"Refuses when evidence is missing","textPreview":"Refuses when evidence is missing","textChars":32,"textLines":1,"bbox":[128,486,368,38]}
+{"kind":"shape","id":"sh/fm18nm5g","slide":4,"bbox":[650,270,500,238]}
+{"kind":"textbox","id":"sh/gna9w761","slide":4,"text":"4-minute demo checklist","textPreview":"4-minute demo checklist","textChars":23,"textLines":1,"bbox":[684,302,420,28]}
+{"kind":"shape","id":"sh/h8jqpcnm","slide":4,"bbox":[684,367,9,9]}
+{"kind":"textbox","id":"sh/ehcr614f","slide":4,"text":"In-scope: follow-up after curative surgery","textPreview":"In-scope: follow-up after curative surgery","textChars":42,"textLines":1,"bbox":[706,358,388,38]}
+{"kind":"shape","id":"sh/zilsz650","slide":4,"bbox":[684,413,9,9]}
+{"kind":"textbox","id":"sh/bmxorylc","slide":4,"text":"Out-of-scope: breast or pancreatic cancer","textPreview":"Out-of-scope: breast or pancreatic cancer","textChars":41,"textLines":1,"bbox":[706,404,388,38]}
+{"kind":"shape","id":"sh/alonyt4r","slide":4,"bbox":[684,459,9,9]}
+{"kind":"textbox","id":"sh/xof6t83i","slide":4,"text":"Open NICE source and show supporting text","textPreview":"Open NICE source and show supporting text","textChars":41,"textLines":1,"bbox":[706,450,388,38]}
+{"kind":"textbox","id":"sh/wn6503mx","slide":4,"text":"Sources: generate.py, web_chat_bridge.py, web/components/chat-panel.tsx.","textPreview":"Sources: generate.py, web_chat_bridge.py, web/components/chat-panel.tsx.","textChars":72,"textLines":1,"bbox":[72,636,1080,20]}
+{"kind":"textbox","id":"sh/jqxovil8","slide":4,"text":"15-minute project presentation","textPreview":"15-minute project presentation","textChars":30,"textLines":1,"bbox":[72,672,360,24]}
+{"kind":"textbox","id":"sh/ypon2d43","slide":4,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1168,672,40,24]}
+{"kind":"notes","id":"nt/42k4x9","slide":4,"text":"[Timing: 3 minutes + separate video demo max 4 minutes]\nMention model experiments honestly: embedding model experiments were done; generation model choice changed because Gemini limits affected the demo, and Groq/Qwen was used as a cloud LLM. Do not claim the LLM is the source of truth.\nDemo order: ask an in-scope question, click NICE source, then ask an out-of-scope question and show refusal.\n[Sources]\ngenerate.py SYSTEM_PROMPT, quota_output, refusal_output; chat-panel.tsx source button."}
+{"kind":"slide","id":"sl/k3f1xd","slide":5,"title":"CONCLUSION","textShapes":21}
+{"kind":"shape","id":"sh/jap4b2tc","slide":5,"bbox":[970,-170,420,420]}
+{"kind":"shape","id":"sh/kbyl47ax","slide":5,"bbox":[-170,470,360,360]}
+{"kind":"textbox","id":"sh/lc7mdcr2","slide":5,"text":"CONCLUSION","textPreview":"CONCLUSION","textChars":10,"textLines":1,"bbox":[72,50,500,26]}
+{"kind":"textbox","id":"sh/6d036hsn","slide":5,"text":"The final system is explainable, measured, and demo-ready","textPreview":"The final system is explainable, measured, and demo-ready","textChars":57,"textLines":1,"bbox":[72,86,910,88]}
+{"kind":"textbox","id":"sh/7e94fm98","slide":5,"text":"The strongest result is reliable evidence retrieval with clear limits.","textPreview":"The strongest result is reliable evidence retrieval with clear limits.","textChars":70,"textLines":1,"bbox":[72,176,900,48]}
+{"kind":"shape","id":"sh/8fil8rat","slide":5,"bbox":[88,260,1030,50]}
+{"kind":"textbox","id":"sh/tgrmhcre","slide":5,"text":"Data","textPreview":"Data","textChars":4,"textLines":1,"bbox":[118,273,160,22]}
+{"kind":"textbox","id":"sh/uh03ahsz","slide":5,"text":"2 NICE PDFs","textPreview":"2 NICE PDFs","textChars":11,"textLines":1,"bbox":[318,272,210,24]}
+{"kind":"textbox","id":"sh/v294jm9k","slide":5,"text":"NG151 + colorectal section of NG12","textPreview":"NG151 + colorectal section of NG12","textChars":34,"textLines":1,"bbox":[568,273,510,22]}
+{"kind":"shape","id":"sh/ny1wripk","slide":5,"bbox":[88,326,1030,50]}
+{"kind":"textbox","id":"sh/mxsvydof","slide":5,"text":"Chunks","textPreview":"Chunks","textChars":6,"textLines":1,"bbox":[118,339,160,22]}
+{"kind":"textbox","id":"sh/90jets7q","slide":5,"text":"95","textPreview":"95","textChars":2,"textLines":1,"bbox":[318,338,210,24]}
+{"kind":"textbox","id":"sh/ozad0n65","slide":5,"text":"Structure-aware recursive, 450/80","textPreview":"Structure-aware recursive, 450/80","textChars":33,"textLines":1,"bbox":[568,339,510,22]}
+{"kind":"shape","id":"sh/zahwnipo","slide":5,"bbox":[88,392,1030,50]}
+{"kind":"textbox","id":"sh/e98vud83","slide":5,"text":"Retrieval","textPreview":"Retrieval","textChars":9,"textLines":1,"bbox":[118,405,160,22]}
+{"kind":"textbox","id":"sh/1wjep87u","slide":5,"text":"Top-k = 5","textPreview":"Top-k = 5","textChars":9,"textLines":1,"bbox":[318,404,210,24]}
+{"kind":"textbox","id":"sh/0vadwnq9","slide":5,"text":"100% Found Rate@5 on 122 in-scope questions","textPreview":"100% Found Rate@5 on 122 in-scope questions","textChars":43,"textLines":1,"bbox":[568,405,510,22]}
+{"kind":"shape","id":"sh/jqlwz2ps","slide":5,"bbox":[88,458,1030,50]}
+{"kind":"textbox","id":"sh/i5cf6xo7","slide":5,"text":"Languages","textPreview":"Languages","textChars":9,"textLines":1,"bbox":[118,471,160,22]}
+{"kind":"textbox","id":"sh/ulwzy18f","slide":5,"text":"AR + EN","textPreview":"AR + EN","textChars":7,"textLines":1,"bbox":[318,470,210,24]}
+{"kind":"textbox","id":"sh/fmpgr690","slide":5,"text":"61/61 Arabic, 61/61 English","textPreview":"61/61 Arabic, 61/61 English","textChars":27,"textLines":1,"bbox":[568,471,510,22]}
+{"kind":"shape","id":"sh/gnyh0bql","slide":5,"bbox":[88,524,1030,50]}
+{"kind":"textbox","id":"sh/ho7ytgr6","slide":5,"text":"Limitations","textPreview":"Limitations","textChars":11,"textLines":1,"bbox":[118,537,160,22]}
+{"kind":"textbox","id":"sh/2pgz2l8r","slide":5,"text":"Scope-bound","textPreview":"Scope-bound","textChars":11,"textLines":1,"bbox":[318,536,210,24]}
+{"kind":"textbox","id":"sh/3qp0vq9c","slide":5,"text":"Small domain dataset; wording can affect retrieval; API limits can affect generation","textPreview":"Small domain dataset; wording can affect retrieval; API limits can affect generation","textChars":84,"textLines":1,"bbox":[568,537,510,22]}
+{"kind":"textbox","id":"sh/4ryh4vqx","slide":5,"text":"Sources: config.py, ingest.py, evaluate.py, evaluation_summary.json.","textPreview":"Sources: config.py, ingest.py, evaluate.py, evaluation_summary.json.","textChars":68,"textLines":1,"bbox":[72,636,1080,20]}
+{"kind":"textbox","id":"sh/ps7ixgri","slide":5,"text":"15-minute project presentation","textPreview":"15-minute project presentation","textChars":30,"textLines":1,"bbox":[72,672,360,24]}
+{"kind":"textbox","id":"sh/itczqhsn","slide":5,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1168,672,40,24]}
+{"kind":"notes","id":"nt/k3f1xd","slide":5,"text":"[Timing: 3 minutes]\nClose by summarizing decisions: NICE as trusted data source, e5-base for bilingual embeddings, Chroma for vector DB, k=5 for coverage, Groq/Qwen for concise generation. Be explicit about limitations: not medical advice, not open-domain, API limits can affect generation.\n[Sources]\nconfig.py, ingest.py, evaluate.py, data/evaluation/evaluation_summary.json."}

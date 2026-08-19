@@ -42,12 +42,18 @@ function startRag() {
   if (state.process && !state.process.killed) return state.process;
   const root = path.resolve(process.cwd(), "..");
   const python =
-    process.platform === "win32"
+    process.env.PYTHON_EXECUTABLE ||
+    (process.platform === "win32"
       ? path.join(root, ".venv", "Scripts", "python.exe")
-      : path.join(root, ".venv", "bin", "python");
-  const child = spawn(python, ["web_chat_bridge.py"], {
+      : "python3");
+  const child = spawn(/* turbopackIgnore: true */ python, ["web_chat_bridge.py"], {
     cwd: root,
     windowsHide: true,
+    env: {
+      ...process.env,
+      EMBEDDING_LOCAL_FILES_ONLY:
+        process.env.EMBEDDING_LOCAL_FILES_ONLY ?? "false",
+    },
   });
   state.process = child;
   readline.createInterface({ input: child.stdout }).on("line", (line) => {

@@ -42,6 +42,38 @@ ARABIC_DISCLAIMER = (
     "طبيب أو ممارس صحي مؤهل."
 )
 
+OTHER_CANCER_PATTERNS = (
+    # Regex101: سرطان\s+(?:ال)?كبد|سرطان\s+(?:ال)?كبد
+    r"سرطان\s+(?:ال)?كبد",
+    # Regex101: سرطان\s+(?:ال)?معدة
+    r"سرطان\s+(?:ال)?معدة",
+    # Regex101: سرطان\s+(?:ال)?بنكرياس
+    r"سرطان\s+(?:ال)?بنكرياس",
+    # Regex101: سرطان\s+(?:ال)?ثدي
+    r"سرطان\s+(?:ال)?ثدي",
+    # Regex101: liver cancer|stomach cancer|pancreatic cancer|breast cancer
+    r"liver cancer|stomach cancer|pancreatic cancer|breast cancer",
+)
+
+COLORECTAL_PATTERNS = (
+    # Regex101: القولون|المستقيم|colorectal|colon|rectal|bowel
+    r"القولون|المستقيم|colorectal|colon|rectal|bowel",
+)
+
+MEDICATION_ADVICE_PATTERNS = (
+    # Regex101: مسكن|مسكنات|دواء|ادوية|أدوية|برشام|حبوب|جرعة
+    r"مسكن|مسكنات|دواء|ادوية|أدوية|برشام|حبوب|جرعة",
+    # Regex101: painkiller|medicine|medication|dose|dosage
+    r"painkiller|medicine|medication|dose|dosage",
+)
+
+CANCER_PROGRESSION_CAUSE_PATTERNS = (
+    # Regex101: حساسي(?:ه|ة)|مادة|ماده|كيميائي(?:ه|ة)|كيماوي(?:ه|ة)|ينتشر|انتشار|بسرعه|بسرعة
+    r"حساسي(?:ه|ة)|مادة|ماده|كيميائي(?:ه|ة)|كيماوي(?:ه|ة)|ينتشر|انتشار|بسرعه|بسرعة",
+    # Regex101: allergy|allergic|chemical|spread|progress|progression|faster
+    r"allergy|allergic|chemical|spread|progress|progression|faster",
+)
+
 ARABIC_SECTIONS = {
     "1.1 Reduction in risk of colorectal cancer in people with Lynch syndrome": "1.1 تقليل خطر سرطان القولون والمستقيم لدى الأشخاص المصابين بمتلازمة لينش",
     "1.2 Information for people with colorectal cancer": "1.2 معلومات للأشخاص المصابين بسرطان القولون والمستقيم",
@@ -103,6 +135,67 @@ Do not list every retrieved passage or repeat the same point.
 def is_arabic(text: str) -> bool:
     # Regex101: [\u0600-\u06FF]
     return bool(re.search(r"[\u0600-\u06FF]", text))
+
+
+def is_explicit_other_cancer_question(question: str) -> bool:
+    """Detect explicit cancer types outside the indexed colorectal scope."""
+    text = question.lower()
+    mentions_other_cancer = any(
+        re.search(pattern, text, re.IGNORECASE)
+        for pattern in OTHER_CANCER_PATTERNS
+    )
+    mentions_colorectal = any(
+        re.search(pattern, text, re.IGNORECASE)
+        for pattern in COLORECTAL_PATTERNS
+    )
+    return mentions_other_cancer and not mentions_colorectal
+
+
+def is_medication_advice_question(question: str) -> bool:
+    """Detect medicine, painkiller or dose questions not covered by this index."""
+    text = question.lower()
+    # Do not block guideline treatment questions such as radiotherapy,
+    # chemotherapy, surgery, immunotherapy or systemic anticancer therapy.
+    # Regex101: علاج|اشعاع|إشعاع|كيماوي|جراحة|عملية|immunotherapy|radiotherapy|chemotherapy|surgery|systemic anticancer
+    if re.search(
+        r"علاج|اشعاع|إشعاع|كيماوي|جراحة|عملية|immunotherapy|radiotherapy|chemotherapy|surgery|systemic anticancer",
+        text,
+        re.IGNORECASE,
+    ):
+        return False
+    return any(
+        re.search(pattern, text, re.IGNORECASE)
+        for pattern in MEDICATION_ADVICE_PATTERNS
+    )
+
+
+def is_progression_cause_question(question: str) -> bool:
+    """Detect unsupported questions about what makes cancer spread faster."""
+    text = question.lower()
+    score = sum(
+        1
+        for pattern in CANCER_PROGRESSION_CAUSE_PATTERNS
+        if re.search(pattern, text, re.IGNORECASE)
+    )
+    # Require a cancer/progression idea, not a random single word like "مادة".
+    # Regex101: سرطان|cancer
+    mentions_cancer = bool(re.search(r"سرطان|cancer", text, re.IGNORECASE))
+    # Regex101: ينتشر|انتشار|بسرعه|بسرعة|spread|progress|progression|faster
+    mentions_spread = bool(
+        re.search(
+            r"ينتشر|انتشار|بسرعه|بسرعة|spread|progress|progression|faster",
+            text,
+            re.IGNORECASE,
+        )
+    )
+    return mentions_cancer and mentions_spread and score > 0
+
+
+def is_fever_question(question: str) -> bool:
+    """Detect fever/temperature questions."""
+    text = question.lower()
+    # Regex101: سخونه|سخونة|حرارة|حمى|fever|temperature
+    return bool(re.search(r"سخونه|سخونة|حرارة|حمى|fever|temperature", text, re.IGNORECASE))
 
 
 def terminal_display(text: str) -> str:
@@ -184,6 +277,87 @@ def refusal_output(arabic: bool) -> str:
     )
 
 
+def out_of_scope_cancer_output(arabic: bool) -> str:
+    """Refuse clearly when the user asks about a different cancer type."""
+    if arabic:
+        return (
+            "التوصية:\n"
+            "هذا السؤال خارج نطاق النظام الحالي؛ قاعدة المعرفة المفهرسة عندي "
+            "خاصة بسرطان القولون والمستقيم فقط. لا أستطيع تقديم إجابة مبنية "
+            "على الدليل عن نوع سرطان آخر من هذه الداتا.\n\n"
+            "النص الداعم:\n"
+            "لم يتم العثور على نص داعم داخل دليل سرطان القولون والمستقيم لهذا "
+            "السؤال.\n\n"
+            "المصدر:\n[لا يوجد مصدر]"
+        )
+    return (
+        "Recommendation:\n"
+        "This question is outside the current system scope. The indexed "
+        "knowledge base is about colorectal cancer only, so I cannot provide "
+        "a guideline-grounded answer about another cancer type from this data.\n\n"
+        "Excerpt:\n"
+        "No supporting passage was found in the colorectal cancer guideline for "
+        "this question.\n\n"
+        "Citation:\n[No citation]"
+    )
+
+
+def medication_safety_output(arabic: bool) -> str:
+    """Refuse medicine/dose advice with a useful safety message."""
+    if arabic:
+        return (
+            "التوصية:\n"
+            "الدليل المفهرس لا يحتوي على توصية محددة عن اختيار مسكن أو جرعته. "
+            "لا تبدأ أو تغيّر أي دواء بدون سؤال الطبيب أو الصيدلي، خصوصًا مع "
+            "السرطان أو أثناء العلاج. إذا كان الألم شديدًا، مفاجئًا، أو يزداد "
+            "بسرعة، تواصل مع فريق الرعاية أو اطلب مساعدة طبية.\n\n"
+            "النص الداعم:\n"
+            "لم يتم العثور على نص داعم في دليل NICE المفهرس يحدد نوع مسكن أو "
+            "جرعة مناسبة لهذا السؤال.\n\n"
+            "المصدر:\n[لا يوجد مصدر]"
+        )
+    return (
+        "Recommendation:\n"
+        "The indexed guideline does not contain a specific recommendation about "
+        "which painkiller to take or what dose to use. Do not start or change "
+        "medicine without asking a clinician or pharmacist, especially during "
+        "cancer treatment. If pain is severe, sudden or getting worse, contact "
+        "your care team or seek medical help.\n\n"
+        "Excerpt:\n"
+        "No supporting passage was found in the indexed NICE guideline that "
+        "specifies a painkiller type or dose for this question.\n\n"
+        "Citation:\n[No citation]"
+    )
+
+
+def progression_cause_output(arabic: bool) -> str:
+    """Refuse unsupported cancer-spread cause questions safely."""
+    if arabic:
+        return (
+            "التوصية:\n"
+            "الدليل المفهرس لا يحتوي على معلومة تثبت أن الحساسية من مادة معينة "
+            "أو التعرض لمادة كيميائية يجعل سرطان القولون والمستقيم ينتشر بسرعة. "
+            "إذا كانت الحساسية مرتبطة بدواء أو علاج كيماوي، أخبر طبيب الأورام "
+            "قبل أي جرعة حتى يقرر البديل أو الاحتياطات المناسبة.\n\n"
+            "النص الداعم:\n"
+            "لم يتم العثور على نص داعم في دليل NICE المفهرس يربط الحساسية أو "
+            "مادة كيميائية بسرعة انتشار السرطان.\n\n"
+            "المصدر:\n[لا يوجد مصدر]"
+        )
+    return (
+        "Recommendation:\n"
+        "The indexed guideline does not contain evidence that an allergy to a "
+        "specific substance or chemical exposure makes colorectal cancer spread "
+        "faster. If the allergy is related to a medicine or chemotherapy, tell "
+        "your oncology team before treatment so they can choose safe precautions "
+        "or alternatives.\n\n"
+        "Excerpt:\n"
+        "No supporting passage was found in the indexed NICE guideline linking "
+        "allergy or a chemical substance to faster cancer spread.\n\n"
+        "Citation:\n[No citation]"
+    )
+
+
 def add_disclaimer(answer: str, arabic: bool) -> str:
     """Add a visible clinical-safety disclaimer once to every answer."""
     disclaimer = ARABIC_DISCLAIMER if arabic else DISCLAIMER
@@ -254,6 +428,187 @@ def stage_symptoms_output(row: dict, arabic: bool) -> str:
         "Offer quantitative faecal immunochemical testing (FIT) to guide referral "
         "for suspected colorectal cancer in adults with the listed warning signs.\n\n"
         f"Citation:\n{citation}"
+    )
+
+
+def newly_diagnosed_output(rows: list[dict], arabic: bool) -> str:
+    """Answer broad newly diagnosed questions as a practical checklist.
+
+    These questions are usually phrased as "what should I do now?".  NICE NG151
+    section 1.2 does not give a personal emergency plan; it says what
+    information the care team should explain.  A deterministic answer is clearer
+    and safer than asking the LLM to improvise wording for this broad intent.
+    """
+    citations = []
+    for row in rows:
+        if row["section_title"].startswith("1.2") or re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]):
+            citation = citation_for(row, arabic)
+            if citation not in citations:
+                citations.append(citation)
+    citation_text = "; ".join(citations[:3]) if citations else citation_for(rows[0], arabic)
+
+    if arabic:
+        return (
+            "التوصية:\n"
+            "بعد التشخيص، اطلب من فريق الرعاية شرح خيارات العلاج المناسبة لك "
+            "مثل الجراحة أو العلاج الإشعاعي أو العلاج الجهازي أو الرعاية "
+            "التلطيفية، مع فوائد ومخاطر وآثار كل اختيار. اسأل أيضًا عن تأثير "
+            "العلاج على الأمعاء والبول والوظيفة الجنسية وجودة الحياة، وكيفية "
+            "إدارة الآثار الجانبية، ومتى وأين تطلب المساعدة.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE بإعطاء المصابين بسرطان القولون والمستقيم معلومات عن كل "
+            "خيارات العلاج المتاحة، وفوائدها ومخاطرها وآثارها الجانبية، وكذلك "
+            "معلومات عن الآثار قصيرة وطويلة المدى، والاستعداد للتعافي وطلب "
+            "المساعدة إذا أصبحت الآثار الجانبية مشكلة.\n\n"
+            f"المصدر:\n{citation_text}"
+        )
+    return (
+        "Recommendation:\n"
+        "After diagnosis, ask your care team to explain the treatment options "
+        "available to you, such as surgery, radiotherapy, systemic anticancer "
+        "therapy or palliative care, including the benefits, risks and side "
+        "effects of each option. Also ask about effects on bowel, urinary and "
+        "sexual function, quality of life, side-effect management, and when and "
+        "where to seek help.\n\n"
+        "Excerpt:\n"
+        "NICE recommends giving people information on all colorectal cancer "
+        "treatment options, including potential benefits, risks, side effects "
+        "and implications, plus information about short-term and long-term side "
+        "effects and when to seek help.\n\n"
+        f"Citation:\n{citation_text}"
+    )
+
+
+def diet_discharge_output(row: dict, arabic: bool) -> str:
+    """Answer diet questions without inventing a food list not present in NICE."""
+    citation = citation_for(row, arabic)
+    if arabic:
+        return (
+            "التوصية:\n"
+            "دليل NICE لا يذكر قائمة محددة بالأكل المسموح أو الممنوع. لكنه يوصي "
+            "أن يعطي فريق الرعاية نصائح غذائية بعد علاج سرطان القولون والمستقيم، "
+            "خصوصًا عن الأطعمة التي قد تسبب أو تزيد مشاكل الأمعاء مثل الإسهال، "
+            "الغازات، عدم التحكم في البراز، أو صعوبة تفريغ الأمعاء.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE بمساعدة المرضى على الاستعداد للخروج بعد العلاج بإعطائهم "
+            "نصائح عن النظام الغذائي، بما في ذلك الأطعمة التي قد تسبب أو تساهم "
+            "في مشاكل الأمعاء مثل الإسهال والغازات وعدم التحكم وصعوبة تفريغ "
+            "الأمعاء.\n\n"
+            f"المصدر:\n{citation}"
+        )
+    return (
+        "Recommendation:\n"
+        "NICE does not give a fixed list of allowed or forbidden foods. It "
+        "recommends that the care team give diet advice after colorectal cancer "
+        "treatment, especially about foods that can cause or contribute to bowel "
+        "problems such as diarrhoea, flatulence, incontinence or difficulty "
+        "emptying the bowels.\n\n"
+        "Excerpt:\n"
+        "NICE recommends discharge advice on diet, including foods that can "
+        "cause or contribute to bowel problems such as diarrhoea, flatulence, "
+        "incontinence and difficulty emptying the bowels.\n\n"
+        f"Citation:\n{citation}"
+    )
+
+
+def physical_activity_output(row: dict, arabic: bool) -> str:
+    """Answer exercise questions from NICE recommendation 1.2.7."""
+    citation = citation_for(row, arabic)
+    if arabic:
+        return (
+            "التوصية:\n"
+            "دليل NICE لا يعطي برنامج رياضي محدد، لكنه يوصي أن يعطي فريق الرعاية "
+            "نصائح عن تعديل النشاط البدني بعد علاج سرطان القولون والمستقيم للحفاظ "
+            "على جودة الحياة. اسأل فريقك عن نوع وشدة الرياضة المناسبة لحالتك.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE بمساعدة المرضى على الاستعداد للخروج بعد العلاج بإعطائهم "
+            "نصائح عن تعديل النشاط البدني للحفاظ على جودة الحياة.\n\n"
+            f"المصدر:\n{citation}"
+        )
+    return (
+        "Recommendation:\n"
+        "NICE does not give a specific exercise programme. It recommends that "
+        "the care team advise people after colorectal cancer treatment on "
+        "adapting physical activity to maintain quality of life. Ask your care "
+        "team what type and intensity of exercise is suitable for your case.\n\n"
+        "Excerpt:\n"
+        "NICE recommends discharge advice on adapting physical activity to "
+        "maintain quality of life.\n\n"
+        f"Citation:\n{citation}"
+    )
+
+
+def fever_symptoms_output(row: dict, arabic: bool) -> str:
+    """Say fever is not listed in the retrieved NICE colorectal warning signs."""
+    citation = citation_for(row, arabic)
+    if arabic:
+        return (
+            "التوصية:\n"
+            "النص المفهرس من NICE عن الاشتباه في سرطان القولون والمستقيم لا يذكر "
+            "السخونة كعلامة إحالة محددة. العلامات المذكورة تشمل كتلة بالبطن، تغير "
+            "في عادات الإخراج، أنيميا نقص الحديد، أو بعض حالات نزيف المستقيم مع "
+            "ألم بالبطن أو فقدان وزن غير مفسر. لو عندك سخونة مستمرة أو شديدة، "
+            "استشر طبيبًا.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE باستخدام اختبار FIT لتوجيه الإحالة عند الاشتباه بسرطان "
+            "القولون والمستقيم في حالات مثل كتلة بالبطن، تغير عادات الإخراج، "
+            "أنيميا نقص الحديد، وبعض حالات نزيف المستقيم أو الألم بالبطن أو فقدان "
+            "الوزن غير المفسر.\n\n"
+            f"المصدر:\n{citation}"
+        )
+    return (
+        "Recommendation:\n"
+        "The indexed NICE colorectal cancer referral passage does not list fever "
+        "as a specific referral sign. It lists signs such as an abdominal mass, "
+        "change in bowel habit, iron-deficiency anaemia, and some cases of "
+        "rectal bleeding with abdominal pain or unexplained weight loss. If "
+        "fever is persistent or severe, consult a clinician.\n\n"
+        "Excerpt:\n"
+        "NICE recommends FIT to guide referral for suspected colorectal cancer "
+        "with signs such as abdominal mass, change in bowel habit, iron-deficiency "
+        "anaemia, rectal bleeding, abdominal pain or unexplained weight loss.\n\n"
+        f"Citation:\n{citation}"
+    )
+
+
+def preoperative_rectal_radiotherapy_output(rows: list[dict], arabic: bool) -> str:
+    """Answer rectal-cancer preoperative radiotherapy questions from 1.3.4/1.3.5."""
+    relevant = [
+        row
+        for row in rows
+        if re.match(r"^\s*-?\s*1\.3\.[45]\b", row["text"])
+    ]
+    citations = []
+    for row in relevant or rows[:1]:
+        citation = citation_for(row, arabic)
+        if citation not in citations:
+            citations.append(citation)
+    citation_text = "; ".join(citations)
+
+    if arabic:
+        return (
+            "التوصية:\n"
+            "يعتمد ذلك على مرحلة سرطان المستقيم. لا توصي NICE بالعلاج الإشعاعي "
+            "قبل العملية في سرطان المستقيم المبكر cT1-T2 cN0 M0 إلا داخل تجربة "
+            "سريرية. لكنها توصي بالعلاج الإشعاعي أو الكيماوي الإشعاعي قبل "
+            "العملية في cT1-T2 cN1-N2 M0 أو cT3-T4 بأي cN مع M0.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE بعدم تقديم العلاج الإشعاعي قبل العملية لسرطان المستقيم "
+            "المبكر إلا داخل تجربة سريرية، وتوصي بتقديم العلاج الإشعاعي أو "
+            "الكيماوي الإشعاعي قبل العملية لحالات محددة من سرطان المستقيم.\n\n"
+            f"المصدر:\n{citation_text}"
+        )
+    return (
+        "Recommendation:\n"
+        "It depends on the rectal cancer stage. NICE says not to offer "
+        "preoperative radiotherapy for early rectal cancer cT1-T2 cN0 M0 unless "
+        "as part of a clinical trial. It recommends preoperative radiotherapy "
+        "or chemoradiotherapy for cT1-T2 cN1-N2 M0, or cT3-T4 any cN M0.\n\n"
+        "Excerpt:\n"
+        "NICE says not to offer preoperative radiotherapy for early rectal cancer "
+        "unless part of a clinical trial, and to offer preoperative radiotherapy "
+        "or chemoradiotherapy for specified rectal cancer stages.\n\n"
+        f"Citation:\n{citation_text}"
     )
 
 
@@ -436,12 +791,29 @@ def get_generation_model(api_key: str) -> ChatGroq:
 
 def generate(question: str, rows: list[dict] | None = None) -> str:
     """Retrieve evidence, then produce a grounded answer or a safe refusal."""
-    rows = search(question) if rows is None else rows
     arabic = is_arabic(question)
+    if is_explicit_other_cancer_question(question):
+        return add_disclaimer(out_of_scope_cancer_output(arabic), arabic)
+    if is_medication_advice_question(question):
+        return add_disclaimer(medication_safety_output(arabic), arabic)
+    if is_progression_cause_question(question):
+        return add_disclaimer(progression_cause_output(arabic), arabic)
+
+    rows = search(question) if rows is None else rows
     if not rows or rows[0]["score"] < config.MIN_RETRIEVAL_SCORE:
         return add_disclaimer(refusal_output(arabic), arabic)
+    if is_fever_question(question) and rows[0].get("intent") == "symptoms_referral":
+        return add_disclaimer(fever_symptoms_output(rows[0], arabic), arabic)
+    if rows[0].get("intent") == "preoperative_rectal_radiotherapy":
+        return add_disclaimer(preoperative_rectal_radiotherapy_output(rows, arabic), arabic)
     if asks_for_stage_symptoms(question, rows):
         return add_disclaimer(stage_symptoms_output(rows[0], arabic), arabic)
+    if rows[0].get("intent") == "newly_diagnosed_information":
+        return add_disclaimer(newly_diagnosed_output(rows, arabic), arabic)
+    if rows[0].get("intent") == "diet_discharge":
+        return add_disclaimer(diet_discharge_output(rows[0], arabic), arabic)
+    if rows[0].get("intent") == "physical_activity":
+        return add_disclaimer(physical_activity_output(rows[0], arabic), arabic)
     if rows[0].get("intent") == "symptoms_referral":
         rows = rows[:1]
 

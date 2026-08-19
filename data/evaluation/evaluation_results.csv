@@ -5,11 +5,11 @@
 1,2,en,What is aspirin's role in preventing colon cancer for Lynch syndrome patients?,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.9105,ng151-p7-c2,7
 2,1,ar,إيه علاجات سرطان المستقيم المبكر المتاحة؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,3,0.6,1.0,1.0,0.8835,ng151-p10-12-c2-part1,10-12
 2,2,ar,لو عندي سرطان مستقيم في مرحلة مبكرة اختياراتي إيه؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,3,0.6,1.0,1.0,0.878,ng151-p10-12-c2-part1,10-12
-2,1,en,What treatments are available for early rectal cancer?,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,3,0.6,1.0,1.0,0.903,ng151-p10-12-c2-part1,10-12
+2,1,en,What treatments are available for early rectal cancer?,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,FAIL,no,,0,0.0,0.0,0,0.8878,ng151-p26-c5,26
 2,2,en,"If I have early-stage rectal cancer, what are my options?",Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,2,1,0.2,0.5,0.5,0.8587,ng151-p13-c2,13
-3,1,ar,هل المريض ياخد علاج إشعاعي قبل جراحة سرطان المستقيم؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,2,2,0.4,0.5833,0.5,0.7912,ng151-p10-12-c2-part1,10-12
+3,1,ar,هل المريض ياخد علاج إشعاعي قبل جراحة سرطان المستقيم؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,1.0,1.0,0.8767,ng151-p13-c3,13
 3,2,ar,إمتى بيتحدد إن المريض محتاج علاج إشعاعي قبل العملية؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,3,2,0.4,0.3667,0.3333,0.7718,ng151-p10-12-c2-part1,10-12
-3,1,en,Is preoperative radiotherapy given before rectal cancer surgery?,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,1.0,1.0,0.8902,ng151-p13-c2,13
+3,1,en,Is preoperative radiotherapy given before rectal cancer surgery?,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,1.0,1.0,0.9173,ng151-p13-c2,13
 3,2,en,When is preoperative radiotherapy indicated before surgery?,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,1,2,0.4,1.0,1.0,0.8511,ng151-p13-c2,13
 4,1,ar,هل الجراحة بالمنظار أفضل من الجراحة المفتوحة لسرطان المستقيم؟,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,2,1,0.2,0.5,0.5,0.7905,ng151-p17-c2,17
 4,2,ar,إيه التقنية الجراحية الموصى بيها لسرطان المستقيم؟,Recommendation 1.3.8 - Page 14,1.3.8,5,PASS,yes,3,1,0.2,0.3333,0.3333,0.7952,ng151-p14-c4,14
@@ -29,29 +29,29 @@
 7,2,en,Is RAS and BRAF testing required before targeted therapy?,Recommendation 1.4.1 - Page 18,1.4.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.858,ng151-p18-c2,18
 8,1,ar,إيه علاج سرطان القولون اللي انتشر للكبد؟,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,1,2,0.4,0.5,1.0,0.8527,ng151-p24-c1,24
 8,2,ar,لو المريض عنده ورم ثانوي في الكبد الخيارات إيه؟,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,1,2,0.4,0.5,1.0,0.847,ng151-p24-c1,24
-8,1,en,What is the treatment for colorectal cancer that has spread to the liver?,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,1,2,0.4,0.5,1.0,0.8891,ng151-p24-c1,24
+8,1,en,What is the treatment for colorectal cancer that has spread to the liver?,Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,3,1,0.2,0.0833,0.3333,0.8907,ng151-p9-c1,9
 8,2,en,"If a patient has a secondary liver tumour, what are the options?",Recommendations 1.5.14-1.5.17 - Page 23,1.5.14;1.5.15;1.5.16;1.5.17,5,PASS,yes,1,2,0.4,0.5,1.0,0.8715,ng151-p24-c2,24
 9,1,ar,إزاي بيتابعوا المريض بعد جراحة سرطان القولون؟,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,3,1,0.2,0.3333,0.3333,0.7828,ng151-p8-c3,8
 9,2,ar,إيه الفحوصات الدورية بعد العلاج الشافي؟,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,3,1,0.2,0.3333,0.3333,0.7771,ng151-p26-c5,26
 9,1,en,How is a patient followed up after colorectal cancer surgery?,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.8623,ng151-p26-c2,26
-9,2,en,What routine tests happen after curative treatment?,Recommendation 1.6.1 - Page 26,1.6.1,5,PASS,yes,5,1,0.2,0.2,0.2,0.7996,ng151-p18-c1,18
+9,2,en,What routine tests happen after curative treatment?,Recommendation 1.6.1 - Page 26,1.6.1,5,FAIL,no,,0,0.0,0.0,0,0.8816,ng151-p26-c5,26
 10,1,ar,إيه هو LARS وإزاي بيتعالج؟,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,3,0.6,1.0,1.0,0.7737,ng151-p26-c5,26
-10,2,ar,إيه المشاكل اللي بتحصل بعد جراحة حفظ العضلة العاصرة؟,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,2,1,0.2,0.1667,0.5,0.7787,ng151-p10-12-c2-part3,10-12
-10,1,en,What is LARS and how is it treated?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,3,0.6,1.0,1.0,0.8377,ng151-p26-c5,26
+10,2,ar,إيه المشاكل اللي بتحصل بعد جراحة حفظ العضلة العاصرة؟,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,2,2,0.4,0.3889,0.5,0.845,ng151-p9-c1,9
+10,1,en,What is LARS and how is it treated?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,3,0.6,1.0,1.0,0.9098,ng151-p26-c5,26
 10,2,en,What problems occur after sphincter-preserving surgery?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,1,0.2,0.3333,1.0,0.8411,ng151-p26-c3,26
 11,1,ar,إيه أعراض سرطان المعدة؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.789,ng151-p26-c3,26
 11,1,en,What are the symptoms of stomach cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.843,ng151-p26-c3,26
 12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendations 1.2.1-1.2.7 - Pages 7-9,1.2.1;1.2.2;1.2.3;1.2.4;1.2.5;1.2.6;1.2.7,5,PASS,yes,1,3,0.6,0.6,1.0,0.8385,ng151-p8-c3,8
 12,2,ar,ما خيارات العلاج وفوائده ومخاطره التي يجب أن أعرفها قبل العلاج؟,Recommendation 1.2.1 - Page 7,1.2.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.7915,ng151-p7-c3,7
 12,1,en,What information should the care team explain to a person with colorectal cancer?,Recommendations 1.2.1-1.2.7 - Pages 7-9,1.2.1;1.2.2;1.2.3;1.2.4;1.2.5;1.2.6;1.2.7,5,PASS,yes,1,4,0.8,0.71,1.0,0.8809,ng151-p8-c5,8
-12,2,en,What treatment options benefits and risks should be explained before colorectal cancer treatment?,Recommendation 1.2.1 - Page 7,1.2.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.868,ng151-p7-c3,7
+12,2,en,What treatment options benefits and risks should be explained before colorectal cancer treatment?,Recommendation 1.2.1 - Page 7,1.2.1,5,PASS,yes,2,1,0.2,0.5,0.5,0.8874,ng151-p9-c1,9
 13,1,ar,ما النصائح التي يجب إعطاؤها للمريض قبل الخروج من المستشفى بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8119,ng151-p9-c1,9
 13,2,ar,كيف يستعد المريض للخروج بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.7902,ng151-p9-c1,9
-13,1,en,What advice should be given before discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8713,ng151-p9-c1,9
-13,2,en,How should a person prepare for discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8624,ng151-p9-c1,9
+13,1,en,What advice should be given before discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8985,ng151-p9-c1,9
+13,2,en,How should a person prepare for discharge after colorectal cancer treatment?,Recommendation 1.2.7 - Page 9,1.2.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8966,ng151-p9-c1,9
 14,1,ar,ما الإجراء المناسب لانسداد الأمعاء الغليظة في الجهة اليسرى عندما يكون العلاج تلطيفياً؟,Recommendation 1.3.1 - Page 9,1.3.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.8731,ng151-p9-c2,9
 14,2,ar,هل يمكن استخدام دعامة في الانسداد الحاد للقولون قبل العلاج التلطيفي؟,Recommendation 1.3.1 - Page 9,1.3.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.8552,ng151-p9-c2,9
-14,1,en,What is recommended for acute left-sided large bowel obstruction when treatment is palliative?,Recommendation 1.3.1 - Page 9,1.3.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.9126,ng151-p9-c2,9
+14,1,en,What is recommended for acute left-sided large bowel obstruction when treatment is palliative?,Recommendation 1.3.1 - Page 9,1.3.1,5,PASS,yes,2,1,0.2,0.5,0.5,0.8924,ng151-p9-c1,9
 14,2,en,Can a stent be used for acute left-sided bowel obstruction with palliative intent?,Recommendation 1.3.1 - Page 9,1.3.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.9092,ng151-p9-c2,9
 15,1,ar,متى يمكن التفكير في الجراحة الروبوتية لسرطان المستقيم؟,Recommendation 1.3.10 - Page 14,1.3.10,5,PASS,yes,1,1,0.2,1.0,1.0,0.7935,ng151-p14-c4,14
 15,2,ar,هل الجراحة الروبوتية موصى بها لكل مرضى سرطان المستقيم؟,Recommendation 1.3.10 - Page 14,1.3.10,5,PASS,yes,1,1,0.2,1.0,1.0,0.8021,ng151-p14-c4,14
@@ -66,21 +66,21 @@
 17,1,en,How should LARS symptoms be assessed after rectal cancer surgery?,Recommendation 1.6.3 - Page 26,1.6.3,5,PASS,yes,2,1,0.2,0.5,0.5,0.893,ng151-p26-c3,26
 17,2,en,Are validated questionnaires used to assess low anterior resection syndrome?,Recommendation 1.6.3 - Page 26,1.6.3,5,PASS,yes,1,1,0.2,1.0,1.0,0.8546,ng151-p26-c4,26
 18,1,ar,لماذا قد تتغير خطة علاج سرطان القولون والمستقيم أثناء الرعاية؟,Recommendation 1.2.2 - Page 7,1.2.2,5,PASS,yes,1,1,0.2,1.0,1.0,0.8037,ng151-p7-c4,7
-18,1,en,Why might a colorectal cancer treatment plan change during care?,Recommendation 1.2.2 - Page 7,1.2.2,5,PASS,yes,1,1,0.2,1.0,1.0,0.8623,ng151-p7-c4,7
+18,1,en,Why might a colorectal cancer treatment plan change during care?,Recommendation 1.2.2 - Page 7,1.2.2,5,PASS,yes,5,1,0.2,0.2,0.2,0.8841,ng151-p9-c1,9
 19,1,ar,ما معنى بروتوكولات التعافي السريع بعد جراحة سرطان القولون والمستقيم؟,Recommendation 1.2.3 - Page 8,1.2.3,5,PASS,yes,1,1,0.2,1.0,1.0,0.7984,ng151-p8-c2,8
 19,1,en,What should patients be told about enhanced recovery after surgery protocols?,Recommendation 1.2.3 - Page 8,1.2.3,5,PASS,yes,1,1,0.2,1.0,1.0,0.8582,ng151-p8-c2,8
 20,1,ar,ما الآثار الجانبية التي يجب مناقشتها بعد جراحة سرطان القولون والمستقيم؟,Recommendation 1.2.4 - Page 8,1.2.4,5,PASS,yes,1,1,0.2,1.0,1.0,0.8193,ng151-p8-c3,8
 20,1,en,What side effects should specialists discuss after colorectal cancer surgery?,Recommendation 1.2.4 - Page 8,1.2.4,5,PASS,yes,1,1,0.2,1.0,1.0,0.8862,ng151-p8-c3,8
 21,1,ar,لماذا يجب متابعة الآثار الجانبية أثناء العلاج غير الجراحي؟,Recommendation 1.2.5 - Page 8,1.2.5,5,PASS,yes,1,1,0.2,1.0,1.0,0.8121,ng151-p8-c4,8
-21,1,en,Why should side effects be monitored during non-surgical colorectal cancer treatment?,Recommendation 1.2.5 - Page 8,1.2.5,5,PASS,yes,1,1,0.2,1.0,1.0,0.9037,ng151-p8-c4,8
+21,1,en,Why should side effects be monitored during non-surgical colorectal cancer treatment?,Recommendation 1.2.5 - Page 8,1.2.5,5,PASS,yes,1,1,0.2,1.0,1.0,0.8954,ng151-p8-c4,8
 22,1,ar,ما المعلومات المطلوبة عن الآثار قصيرة وطويلة المدى بعد علاج سرطان القولون والمستقيم؟,Recommendation 1.2.6 - Page 8,1.2.6,5,PASS,yes,1,1,0.2,1.0,1.0,0.8681,ng151-p8-c5,8
-22,1,en,What information is needed about short-term and long-term side effects after colorectal cancer treatment?,Recommendation 1.2.6 - Page 8,1.2.6,5,PASS,yes,1,1,0.2,1.0,1.0,0.8975,ng151-p8-c5,8
+22,1,en,What information is needed about short-term and long-term side effects after colorectal cancer treatment?,Recommendation 1.2.6 - Page 8,1.2.6,5,PASS,yes,1,1,0.2,1.0,1.0,0.8981,ng151-p8-c5,8
 23,1,ar,لو انسداد القولون الأيسر الحاد والعلاج ممكن يكون شافي ما الخيارات؟,Recommendation 1.3.2 - Page 9,1.3.2,5,PASS,yes,1,1,0.2,1.0,1.0,0.863,ng151-p9-c3,9
 23,1,en,For acute left-sided large bowel obstruction with curative intent what options are offered?,Recommendation 1.3.2 - Page 9,1.3.2,5,PASS,yes,1,1,0.2,1.0,1.0,0.8985,ng151-p9-c3,9
 24,1,ar,متى يتم تقديم الجراحة لمريض سرطان المستقيم القابل للاستئصال؟,Recommendation 1.3.6 - Page 13,1.3.6,5,PASS,yes,1,1,0.2,1.0,1.0,0.8728,ng151-p13-c4,13
 24,1,en,When is surgery offered for resectable rectal cancer?,Recommendation 1.3.6 - Page 13,1.3.6,5,PASS,yes,1,1,0.2,1.0,1.0,0.9084,ng151-p13-c4,13
 25,1,ar,هل يمكن تأجيل الجراحة بعد استجابة كاملة للعلاج قبل العملية؟,Recommendation 1.3.7 - Page 13,1.3.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.7919,ng151-p13-c5,13
-25,1,en,Can surgery be deferred after a complete clinical and radiological response to neoadjuvant treatment?,Recommendation 1.3.7 - Page 13,1.3.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8718,ng151-p13-c5,13
+25,1,en,Can surgery be deferred after a complete clinical and radiological response to neoadjuvant treatment?,Recommendation 1.3.7 - Page 13,1.3.7,5,PASS,yes,1,1,0.2,1.0,1.0,0.8931,ng151-p13-c5,13
 26,1,ar,متى يفضل التفكير في الجراحة المفتوحة لسرطان المستقيم؟,Recommendation 1.3.9 - Page 14,1.3.9,5,PASS,yes,3,1,0.2,0.3333,0.3333,0.7918,ng151-p10-12-c2-part1,10-12
 26,1,en,When should open surgery be considered for rectal cancer?,Recommendation 1.3.9 - Page 14,1.3.9,5,PASS,yes,1,1,0.2,1.0,1.0,0.883,ng151-p14-c3,14
 27,1,ar,هل جراحة transanal TME مستخدمة عادة أم في إطار بحثي فقط؟,Recommendation 1.3.11 - Page 14,1.3.11,5,PASS,yes,1,1,0.2,1.0,1.0,0.8273,ng151-p14-c5,14
@@ -90,25 +90,25 @@
 29,1,ar,ما العلاج الكيماوي المساعد المقترح لسرطان المستقيم المرحلة الثالثة؟,Recommendation 1.3.15 - Page 15,1.3.15,5,PASS,yes,1,1,0.2,1.0,1.0,0.8031,ng151-p15-c5,15
 29,1,en,What adjuvant chemotherapy is offered for stage 3 rectal cancer?,Recommendation 1.3.15 - Page 15,1.3.15,5,PASS,yes,1,1,0.2,1.0,1.0,0.8663,ng151-p15-c5,15
 30,1,ar,هل الاستئصال بالمنظار مناسب لعلاج سرطان القولون؟,Recommendation 1.3.17 - Page 17,1.3.17,5,PASS,yes,1,1,0.2,1.0,1.0,0.7873,ng151-p17-c2,17
-30,1,en,Is laparoscopic resection an option for treating colon cancer?,Recommendation 1.3.17 - Page 17,1.3.17,5,PASS,yes,1,1,0.2,1.0,1.0,0.8973,ng151-p17-c2,17
+30,1,en,Is laparoscopic resection an option for treating colon cancer?,Recommendation 1.3.17 - Page 17,1.3.17,5,PASS,yes,1,1,0.2,1.0,1.0,0.887,ng151-p17-c2,17
 31,1,ar,ما العلاج المناعي لسرطان القولون والمستقيم المنتشر غير القابل للاستئصال مع MSI عالي أو نقص MMR؟,Recommendations 1.5.1-1.5.2 - Page 19,1.5.1;1.5.2,5,PASS,yes,1,2,0.4,0.75,1.0,0.8902,ng151-p19-c2,19
-31,1,en,What immunotherapy options are recommended for untreated metastatic colorectal cancer with high MSI or MMR deficiency?,Recommendations 1.5.1-1.5.2 - Page 19,1.5.1;1.5.2,5,PASS,yes,1,2,0.4,0.8333,1.0,0.9139,ng151-p19-c2,19
+31,1,en,What immunotherapy options are recommended for untreated metastatic colorectal cancer with high MSI or MMR deficiency?,Recommendations 1.5.1-1.5.2 - Page 19,1.5.1;1.5.2,5,PASS,yes,3,2,0.4,0.4167,0.3333,0.8866,ng151-p20-c4,20
 32,1,ar,ما العلاجات الموجهة لسرطان القولون والمستقيم المنتشر RAS wild-type؟,Recommendations 1.5.3-1.5.4 - Pages 19-20,1.5.3;1.5.4,5,PASS,yes,1,2,0.4,1.0,1.0,0.8264,ng151-p19-20-c5,19-20
-32,1,en,What targeted therapies are options for untreated RAS wild-type metastatic colorectal cancer?,Recommendations 1.5.3-1.5.4 - Pages 19-20,1.5.3;1.5.4,5,PASS,yes,1,2,0.4,1.0,1.0,0.8823,ng151-p19-20-c5,19-20
+32,1,en,What targeted therapies are options for untreated RAS wild-type metastatic colorectal cancer?,Recommendations 1.5.3-1.5.4 - Pages 19-20,1.5.3;1.5.4,5,PASS,yes,2,2,0.4,0.5,0.5,0.8874,ng151-p26-c5,26
 33,1,ar,متى يستخدم bevacizumab أو capecitabine في سرطان القولون والمستقيم المنتشر غير المعالج؟,Recommendations 1.5.5-1.5.6 - Page 20,1.5.5;1.5.6,5,PASS,yes,1,2,0.4,0.75,1.0,0.8313,ng151-p20-c2,20
-33,1,en,When are bevacizumab or capecitabine used for untreated metastatic colorectal cancer?,Recommendations 1.5.5-1.5.6 - Page 20,1.5.5;1.5.6,5,PASS,yes,1,2,0.4,1.0,1.0,0.8896,ng151-p20-c2,20
+33,1,en,When are bevacizumab or capecitabine used for untreated metastatic colorectal cancer?,Recommendations 1.5.5-1.5.6 - Page 20,1.5.5;1.5.6,5,PASS,yes,1,2,0.4,0.8333,1.0,0.8872,ng151-p20-c2,20
 34,1,ar,ما خيارات العلاج بعد العلاج الكيماوي لسرطان القولون والمستقيم المنتشر مع MSI عالي أو نقص MMR؟,Recommendations 1.5.7-1.5.8 - Pages 20-21,1.5.7;1.5.8,5,PASS,yes,2,2,0.4,0.5833,0.5,0.8864,ng151-p19-c2,19
 34,1,en,What options are recommended after chemotherapy for metastatic colorectal cancer with high MSI or MMR deficiency?,Recommendations 1.5.7-1.5.8 - Pages 20-21,1.5.7;1.5.8,5,PASS,yes,2,2,0.4,0.5,0.5,0.9123,ng151-p19-c2,19
 35,1,ar,ما علاج سرطان القولون والمستقيم المنتشر مع طفرة BRAF V600E بعد علاج سابق؟,Recommendation 1.5.9 - Page 21,1.5.9,5,PASS,yes,1,1,0.2,1.0,1.0,0.8313,ng151-p21-c2,21
-35,1,en,What is recommended for BRAF V600E mutation-positive metastatic colorectal cancer after previous treatment?,Recommendation 1.5.9 - Page 21,1.5.9,5,PASS,yes,1,1,0.2,1.0,1.0,0.9173,ng151-p21-c2,21
+35,1,en,What is recommended for BRAF V600E mutation-positive metastatic colorectal cancer after previous treatment?,Recommendation 1.5.9 - Page 21,1.5.9,5,PASS,yes,1,1,0.2,1.0,1.0,0.885,ng151-p21-c2,21
 36,1,ar,متى يستخدم bevacizumab كعلاج خط ثاني لسرطان القولون والمستقيم المنتشر؟,Recommendation 1.5.10 - Page 21,1.5.10,5,PASS,yes,1,1,0.2,1.0,1.0,0.8378,ng151-p21-c3,21
-36,1,en,When is bevacizumab used as second-line treatment for metastatic colorectal cancer?,Recommendation 1.5.10 - Page 21,1.5.10,5,PASS,yes,1,1,0.2,1.0,1.0,0.8949,ng151-p21-c3,21
+36,1,en,When is bevacizumab used as second-line treatment for metastatic colorectal cancer?,Recommendation 1.5.10 - Page 21,1.5.10,5,PASS,yes,1,1,0.2,1.0,1.0,0.8888,ng151-p21-c3,21
 37,1,ar,ما الدواء المذكور للأورام الصلبة ذات اندماج NTRK عندما لا توجد خيارات مناسبة؟,Recommendation 1.5.13 - Page 22,1.5.13,5,PASS,yes,1,1,0.2,1.0,1.0,0.8238,ng151-p22-c2,22
 37,1,en,What drug is mentioned for NTRK fusion-positive solid tumours when there are no satisfactory options?,Recommendation 1.5.13 - Page 22,1.5.13,5,PASS,yes,1,1,0.2,1.0,1.0,0.8838,ng151-p22-c2,22
 38,1,ar,هل SIRT يقدم كعلاج أولي لنقائل سرطان القولون والمستقيم في الكبد غير المناسبة للعلاج الموضعي؟,Recommendation 1.5.18 - Page 24,1.5.18,5,PASS,yes,1,1,0.2,1.0,1.0,0.8323,ng151-p24-c3,24
-38,1,en,Is SIRT offered as first-line treatment for colorectal liver metastases unsuitable for local treatment?,Recommendation 1.5.18 - Page 24,1.5.18,5,PASS,yes,1,1,0.2,1.0,1.0,0.9027,ng151-p24-c3,24
+38,1,en,Is SIRT offered as first-line treatment for colorectal liver metastases unsuitable for local treatment?,Recommendation 1.5.18 - Page 24,1.5.18,5,PASS,yes,1,1,0.2,1.0,1.0,0.8914,ng151-p24-c3,24
 39,1,ar,ما الخيارات المحلية لنقائل سرطان القولون والمستقيم في الرئة؟,Recommendation 1.5.19 - Page 24,1.5.19,5,PASS,yes,1,1,0.2,1.0,1.0,0.8521,ng151-p24-c4,24
-39,1,en,What local treatment options are considered for colorectal cancer lung metastases?,Recommendation 1.5.19 - Page 24,1.5.19,5,PASS,yes,1,1,0.2,1.0,1.0,0.904,ng151-p24-c4,24
+39,1,en,What local treatment options are considered for colorectal cancer lung metastases?,Recommendation 1.5.19 - Page 24,1.5.19,5,PASS,yes,3,1,0.2,0.3333,0.3333,0.8898,ng151-p26-c5,26
 40,1,ar,متى يتم التفكير في أخذ عينة من آفة واحدة في الرئة؟,Recommendation 1.5.20 - Page 25,1.5.20,5,PASS,yes,4,1,0.2,0.25,0.25,0.8436,ng151-p24-c4,24
 40,1,en,When should biopsy be considered for a single lung lesion?,Recommendation 1.5.20 - Page 25,1.5.20,5,PASS,yes,1,1,0.2,1.0,1.0,0.8421,ng151-p25-c1,25
 41,1,ar,ما التعامل مع نقائل سرطان القولون والمستقيم المحدودة في الصفاق؟,Recommendation 1.5.21 - Page 25,1.5.21,5,PASS,yes,1,1,0.2,1.0,1.0,0.8614,ng151-p25-c2,25
@@ -124,8 +124,8 @@
 46,1,ar,هل كتلة المستقيم تستدعي إحالة لمسار سرطان مشتبه به؟,Recommendation 1.3.5 - NG12 Page 16,1.3.5,5,PASS,yes,1,1,0.2,1.0,1.0,0.79,ng12-rec-1-3-5-part1,16
 46,1,en,Does a rectal mass need suspected cancer pathway referral for colorectal cancer?,Recommendation 1.3.5 - NG12 Page 16,1.3.5,5,PASS,yes,1,1,0.2,1.0,1.0,0.8893,ng12-rec-1-3-5-part1,16
 47,1,ar,ما أعراض سرطان البنكرياس؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.7651,ng151-p26-c3,26
-47,1,en,What are the symptoms of pancreatic cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.8217,ng151-p26-c3,26
+47,1,en,What are the symptoms of pancreatic cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.8829,ng151-p9-c1,9
 48,1,ar,ما علاج سرطان الثدي؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.7749,ng151-p19-c4,19
-48,1,en,What is the treatment for breast cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.8195,ng151-p20-c2,20
+48,1,en,What is the treatment for breast cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.8868,ng151-p9-c1,9
 49,1,ar,هل مرض السكري يسبب ألم في القدم؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.7293,ng151-p8-c4,8
 49,1,en,Does diabetes cause foot pain?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.7906,ng151-p26-c5,26

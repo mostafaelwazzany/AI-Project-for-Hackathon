@@ -9,11 +9,19 @@ import unicodedata
 INTENTS = {
     "symptoms_referral": {
         "description": "colorectal cancer warning symptoms signs recognition FIT testing and referral",
-        "cues": ("اعراض", "أعراض", "علامات", "نزيف", "دم في البراز", "symptom", "sign", "rectal bleeding", "bowel habit"),
+        "cues": ("اعراض", "أعراض", "علامات", "سخونه", "سخونة", "حرارة", "حمى", "نزيف", "دم في البراز", "symptom", "sign", "fever", "temperature", "rectal bleeding", "bowel habit"),
     },
     "newly_diagnosed_information": {
         "description": "information and treatment options for a person newly diagnosed with colorectal cancer",
         "cues": ("اتشخصت", "تشخصت", "عندي سرطان", "اعمل اي", "أعمل إيه", "اتكلم مع مين", "diagnosed", "i have colon", "what should i do"),
+    },
+    "diet_discharge": {
+        "description": "colorectal cancer discharge diet advice foods that can cause bowel problems diarrhoea flatulence incontinence difficulty emptying bowels",
+        "cues": ("اكل", "أكل", "الاكل", "الأكل", "غذا", "نظام غذائي", "مسموح اكله", "مسموح أكله", "اكل ايه", "آكل إيه", "diet", "food", "eat", "allowed food"),
+    },
+    "physical_activity": {
+        "description": "colorectal cancer discharge advice adapting physical activity to maintain quality of life",
+        "cues": ("رياضه", "رياضة", "تمرين", "اتمرن", "نشاط بدني", "مجهود", "العب رياضه", "ألعب رياضة", "exercise", "sport", "physical activity", "work out"),
     },
     "follow_up": {
         "description": "follow-up surveillance after curative colorectal cancer surgery recurrence CEA CT",
@@ -22,6 +30,10 @@ INTENTS = {
     "early_rectal_treatment": {
         "description": "early rectal cancer treatment choices table 1 transanal excision TAE TAMIS TEMS endoscopic submucosal dissection ESD total mesorectal excision TME",
         "cues": ("سرطان المستقيم المبكر", "مرحلة مبكرة", "early rectal cancer", "early-stage rectal cancer"),
+    },
+    "preoperative_rectal_radiotherapy": {
+        "description": "preoperative radiotherapy or chemoradiotherapy before surgery for rectal cancer recommendations 1.3.4 and 1.3.5",
+        "cues": ("علاج إشعاعي قبل جراحة سرطان المستقيم", "علاج اشعاعي قبل جراحة سرطان المستقيم", "قبل جراحة سرطان المستقيم", "preoperative radiotherapy", "chemoradiotherapy before surgery", "before rectal cancer surgery"),
     },
     "bowel_obstruction_stent": {
         "description": "acute left-sided large bowel obstruction stenting palliative intent",

@@ -1,0 +1,292 @@
+{"kind":"deck","id":"pr/8qracp","name":"Deck"}
+{"kind":"layout","layoutId":"5aa7f113-7d79-4505-a4eb-d0feed24ad46","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"3334fd8a-23a8-4a38-8972-1e7766068cf8","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/puc9ap","slide":1,"title":"Evidence-grounded AI","textShapes":11}
+{"kind":"shape","id":"sh/0f2943e9","slide":1,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/zut8byxo","slide":1,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/etkr2tw3","slide":1,"name":"text","text":"Evidence-grounded AI","textPreview":"Evidence-grounded AI","textChars":20,"textLines":1,"bbox":[72,70,430,30]}
+{"kind":"textbox","id":"sh/9kvqh8fq","slide":1,"name":"text","text":"Colorectal Cancer\nAssistant","textPreview":"Colorectal Cancer | Assistant","textChars":27,"textLines":2,"bbox":[72,132,680,150]}
+{"kind":"textbox","id":"sh/oj298ne5","slide":1,"name":"text","text":"A bilingual RAG assistant that answers only from NICE guidance, with citations and private retrieval analytics.","textPreview":"A bilingual RAG assistant that answers only from NICE guidance, with citations and private retrieval analytics.","textChars":111,"textLines":1,"bbox":[76,306,690,74]}
+{"kind":"shape","id":"sh/nit8fixk","slide":1,"bbox":[820,118,330,360]}
+{"kind":"textbox","id":"sh/mhkr6dwf","slide":1,"name":"text","text":"Team","textPreview":"Team","textChars":4,"textLines":1,"bbox":[850,146,260,34]}
+{"kind":"textbox","id":"sh/xovalsf2","slide":1,"name":"text","text":"Mostafa Ayman - Team Leader","textPreview":"Mostafa Ayman - Team Leader","textChars":27,"textLines":1,"bbox":[850,202,260,30]}
+{"kind":"textbox","id":"sh/wnm9cneh","slide":1,"name":"text","text":"Menna Adel","textPreview":"Menna Adel","textChars":10,"textLines":1,"bbox":[850,246,260,30]}
+{"kind":"textbox","id":"sh/mx076lwz","slide":1,"name":"text","text":"Asr Mohamed","textPreview":"Asr Mohamed","textChars":11,"textLines":1,"bbox":[850,290,260,30]}
+{"kind":"textbox","id":"sh/ny9ofqdk","slide":1,"name":"text","text":"Roaa Youssef","textPreview":"Roaa Youssef","textChars":12,"textLines":1,"bbox":[850,334,260,30]}
+{"kind":"textbox","id":"sh/oz2p8ve5","slide":1,"name":"text","text":"Nour Soft","textPreview":"Nour Soft","textChars":9,"textLines":1,"bbox":[850,378,260,30]}
+{"kind":"textbox","id":"sh/90b6h0vq","slide":1,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/a1k7alwb","slide":1,"name":"text","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/puc9ap","slide":1,"text":"[Sources]\nProject files: README.md, config.py, evaluation_summary.json.\nTeam names provided by the user: مصطفى أيمن، منه عادل، أسر محمد، رؤى يوسف، نور صوفت."}
+{"kind":"slide","id":"sl/3sv700","slide":2,"title":"PROBLEM","textShapes":10}
+{"kind":"shape","id":"sh/tcvmlkz6","slide":2,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/6943a50f","slide":2,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/rad4jah0","slide":2,"name":"text","text":"PROBLEM","textPreview":"PROBLEM","textChars":7,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/gfm5gzih","slide":2,"name":"text","text":"Clinical answers fail when they are not grounded","textPreview":"Clinical answers fail when they are not grounded","textChars":48,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/1gvmp4z2","slide":2,"name":"text","text":"General chatbots can sound confident even when the answer needs a trusted guideline.","textPreview":"General chatbots can sound confident even when the answer needs a trusted guideline.","textChars":84,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/ed4nep0b","slide":2,"bbox":[92,293,10,10]}
+{"kind":"textbox","id":"sh/fed4nuhw","slide":2,"name":"text","text":"Medical questions need traceable evidence, not unsupported model memory.","textPreview":"Medical questions need traceable evidence, not unsupported model memory.","textChars":72,"textLines":1,"bbox":[114,285,798,44]}
+{"kind":"shape","id":"sh/o365kzyt","slide":2,"bbox":[92,353,10,10]}
+{"kind":"textbox","id":"sh/p4fmt4zy","slide":2,"name":"text","text":"Arabic users should get the same quality as English users.","textPreview":"Arabic users should get the same quality as English users.","textChars":58,"textLines":1,"bbox":[114,345,798,44]}
+{"kind":"shape","id":"sh/xw7mdgz2","slide":2,"bbox":[92,413,10,10]}
+{"kind":"textbox","id":"sh/cvy54bih","slide":2,"name":"text","text":"The system must refuse when NICE guidance does not support the answer.","textPreview":"The system must refuse when NICE guidance does not support the answer.","textChars":70,"textLines":1,"bbox":[114,405,798,44]}
+{"kind":"shape","id":"sh/bup4b6hc","slide":2,"bbox":[930,284,230,158]}
+{"kind":"textbox","id":"sh/atgn210r","slide":2,"name":"text","text":"Design goal","textPreview":"Design goal","textChars":11,"textLines":1,"bbox":[956,310,178,30]}
+{"kind":"textbox","id":"sh/lkr6hgze","slide":2,"name":"text","text":"Fast, cited, bilingual, and safe enough to explain.","textPreview":"Fast, cited, bilingual, and safe enough to explain.","textChars":51,"textLines":1,"bbox":[956,354,178,60]}
+{"kind":"textbox","id":"sh/kji58byt","slide":2,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/zy9ofqh8","slide":2,"name":"text","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/3sv700","slide":2,"text":"[Sources]\nClaim is based on project scope and generate.py safety prompt."}
+{"kind":"slide","id":"sl/ufo1ux","slide":3,"title":"SOLUTION","textShapes":17}
+{"kind":"shape","id":"sh/47i5sbed","slide":3,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/j694z6ds","slide":3,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/i50nq1w7","slide":3,"name":"text","text":"SOLUTION","textPreview":"SOLUTION","textChars":8,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/h47mxwfm","slide":3,"name":"text","text":"A compact full-stack RAG system","textPreview":"A compact full-stack RAG system","textChars":31,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/w3y5ore1","slide":3,"name":"text","text":"We separated knowledge retrieval from answer generation so every response can be tied back to NICE.","textPreview":"We separated knowledge retrieval from answer generation so every response can be tied back to NICE.","textChars":99,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/v2p4vmxg","slide":3,"bbox":[72,286,250,120]}
+{"kind":"shape","id":"sh/u1gnmhwb","slide":3,"bbox":[90,308,42,42]}
+{"kind":"textbox","id":"sh/10b690vq","slide":3,"name":"text","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[90,314,42,24]}
+{"kind":"textbox","id":"sh/gz250vel","slide":3,"name":"text","text":"Parse","textPreview":"Parse","textChars":5,"textLines":1,"bbox":[148,306,154,28]}
+{"kind":"textbox","id":"sh/ahcv6tof","slide":3,"name":"text","text":"Convert NICE PDFs into cleaned Markdown and page records.","textPreview":"Convert NICE PDFs into cleaned Markdown and page records.","textChars":57,"textLines":1,"bbox":[148,340,154,48]}
+{"kind":"shape","id":"sh/b2lwzy50","slide":3,"bbox":[350,286,250,120]}
+{"kind":"shape","id":"sh/c3ud836l","slide":3,"bbox":[368,308,42,42]}
+{"kind":"textbox","id":"sh/x43e18nq","slide":3,"name":"text","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[368,314,42,24]}
+{"kind":"textbox","id":"sh/2dsv2to3","slide":3,"name":"text","text":"Chunk","textPreview":"Chunk","textChars":5,"textLines":1,"bbox":[426,306,154,28]}
+{"kind":"textbox","id":"sh/nelcve5o","slide":3,"name":"text","text":"Split by document structure, recommendation numbers, and token budget.","textPreview":"Split by document structure, recommendation numbers, and token budget.","textChars":70,"textLines":1,"bbox":[426,340,154,48]}
+{"kind":"shape","id":"sh/ofud4j69","slide":3,"bbox":[628,286,250,120]}
+{"kind":"shape","id":"sh/pg3uxonu","slide":3,"bbox":[646,308,42,42]}
+{"kind":"textbox","id":"sh/m9wved4n","slide":3,"name":"text","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[646,314,42,24]}
+{"kind":"textbox","id":"sh/7a5w7i58","slide":3,"name":"text","text":"Embed","textPreview":"Embed","textChars":5,"textLines":1,"bbox":[704,306,154,28]}
+{"kind":"textbox","id":"sh/jexszalk","slide":3,"name":"text","text":"Use multilingual-e5-base to create vectors for every chunk.","textPreview":"Use multilingual-e5-base to create vectors for every chunk.","textChars":59,"textLines":1,"bbox":[704,340,154,48]}
+{"kind":"shape","id":"sh/idor654z","slide":3,"bbox":[906,286,250,120]}
+{"kind":"shape","id":"sh/5gza1k3q","slide":3,"bbox":[924,308,42,42]}
+{"kind":"textbox","id":"sh/4fqt8fm5","slide":3,"name":"text","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[924,314,42,24]}
+{"kind":"textbox","id":"sh/rihs3ulg","slide":3,"name":"text","text":"Answer","textPreview":"Answer","textChars":6,"textLines":1,"bbox":[982,306,154,28]}
+{"kind":"textbox","id":"sh/6h8bap4v","slide":3,"name":"text","text":"Retrieve Top-5 evidence, generate a short cited response.","textPreview":"Retrieve Top-5 evidence, generate a short cited response.","textChars":57,"textLines":1,"bbox":[982,340,154,48]}
+{"kind":"textbox","id":"sh/dkza5k3m","slide":3,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/sjqtcfm1","slide":3,"name":"text","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/ufo1ux","slide":3,"text":"[Sources]\ningest.py, query.py, generate.py."}
+{"kind":"slide","id":"sl/91u8fd","slide":4,"title":"DATA FOUNDATION","textShapes":9}
+{"kind":"shape","id":"sh/h83uxsbq","slide":4,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/ulcvmxsz","slide":4,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/fmlcvitk","slide":4,"name":"text","text":"DATA FOUNDATION","textPreview":"DATA FOUNDATION","textChars":15,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/sjudknat","slide":4,"name":"text","text":"Two NICE sources cover treatment and referral","textPreview":"Two NICE sources cover treatment and referral","textChars":45,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/tk3utsbe","slide":4,"name":"text","text":"NG151 is the core colorectal cancer guideline. NG12 fills the recognition and referral gap.","textPreview":"NG151 is the core colorectal cancer guideline. NG12 fills the recognition and referral gap.","textChars":91,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/6hsvids3","slide":4,"bbox":[84,282,500,210]}
+{"kind":"textbox","id":"sh/7i1crito","slide":4,"name":"text","text":"NICE NG151","textPreview":"NICE NG151","textChars":10,"textLines":1,"bbox":[118,316,420,38]}
+{"kind":"textbox","id":"sh/cfedw7ad","slide":4,"name":"text","text":"Management of colorectal cancer: local disease, metastatic disease, follow-up, patient information.","textPreview":"Management of colorectal cancer: local disease, metastatic disease, follow-up, patient information.","textChars":99,"textLines":1,"bbox":[118,372,420,80]}
+{"kind":"shape","id":"sh/dgne5cry","slide":4,"bbox":[696,282,500,210]}
+{"kind":"textbox","id":"sh/tob2xk3m","slide":4,"name":"text","text":"NICE NG12","textPreview":"NICE NG12","textChars":9,"textLines":1,"bbox":[730,316,420,38]}
+{"kind":"textbox","id":"sh/8n214f21","slide":4,"name":"text","text":"Only the colorectal recognition and referral recommendations were added: symptoms, FIT, referral pathway.","textPreview":"Only the colorectal recognition and referral recommendations were added: symptoms, FIT, referral pathway.","textChars":105,"textLines":1,"bbox":[730,372,420,80]}
+{"kind":"textbox","id":"sh/7mt0valg","slide":4,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/ml0j25kv","slide":4,"name":"text","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/91u8fd","slide":4,"text":"[Sources]\nconfig.py, supplementary_sources.py, data/raw PDFs."}
+{"kind":"slide","id":"sl/pt69ky","slide":5,"title":"INGESTION","textShapes":13}
+{"kind":"shape","id":"sh/lk3uhkry","slide":5,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/yhcvmpsn","slide":5,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/jilcfu98","slide":5,"name":"text","text":"INGESTION","textPreview":"INGESTION","textChars":9,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/wfadkfah","slide":5,"name":"text","text":"The PDF becomes clean, citation-ready evidence","textPreview":"The PDF becomes clean, citation-ready evidence","textChars":46,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/xgjudkr2","slide":5,"name":"text","text":"The ingestion script keeps enough structure for retrieval and citations.","textPreview":"The ingestion script keeps enough structure for retrieval and citations.","textChars":72,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/adsvi5sb","slide":5,"bbox":[90,300,220,110]}
+{"kind":"textbox","id":"sh/be1cba9w","slide":5,"name":"text","text":"PDF pages","textPreview":"PDF pages","textChars":9,"textLines":1,"bbox":[108,335,184,30]}
+{"kind":"textbox","id":"sh/obadgfal","slide":5,"name":"text","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[328,332,48,40]}
+{"kind":"shape","id":"sh/9cju90rq","slide":5,"bbox":[376,300,220,110]}
+{"kind":"textbox","id":"sh/dkzils7y","slide":5,"name":"text","text":"Clean Markdown","textPreview":"Clean Markdown","textChars":14,"textLines":1,"bbox":[394,335,184,30]}
+{"kind":"textbox","id":"sh/cjqhsn6d","slide":5,"name":"text","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[614,332,48,40]}
+{"kind":"shape","id":"sh/bih0jips","slide":5,"bbox":[662,300,220,110]}
+{"kind":"textbox","id":"sh/qh8zqdo7","slide":5,"name":"text","text":"Recommendation chunks","textPreview":"Recommendation chunks","textChars":21,"textLines":1,"bbox":[680,335,184,30]}
+{"kind":"textbox","id":"sh/pgzihs7m","slide":5,"name":"text","text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[900,332,48,40]}
+{"kind":"shape","id":"sh/ofqhon6h","slide":5,"bbox":[948,300,220,110]}
+{"kind":"textbox","id":"sh/3eh0fipw","slide":5,"name":"text","text":"Chroma vectors","textPreview":"Chroma vectors","textChars":14,"textLines":1,"bbox":[966,335,184,30]}
+{"kind":"textbox","id":"sh/2d8zmdob","slide":5,"name":"text","text":"130 evaluation questions • 95 indexed chunks • 51 parsed page records","textPreview":"130 evaluation questions • 95 indexed chunks • 51 parsed page records","textChars":69,"textLines":1,"bbox":[170,494,940,34]}
+{"kind":"textbox","id":"sh/1cfid87q","slide":5,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/gr6hk365","slide":5,"name":"text","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/pt69ky","slide":5,"text":"[Sources]\ndata/evaluation/evaluation_summary.json, data/chunks/chunks.jsonl, data/processed/pages.jsonl."}
+{"kind":"slide","id":"sl/od35hg","slide":6,"title":"CHUNKING","textShapes":13}
+{"kind":"shape","id":"sh/ozi98r6l","slide":6,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/3y9szmp0","slide":6,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/2x0r6hof","slide":6,"name":"text","text":"CHUNKING","textPreview":"CHUNKING","textChars":8,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/d4ba5w72","slide":6,"name":"text","text":"We used structure-aware recursive chunking","textPreview":"We used structure-aware recursive chunking","textChars":42,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/c329cr6h","slide":6,"name":"text","text":"Not a blind fixed-size split. The splitter respects recommendation boundaries and tables where possible.","textPreview":"Not a blind fixed-size split. The splitter respects recommendation boundaries and tables where possible.","textChars":104,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/b2ts3mpc","slide":6,"bbox":[98,306,300,124]}
+{"kind":"textbox","id":"sh/q1krahor","slide":6,"name":"text","text":"Chunk size","textPreview":"Chunk size","textChars":10,"textLines":1,"bbox":[120,326,256,24]}
+{"kind":"textbox","id":"sh/lsva9g7e","slide":6,"name":"text","text":"450 tokens","textPreview":"450 tokens","textChars":10,"textLines":1,"bbox":[120,356,256,42]}
+{"kind":"shape","id":"sh/0rmtgb6t","slide":6,"bbox":[490,306,300,124]}
+{"kind":"textbox","id":"sh/qlwfat8r","slide":6,"name":"text","text":"Overlap","textPreview":"Overlap","textChars":7,"textLines":1,"bbox":[512,326,256,24]}
+{"kind":"textbox","id":"sh/rm5g3ypc","slide":6,"name":"text","text":"80 tokens","textPreview":"80 tokens","textChars":9,"textLines":1,"bbox":[512,356,256,42]}
+{"kind":"shape","id":"sh/snexc3qx","slide":6,"bbox":[882,306,300,124]}
+{"kind":"textbox","id":"sh/dony587i","slide":6,"name":"text","text":"Final chunks","textPreview":"Final chunks","textChars":12,"textLines":1,"bbox":[904,326,256,24]}
+{"kind":"textbox","id":"sh/epgfedo3","slide":6,"name":"text","text":"95","textPreview":"95","textChars":2,"textLines":1,"bbox":[904,356,256,42]}
+{"kind":"shape","id":"sh/fqpg7ipo","slide":6,"bbox":[150,490,10,10]}
+{"kind":"textbox","id":"sh/0ryxgn69","slide":6,"name":"text","text":"Document-aware: recommendation numbers, pages, tables, sections.","textPreview":"Document-aware: recommendation numbers, pages, tables, sections.","textChars":64,"textLines":1,"bbox":[172,482,898,44]}
+{"kind":"shape","id":"sh/1s7y987e","slide":6,"bbox":[150,540,10,10]}
+{"kind":"textbox","id":"sh/utcf298z","slide":6,"name":"text","text":"Recursive: paragraphs, lines, sentences, words as fallback separators.","textPreview":"Recursive: paragraphs, lines, sentences, words as fallback separators.","textChars":70,"textLines":1,"bbox":[172,532,898,44]}
+{"kind":"textbox","id":"sh/vulwvep4","slide":6,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/jyhc3a5w","slide":6,"name":"text","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/od35hg","slide":6,"text":"[Sources]\nconfig.py CHUNK_SIZE/CHUNK_OVERLAP, ingest.py split_page/split_text."}
+{"kind":"slide","id":"sl/v5775a","slide":7,"title":"EMBEDDING AND VECTOR SEARCH","textShapes":11}
+{"kind":"shape","id":"sh/l8vqt07e","slide":7,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/y54ril8n","slide":7,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/z6d8rqp8","slide":7,"name":"text","text":"EMBEDDING AND VECTOR SEARCH","textPreview":"EMBEDDING AND VECTOR SEARCH","textChars":27,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/c329gvqx","slide":7,"name":"text","text":"The search layer is open-source and bilingual","textPreview":"The search layer is open-source and bilingual","textChars":45,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/d4bqpg7i","slide":7,"name":"text","text":"Arabic and English questions are mapped into the same vector space as the guideline chunks.","textPreview":"Arabic and English questions are mapped into the same vector space as the guideline chunks.","textChars":91,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/qhkrel8r","slide":7,"bbox":[90,292,480,224]}
+{"kind":"textbox","id":"sh/b2t8nqpc","slide":7,"name":"text","text":"Embedding model","textPreview":"Embedding model","textChars":15,"textLines":1,"bbox":[126,326,400,28]}
+{"kind":"textbox","id":"sh/wz69sfq1","slide":7,"name":"text","text":"intfloat/multilingual-e5-base","textPreview":"intfloat/multilingual-e5-base","textChars":29,"textLines":1,"bbox":[126,372,390,44]}
+{"kind":"textbox","id":"sh/x0fa1k7m","slide":7,"name":"text","text":"Chosen because it handles Arabic/English retrieval without a paid embedding API.","textPreview":"Chosen because it handles Arabic/English retrieval without a paid embedding API.","textChars":80,"textLines":1,"bbox":[126,436,390,48]}
+{"kind":"shape","id":"sh/lk7yp476","slide":7,"bbox":[710,292,360,224]}
+{"kind":"textbox","id":"sh/kjyxwz61","slide":7,"name":"text","text":"Vector database","textPreview":"Vector database","textChars":15,"textLines":1,"bbox":[744,326,300,28]}
+{"kind":"textbox","id":"sh/jy5gnupg","slide":7,"name":"text","text":"Chroma","textPreview":"Chroma","textChars":6,"textLines":1,"bbox":[744,374,300,44]}
+{"kind":"textbox","id":"sh/yxwfupov","slide":7,"name":"text","text":"Persistent local store with chunk metadata for citations.","textPreview":"Persistent local store with chunk metadata for citations.","textChars":57,"textLines":1,"bbox":[744,436,292,48]}
+{"kind":"textbox","id":"sh/xwnyl47a","slide":7,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/wvexsz6p","slide":7,"name":"text","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/v5775a","slide":7,"text":"[Sources]\nrequirements.txt, config.py, ingest.py build_index."}
+{"kind":"slide","id":"sl/ra2ady","slide":8,"title":"RETRIEVAL TO ANSWER","textShapes":18}
+{"kind":"shape","id":"sh/vap4fqh0","slide":8,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/gby58vil","slide":8,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/hw7mhgz6","slide":8,"name":"text","text":"RETRIEVAL TO ANSWER","textPreview":"RETRIEVAL TO ANSWER","textChars":19,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/65w3210j","slide":8,"name":"text","text":"Generation is constrained by retrieved evidence","textPreview":"Generation is constrained by retrieved evidence","textChars":47,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/7654b6h4","slide":8,"name":"text","text":"The LLM writes the final answer, but it is not allowed to invent outside the passages.","textPreview":"The LLM writes the final answer, but it is not allowed to invent outside the passages.","textChars":86,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/87el4bip","slide":8,"bbox":[86,286,250,120]}
+{"kind":"shape","id":"sh/t8nmdgza","slide":8,"bbox":[104,308,42,42]}
+{"kind":"textbox","id":"sh/q10ne5gn","slide":8,"name":"text","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[104,314,42,24]}
+{"kind":"textbox","id":"sh/r294nah8","slide":8,"name":"text","text":"Understand","textPreview":"Understand","textChars":10,"textLines":1,"bbox":[162,306,154,28]}
+{"kind":"textbox","id":"sh/nyl0bqp0","slide":8,"name":"text","text":"Normalize Arabic and detect intent.","textPreview":"Normalize Arabic and detect intent.","textChars":35,"textLines":1,"bbox":[162,340,154,48]}
+{"kind":"shape","id":"sh/2xczilof","slide":8,"bbox":[364,286,250,120]}
+{"kind":"shape","id":"sh/p03idgn6","slide":8,"bbox":[382,308,42,42]}
+{"kind":"textbox","id":"sh/ozuhkb6l","slide":8,"name":"text","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[382,314,42,24]}
+{"kind":"textbox","id":"sh/b2l0fq5c","slide":8,"name":"text","text":"Retrieve","textPreview":"Retrieve","textChars":8,"textLines":1,"bbox":[440,306,154,28]}
+{"kind":"textbox","id":"sh/a1czmlor","slide":8,"name":"text","text":"Search Chroma using Top-k = 5.","textPreview":"Search Chroma using Top-k = 5.","textChars":30,"textLines":1,"bbox":[440,340,154,48]}
+{"kind":"shape","id":"sh/x4nih0n2","slide":8,"bbox":[642,286,250,120]}
+{"kind":"shape","id":"sh/c3ehov6x","slide":8,"bbox":[660,308,42,42]}
+{"kind":"textbox","id":"sh/z650ja58","slide":8,"name":"text","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[660,314,42,24]}
+{"kind":"textbox","id":"sh/y5wzq5on","slide":8,"name":"text","text":"Generate","textPreview":"Generate","textChars":8,"textLines":1,"bbox":[718,306,154,28]}
+{"kind":"textbox","id":"sh/u1g3i98v","slide":8,"name":"text","text":"Qwen on Groq writes a concise answer.","textPreview":"Qwen on Groq writes a concise answer.","textChars":37,"textLines":1,"bbox":[718,340,154,48]}
+{"kind":"shape","id":"sh/vm9kbupg","slide":8,"bbox":[920,286,250,120]}
+{"kind":"shape","id":"sh/wnilkzq1","slide":8,"bbox":[938,308,42,42]}
+{"kind":"textbox","id":"sh/hor2d47m","slide":8,"name":"text","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[938,314,42,24]}
+{"kind":"textbox","id":"sh/mxgjep8z","slide":8,"name":"text","text":"Validate","textPreview":"Validate","textChars":8,"textLines":1,"bbox":[996,306,154,28]}
+{"kind":"textbox","id":"sh/7ypk7upk","slide":8,"name":"text","text":"Check citation format and claim support.","textPreview":"Check citation format and claim support.","textChars":40,"textLines":1,"bbox":[996,340,154,48]}
+{"kind":"textbox","id":"sh/8zylgzq5","slide":8,"name":"text","text":"If evidence is missing, the assistant refuses instead of guessing.","textPreview":"If evidence is missing, the assistant refuses instead of guessing.","textChars":66,"textLines":1,"bbox":[175,498,930,40]}
+{"kind":"textbox","id":"sh/9072947a","slide":8,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/6tk3qt83","slide":8,"name":"text","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/ra2ady","slide":8,"text":"[Sources]\nquery_understanding.py, query.py, generate.py."}
+{"kind":"slide","id":"sl/7fpmcm","slide":9,"title":"FRONTEND","textShapes":13}
+{"kind":"shape","id":"sh/0va9obu1","slide":9,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/zu1sv6tw","slide":9,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/y9srm1cb","slide":9,"name":"text","text":"FRONTEND","textPreview":"FRONTEND","textChars":8,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/d8zatwvq","slide":9,"name":"text","text":"The product experience is a real chat, not a terminal demo","textPreview":"The product experience is a real chat, not a terminal demo","textChars":58,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/c7q9kru5","slide":9,"name":"text","text":"The website gives users a bilingual interface and hides citations behind a clean source control.","textPreview":"The website gives users a bilingual interface and hides citations behind a clean source control.","textChars":96,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/r6hsrmdk","slide":9,"bbox":[90,270,500,268]}
+{"kind":"textbox","id":"sh/q58rihcz","slide":9,"name":"text","text":"User-facing chat","textPreview":"User-facing chat","textChars":16,"textLines":1,"bbox":[124,304,420,34]}
+{"kind":"shape","id":"sh/x43a50bu","slide":9,"bbox":[124,378,10,10]}
+{"kind":"textbox","id":"sh/w3utwvu9","slide":9,"name":"text","text":"Arabic / English language switch","textPreview":"Arabic / English language switch","textChars":32,"textLines":1,"bbox":[146,370,368,44]}
+{"kind":"shape","id":"sh/ylcfmp0n","slide":9,"bbox":[124,428,10,10]}
+{"kind":"textbox","id":"sh/zmlwva18","slide":9,"name":"text","text":"Loading state while retrieval and generation run","textPreview":"Loading state while retrieval and generation run","textChars":48,"textLines":1,"bbox":[146,420,368,44]}
+{"kind":"shape","id":"sh/knuxofit","slide":9,"bbox":[124,478,10,10]}
+{"kind":"textbox","id":"sh/lo3exkze","slide":9,"name":"text","text":"NICE source expands on click","textPreview":"NICE source expands on click","textChars":28,"textLines":1,"bbox":[146,470,368,44]}
+{"kind":"shape","id":"sh/ahsfi50r","slide":9,"bbox":[690,270,430,268]}
+{"kind":"textbox","id":"sh/bi1wra1c","slide":9,"name":"text","text":"Private analysis","textPreview":"Private analysis","textChars":16,"textLines":1,"bbox":[724,304,360,34]}
+{"kind":"shape","id":"sh/cjaxkfix","slide":9,"bbox":[724,378,10,10]}
+{"kind":"textbox","id":"sh/xk3etkj2","slide":9,"name":"text","text":"Password protected admin page","textPreview":"Password protected admin page","textChars":29,"textLines":1,"bbox":[746,370,328,44]}
+{"kind":"shape","id":"sh/udwfu90v","slide":9,"bbox":[724,428,10,10]}
+{"kind":"textbox","id":"sh/ve5g3ehg","slide":9,"name":"text","text":"Metric cards, charts, filters, per-question table","textPreview":"Metric cards, charts, filters, per-question table","textChars":49,"textLines":1,"bbox":[746,420,328,44]}
+{"kind":"shape","id":"sh/ryxcv6hs","slide":9,"bbox":[724,478,10,10]}
+{"kind":"textbox","id":"sh/qxobm1g7","slide":9,"name":"text","text":"Temporary Top-k experiments","textPreview":"Temporary Top-k experiments","textChars":27,"textLines":1,"bbox":[746,470,328,44]}
+{"kind":"textbox","id":"sh/d0fuxwzy","slide":9,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/sz6toryd","slide":9,"name":"text","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/7fpmcm","slide":9,"text":"[Sources]\nweb/components/assistant-app.tsx, chat-panel.tsx, dashboard.tsx, analysis-auth.ts."}
+{"kind":"slide","id":"sl/cdpx5x","slide":10,"title":"EVALUATION","textShapes":14}
+{"kind":"shape","id":"sh/cz2h0vm1","slide":10,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/bytg7qlg","slide":10,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/ax0zyl4b","slide":10,"name":"text","text":"EVALUATION","textPreview":"EVALUATION","textChars":10,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/pwry5g3q","slide":10,"name":"text","text":"The current baseline retrieves every expected evidence item","textPreview":"The current baseline retrieves every expected evidence item","textChars":59,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/ovihwbm5","slide":10,"name":"text","text":"The baseline test set now covers Arabic, English, in-scope, and out-of-scope questions.","textPreview":"The baseline test set now covers Arabic, English, in-scope, and out-of-scope questions.","textChars":87,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/nu9g3qlk","slide":10,"bbox":[80,286,260,124]}
+{"kind":"textbox","id":"sh/2t0zul4z","slide":10,"name":"text","text":"Found Rate@5","textPreview":"Found Rate@5","textChars":12,"textLines":1,"bbox":[102,306,216,24]}
+{"kind":"textbox","id":"sh/9svihk3u","slide":10,"name":"text","text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[102,336,216,42]}
+{"kind":"shape","id":"sh/8rmh8fm9","slide":10,"bbox":[380,286,260,124]}
+{"kind":"textbox","id":"sh/6hc3i90b","slide":10,"name":"text","text":"MAP@5","textPreview":"MAP@5","textChars":5,"textLines":1,"bbox":[402,306,216,24]}
+{"kind":"textbox","id":"sh/7il4be1g","slide":10,"name":"text","text":"82.6%","textPreview":"82.6%","textChars":5,"textLines":1,"bbox":[402,336,216,42]}
+{"kind":"shape","id":"sh/sjelkji1","slide":10,"bbox":[680,286,260,124]}
+{"kind":"textbox","id":"sh/tknmdojm","slide":10,"name":"text","text":"MRR","textPreview":"MRR","textChars":3,"textLines":1,"bbox":[702,306,216,24]}
+{"kind":"textbox","id":"sh/itc3ep0z","slide":10,"name":"text","text":"86.2%","textPreview":"86.2%","textChars":5,"textLines":1,"bbox":[702,336,216,42]}
+{"kind":"shape","id":"sh/jel47u1k","slide":10,"bbox":[980,286,220,124]}
+{"kind":"textbox","id":"sh/kfulgzi5","slide":10,"name":"text","text":"Questions","textPreview":"Questions","textChars":9,"textLines":1,"bbox":[1002,306,176,24]}
+{"kind":"textbox","id":"sh/5g3m94jq","slide":10,"name":"text","text":"130","textPreview":"130","textChars":3,"textLines":1,"bbox":[1002,336,176,42]}
+{"kind":"textbox","id":"sh/29w3qt0j","slide":10,"name":"text","text":"122/122 in-scope questions passed • Arabic 61/61 • English 61/61 • 8 out-of-scope checks","textPreview":"122/122 in-scope questions passed • Arabic 61/61 • English 61/61 • 8 out-of-scope checks","textChars":88,"textLines":1,"bbox":[112,485,1060,56]}
+{"kind":"textbox","id":"sh/3ap4jy1o","slide":10,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/zuh0bqhg","slide":10,"name":"text","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/cdpx5x","slide":10,"text":"[Sources]\ndata/evaluation/evaluation_summary.json generated by evaluate.py."}
+{"kind":"slide","id":"sl/pqcoor","slide":11,"title":"TOP-K DECISION","textShapes":7}
+{"kind":"shape","id":"sh/6xs3ypcb","slide":11,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/tkj2t4bm","slide":11,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/sjal0zu1","slide":11,"name":"text","text":"TOP-K DECISION","textPreview":"TOP-K DECISION","textChars":14,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/ju1knatk","slide":11,"name":"text","text":"k=5 wins because coverage matters most for grounded answers","textPreview":"k=5 wins because coverage matters most for grounded answers","textChars":59,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/itsju5cz","slide":11,"name":"text","text":"Precision drops as k increases, but coverage reaches 100% at k=5.","textPreview":"Precision drops as k increases, but coverage reaches 100% at k=5.","textChars":65,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/4va1wfu5","slide":11,"bbox":[878,300,270,204]}
+{"kind":"textbox","id":"sh/vqhkjato","slide":11,"name":"text","text":"Decision","textPreview":"Decision","textChars":8,"textLines":1,"bbox":[910,330,210,30]}
+{"kind":"textbox","id":"sh/up8jq5c3","slide":11,"name":"text","text":"Use Top-k = 5 in production. It gives the generator enough evidence without flooding it.","textPreview":"Use Top-k = 5 in production. It gives the generator enough evidence without flooding it.","textChars":88,"textLines":1,"bbox":[910,382,210,76]}
+{"kind":"textbox","id":"sh/s3qpknal","slide":11,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/doz6dsr6","slide":11,"name":"text","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"chart","id":"ch/d47e58bm","slide":11,"name":"","chartType":"bar","bbox":[104,262,720,320]}
+{"kind":"notes","id":"nt/pqcoor","slide":11,"text":"[Sources]\nTop-k runs: evaluation_summary_k1.json, evaluation_summary_k3.json, evaluation_summary_k4.json, evaluation_summary.json."}
+{"kind":"slide","id":"sl/zzjnpn","slide":12,"title":"TECHNICAL STACK","textShapes":17}
+{"kind":"shape","id":"sh/k3adojmx","slide":12,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/j21wfe5c","slide":12,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/y1svm947","slide":12,"name":"text","text":"TECHNICAL STACK","textPreview":"TECHNICAL STACK","textChars":15,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/t83elonu","slide":12,"name":"text","text":"Every library has a clear role","textPreview":"Every library has a clear role","textChars":30,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/87udsjm9","slide":12,"name":"text","text":"The implementation stays explainable for a beginner while matching common RAG practice.","textPreview":"The implementation stays explainable for a beginner while matching common RAG practice.","textChars":87,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/76lwje5o","slide":12,"bbox":[90,282,310,96]}
+{"kind":"textbox","id":"sh/65cvq943","slide":12,"name":"text","text":"Parsing","textPreview":"Parsing","textChars":7,"textLines":1,"bbox":[114,300,260,24]}
+{"kind":"textbox","id":"sh/9cze9kna","slide":12,"name":"text","text":"pymupdf4llm","textPreview":"pymupdf4llm","textChars":11,"textLines":1,"bbox":[114,328,260,30]}
+{"kind":"shape","id":"sh/obqdgzmp","slide":12,"bbox":[460,282,310,96]}
+{"kind":"textbox","id":"sh/mlsvix8v","slide":12,"name":"text","text":"Chunking","textPreview":"Chunking","textChars":8,"textLines":1,"bbox":[484,300,260,24]}
+{"kind":"textbox","id":"sh/7m1wr290","slide":12,"name":"text","text":"LangChain splitters","textPreview":"LangChain splitters","textChars":19,"textLines":1,"bbox":[484,328,260,30]}
+{"kind":"shape","id":"sh/8nadknql","slide":12,"bbox":[830,282,310,96]}
+{"kind":"textbox","id":"sh/9ojets76","slide":12,"name":"text","text":"Embeddings","textPreview":"Embeddings","textChars":10,"textLines":1,"bbox":[854,300,260,24]}
+{"kind":"textbox","id":"sh/upsvmx8r","slide":12,"name":"text","text":"Sentence Transformers","textPreview":"Sentence Transformers","textChars":21,"textLines":1,"bbox":[854,328,260,30]}
+{"kind":"shape","id":"sh/vqlwv2pc","slide":12,"bbox":[90,420,310,96]}
+{"kind":"textbox","id":"sh/wrudo7qx","slide":12,"name":"text","text":"Vector DB","textPreview":"Vector DB","textChars":9,"textLines":1,"bbox":[114,438,260,24]}
+{"kind":"textbox","id":"sh/hc3exc7i","slide":12,"name":"text","text":"Chroma","textPreview":"Chroma","textChars":6,"textLines":1,"bbox":[114,466,260,30]}
+{"kind":"shape","id":"sh/idcvqh83","slide":12,"bbox":[460,420,310,96]}
+{"kind":"textbox","id":"sh/jelwzmp8","slide":12,"name":"text","text":"Generation","textPreview":"Generation","textChars":10,"textLines":1,"bbox":[484,438,260,24]}
+{"kind":"textbox","id":"sh/fi5cnm5g","slide":12,"name":"text","text":"Groq + Qwen","textPreview":"Groq + Qwen","textChars":11,"textLines":1,"bbox":[484,466,260,30]}
+{"kind":"shape","id":"sh/ehwvehov","slide":12,"bbox":[830,420,310,96]}
+{"kind":"textbox","id":"sh/1knupwnm","slide":12,"name":"text","text":"Frontend","textPreview":"Frontend","textChars":8,"textLines":1,"bbox":[854,438,260,24]}
+{"kind":"textbox","id":"sh/gjedgr61","slide":12,"name":"text","text":"Next.js + TypeScript","textPreview":"Next.js + TypeScript","textChars":20,"textLines":1,"bbox":[854,466,260,30]}
+{"kind":"textbox","id":"sh/relcj25k","slide":12,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/6tcbaxoz","slide":12,"name":"text","text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/zzjnpn","slide":12,"text":"[Sources]\nrequirements.txt, web/package.json."}
+{"kind":"slide","id":"sl/21qerm","slide":13,"title":"DEMO FLOW","textShapes":12}
+{"kind":"shape","id":"sh/wje1gri5","slide":13,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/bilk7m10","slide":13,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/ahcjehkf","slide":13,"name":"text","text":"DEMO FLOW","textPreview":"DEMO FLOW","textChars":9,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/9g325cju","slide":13,"name":"text","text":"The fastest presentation path is one question and one source","textPreview":"The fastest presentation path is one question and one source","textChars":60,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/ofu1c729","slide":13,"name":"text","text":"Use a question that maps clearly to a NICE recommendation.","textPreview":"Use a question that maps clearly to a NICE recommendation.","textChars":58,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/nelk321o","slide":13,"bbox":[88,266,500,250]}
+{"kind":"textbox","id":"sh/2dcjaxk3","slide":13,"name":"text","text":"Suggested demo prompt","textPreview":"Suggested demo prompt","textChars":21,"textLines":1,"bbox":[122,302,420,30]}
+{"kind":"textbox","id":"sh/1s321sji","slide":13,"name":"text","text":"What follow-up is recommended after curative colorectal cancer surgery?","textPreview":"What follow-up is recommended after curative colorectal cancer surgery?","textChars":71,"textLines":1,"bbox":[122,356,420,76]}
+{"kind":"textbox","id":"sh/0ra1872x","slide":13,"name":"text","text":"Expected source: NICE NG151, recommendation 1.6.1, page 26","textPreview":"Expected source: NICE NG151, recommendation 1.6.1, page 26","textChars":58,"textLines":1,"bbox":[122,456,420,38]}
+{"kind":"shape","id":"sh/y5wfuxs3","slide":13,"bbox":[690,266,430,250]}
+{"kind":"textbox","id":"sh/j65g329o","slide":13,"name":"text","text":"What to point out","textPreview":"What to point out","textChars":17,"textLines":1,"bbox":[724,302,360,30]}
+{"kind":"shape","id":"sh/k7exw7a9","slide":13,"bbox":[724,366,10,10]}
+{"kind":"textbox","id":"sh/l8ny5cru","slide":13,"name":"text","text":"Use either Arabic or English in the live chat.","textPreview":"Use either Arabic or English in the live chat.","textChars":46,"textLines":1,"bbox":[746,358,308,44]}
+{"kind":"shape","id":"sh/ahcfqxs7","slide":13,"bbox":[724,416,10,10]}
+{"kind":"textbox","id":"sh/b2lgz29s","slide":13,"name":"text","text":"Source opens behind NICE source button.","textPreview":"Source opens behind NICE source button.","textChars":39,"textLines":1,"bbox":[746,408,308,44]}
+{"kind":"shape","id":"sh/w3uxs7ad","slide":13,"bbox":[724,466,10,10]}
+{"kind":"textbox","id":"sh/x43y1sri","slide":13,"name":"text","text":"Analysis page proves retrieval quality.","textPreview":"Analysis page proves retrieval quality.","textChars":39,"textLines":1,"bbox":[746,458,308,44]}
+{"kind":"textbox","id":"sh/mdsfmdsv","slide":13,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/nelgvi9g","slide":13,"name":"text","text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/21qerm","slide":13,"text":"[Sources]\nDemo behavior implemented in generate.py and chat-panel.tsx."}
+{"kind":"slide","id":"sl/92hd9a","slide":14,"title":"CLOSE","textShapes":8}
+{"kind":"shape","id":"sh/1k32p4be","slide":14,"bbox":[930,-120,380,380]}
+{"kind":"shape","id":"sh/ehsjups3","slide":14,"bbox":[-160,420,360,360]}
+{"kind":"textbox","id":"sh/fi1k3uto","slide":14,"name":"text","text":"CLOSE","textPreview":"CLOSE","textChars":5,"textLines":1,"bbox":[72,54,640,28]}
+{"kind":"textbox","id":"sh/sva1sfux","slide":14,"name":"text","text":"A focused assistant beats a generic chatbot","textPreview":"A focused assistant beats a generic chatbot","textChars":43,"textLines":1,"bbox":[72,92,860,92]}
+{"kind":"textbox","id":"sh/tgj21kbi","slide":14,"name":"text","text":"The project proves a clean RAG flow: trusted source, measured retrieval, safe generation, and a usable interface.","textPreview":"The project proves a clean RAG flow: trusted source, measured retrieval, safe generation, and a usable interface.","textChars":113,"textLines":1,"bbox":[72,188,860,56]}
+{"kind":"shape","id":"sh/6tsjqpcr","slide":14,"bbox":[112,286,1056,176]}
+{"kind":"textbox","id":"sh/ru1kzatc","slide":14,"name":"text","text":"Built by","textPreview":"Built by","textChars":8,"textLines":1,"bbox":[160,320,940,30]}
+{"kind":"textbox","id":"sh/4rq1ofu1","slide":14,"name":"text","text":"Mostafa Ayman • Menna Adel • Asr Mohamed • Roaa Youssef • Nour Soft","textPreview":"Mostafa Ayman • Menna Adel • Asr Mohamed • Roaa Youssef • Nour Soft","textChars":67,"textLines":1,"bbox":[160,374,940,52]}
+{"kind":"textbox","id":"sh/5sz2xkbm","slide":14,"name":"text","text":"Next step: deploy the web app with a managed Python service or prebuilt retrieval API.","textPreview":"Next step: deploy the web app with a managed Python service or prebuilt retrieval API.","textChars":86,"textLines":1,"bbox":[220,524,840,36]}
+{"kind":"textbox","id":"sh/10ny9wbu","slide":14,"name":"text","text":"Colorectal Cancer Assistant","textPreview":"Colorectal Cancer Assistant","textChars":27,"textLines":1,"bbox":[72,670,380,22]}
+{"kind":"textbox","id":"sh/gzex0ra9","slide":14,"name":"text","text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1165,670,44,22]}
+{"kind":"notes","id":"nt/92hd9a","slide":14,"text":"[Sources]\nProject architecture and deployment caveat from current implementation."}

@@ -53,6 +53,41 @@ def is_patient_information_question(question: str) -> bool:
     return any(cue in question for cue in patient_information_cues)
 
 
+def is_diet_discharge_question(question: str) -> bool:
+    """Recognise diet/food questions that map to NICE recommendation 1.2.7."""
+    question = normalize_question(question)
+    cues = (
+        "اكل",
+        "الاكل",
+        "غذا",
+        "نظام غذائي",
+        "مسموح اكله",
+        "اكل ايه",
+        "diet",
+        "food",
+        "eat",
+        "allowed food",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_physical_activity_question(question: str) -> bool:
+    """Recognise exercise questions that map to NICE recommendation 1.2.7."""
+    question = normalize_question(question)
+    cues = (
+        "رياضه",
+        "رياضة",
+        "تمرين",
+        "اتمرن",
+        "نشاط بدني",
+        "العب رياضه",
+        "exercise",
+        "sport",
+        "physical activity",
+    )
+    return any(normalize_question(cue) in question for cue in cues)
+
+
 def is_early_rectal_treatment_question(question: str) -> bool:
     question = normalize_question(question)
     cues = (
@@ -62,6 +97,26 @@ def is_early_rectal_treatment_question(question: str) -> bool:
         "early stage rectal cancer",
     )
     return any(normalize_question(cue) in question for cue in cues)
+
+
+def is_preoperative_rectal_radiotherapy_question(question: str) -> bool:
+    """Recognise radiotherapy before rectal-cancer surgery questions."""
+    question = normalize_question(question)
+    has_rectal = "المستقيم" in question or "rectal" in question
+    has_before_surgery = (
+        "قبل جراحة" in question
+        or "قبل العمليه" in question
+        or "قبل العملية" in question
+        or "preoperative" in question
+        or "before surgery" in question
+    )
+    has_radiotherapy = (
+        "اشعاعي" in question
+        or "إشعاعي" in question
+        or "radiotherapy" in question
+        or "chemoradiotherapy" in question
+    )
+    return has_rectal and has_before_surgery and has_radiotherapy
 
 
 def is_bowel_obstruction_stent_question(question: str) -> bool:
@@ -159,12 +214,35 @@ def expand_question(question: str) -> str:
             "Information for people with colorectal cancer: treatment options, "
             "benefits, risks, side effects and treatment plan."
         )
+    if is_diet_discharge_question(question):
+        return (
+            f"{question}\n"
+            "Colorectal cancer discharge diet advice. Advice on diet including "
+            "foods that can cause or contribute to bowel problems such as "
+            "diarrhoea, flatulence, incontinence and difficulty emptying the bowels. "
+            "Recommendation 1.2.7."
+        )
+    if is_physical_activity_question(question):
+        return (
+            f"{question}\n"
+            "Colorectal cancer discharge advice: adapting physical activity to "
+            "maintain quality of life. Recommendation 1.2.7."
+        )
     if is_early_rectal_treatment_question(question):
         return (
             f"{question}\n"
             "Early rectal cancer treatment choices in table 1: transanal excision "
             "TAE TAMIS TEMS, endoscopic submucosal dissection ESD, total "
             "mesorectal excision TME."
+        )
+    if is_preoperative_rectal_radiotherapy_question(question):
+        return (
+            f"{question}\n"
+            "Preoperative treatment for people with rectal cancer. "
+            "Recommendation 1.3.4: do not offer preoperative radiotherapy to "
+            "early rectal cancer cT1-T2 cN0 M0 unless part of a clinical trial. "
+            "Recommendation 1.3.5: offer preoperative radiotherapy or "
+            "chemoradiotherapy to rectal cancer cT1-T2 cN1-N2 M0 or cT3-T4 any cN M0."
         )
     if is_bowel_obstruction_stent_question(question):
         normalized = normalize_question(question)
@@ -308,9 +386,18 @@ def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
                 boost = 0.12
             elif re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]):
                 boost = 0.06
+        elif understanding["intent"] == "diet_discharge":
+            if re.match(r"^\s*-?\s*1\.2\.7\b", row["text"]):
+                boost = 0.16
+        elif understanding["intent"] == "physical_activity":
+            if re.match(r"^\s*-?\s*1\.2\.7\b", row["text"]):
+                boost = 0.16
         elif understanding["intent"] == "early_rectal_treatment":
             if row["chunk_id"].startswith("ng151-p10-12") or re.match(r"^\s*-?\s*1\.3\.3\b", row["text"]):
                 boost = 0.12
+        elif understanding["intent"] == "preoperative_rectal_radiotherapy":
+            if re.match(r"^\s*-?\s*1\.3\.[45]\b", row["text"]):
+                boost = 0.22
         elif understanding["intent"] == "bowel_obstruction_stent":
             if re.match(r"^\s*-?\s*1\.3\.1\b", row["text"]):
                 boost = 0.14
