@@ -9,13 +9,20 @@ type Language = "ar" | "en";
 export default function AssistantApp() {
   const [language, setLanguage] = useState<Language>("ar");
   const [ragReady, setRagReady] = useState(false);
+  const [warmupSlow, setWarmupSlow] = useState(false);
 
   useEffect(() => {
+    const timer = window.setTimeout(() => setWarmupSlow(true), 12_000);
     void fetch("/api/chat")
       .then((response) => {
-        if (response.ok) setRagReady(true);
+        if (response.ok) {
+          setRagReady(true);
+          setWarmupSlow(false);
+        }
       })
-      .catch(() => undefined);
+      .catch(() => setWarmupSlow(true))
+      .finally(() => window.clearTimeout(timer));
+    return () => window.clearTimeout(timer);
   }, []);
 
   const arabic = language === "ar";
@@ -42,7 +49,9 @@ export default function AssistantApp() {
                 )}
                 {ragReady
                   ? arabic ? "جاهز" : "Ready"
-                  : arabic ? "جارٍ تجهيز المساعد…" : "Preparing assistant…"}
+                  : warmupSlow
+                    ? arabic ? "جاهز للأسئلة، أول رد قد يستغرق قليلًا" : "Ready to ask; first answer may take a moment"
+                    : arabic ? "جارٍ تجهيز المساعد…" : "Preparing assistant…"}
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHON_EXECUTABLE=python3
 ENV EMBEDDING_LOCAL_FILES_ONLY=false
+ENV HF_HOME=/app/.cache/huggingface
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-pip python3-venv \
@@ -13,6 +14,7 @@ RUN apt-get update \
 
 COPY requirements.txt ./
 RUN python3 -m pip install --break-system-packages --no-cache-dir -r requirements.txt
+RUN python3 -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('intfloat/multilingual-e5-base')"
 
 COPY web/package*.json ./web/
 RUN cd web && npm ci --include=dev
