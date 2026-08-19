@@ -5,12 +5,20 @@ import readline from "node:readline";
 
 export const runtime = "nodejs";
 
-type Source = { url: string; text: string; document: string };
+type Source = {
+  url: string;
+  text: string;
+  document: string;
+  page?: string;
+  section?: string;
+  chunk_id?: string;
+};
 type Result = {
   answer?: string;
   error?: string;
   ready?: boolean;
   source?: Source | null;
+  sources?: Source[];
 };
 type Pending = { resolve: (value: Result) => void; timer: NodeJS.Timeout };
 type RagState = {
@@ -101,5 +109,9 @@ export async function POST(request: NextRequest) {
   const result = await sendRag({ question });
   if (result.error)
     return NextResponse.json({ error: result.error }, { status: 502 });
-  return NextResponse.json({ answer: result.answer, source: result.source });
+  return NextResponse.json({
+    answer: result.answer,
+    source: result.source,
+    sources: result.sources ?? [],
+  });
 }

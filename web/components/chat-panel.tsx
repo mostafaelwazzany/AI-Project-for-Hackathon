@@ -12,12 +12,20 @@ import {
   User,
 } from "lucide-react";
 
-type Source = { url: string; text: string; document: string };
+type Source = {
+  url: string;
+  text: string;
+  document: string;
+  page?: string;
+  section?: string;
+  chunk_id?: string;
+};
 type Message = {
   id: number;
   role: "user" | "assistant";
   text: string;
   source?: Source | null;
+  sources?: Source[];
 };
 
 type AnswerParts = {
@@ -45,14 +53,57 @@ function parseAnswer(text: string): AnswerParts | null {
   };
 }
 
-function sourceUrl(citation: string, source?: Source | null) {
-  const guideline = citation.includes("NG12") ? "ng12" : "ng151";
-  const article = guideline === "ng12"
+function citationGuideline(citation: string) {
+  return citation.includes("NG12") ? "ng12" : "ng151";
+}
+
+function citationPage(citation: string) {
+  return citation.match(/(?:الصفحة|Page):\s*([^\];\n]+)/)?.[1]?.trim();
+}
+
+function recommendationNumber(text: string) {
+  return text.match(/\b(\d+\.\d+\.\d+)\b/)?.[1] ?? "";
+}
+
+function sourceMatchesCitation(source: Source, citation: string) {
+  const guideline = citationGuideline(citation);
+  const sourceGuideline = source.document.toLowerCase().includes("suspected")
+    ? "ng12"
+    : "ng151";
+  if (sourceGuideline !== guideline) return false;
+
+  const page = citationPage(citation);
+  if (page && source.page && page === source.page) return true;
+
+  const citedRecommendation = recommendationNumber(citation);
+  if (citedRecommendation && source.text.includes(citedRecommendation)) return true;
+
+  return false;
+}
+
+function selectedSource(citation: string, sources?: Source[], fallback?: Source | null) {
+  return sources?.find((source) => sourceMatchesCitation(source, citation))
+    ?? fallback
+    ?? null;
+}
+
+function niceArticleUrl(citation: string, source?: Source | null) {
+  if (source?.url?.includes("/chapter/")) return source.url;
+
+  const guideline = citationGuideline(citation);
+  return guideline === "ng12"
     ? "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
     : "https://www.nice.org.uk/guidance/ng151/chapter/Recommendations";
+}
+
+function sourceUrl(citation: string, source?: Source | null) {
+  const guideline = citationGuideline(citation);
+  const article = niceArticleUrl(citation, source);
 
   if (!source?.text) return article;
-  const recommendationNumber = source.text.match(/\b(\d+\.\d+\.\d+)\b/)?.[1];
+  const numberFromCitation = recommendationNumber(citation);
+  const numberFromSource = recommendationNumber(source.text);
+  const number = numberFromCitation || numberFromSource;
   let cleanText = source.text
     .replace(/<[^>]+>/g, " ")
     .replace(/[#*_`]/g, " ")
@@ -65,15 +116,23 @@ function sourceUrl(citation: string, source?: Source | null) {
   // NICE gives every recommendation a stable HTML id such as ng151-1_6_1.
   // The anchor guarantees the correct location; a short Text Fragment adds
   // native browser highlighting without failing on small PDF/HTML differences.
-  const anchor = recommendationNumber
-    ? `${guideline}-${recommendationNumber.replaceAll(".", "_")}`
+  const anchor = number
+    ? `${guideline}-${number.replaceAll(".", "_")}`
     : "";
-  const highlight = cleanText.split(/\s+/).slice(0, 8).join(" ");
+  const highlight = cleanText.split(/\s+/).slice(0, 10).join(" ");
   const fragment = anchor ? `${anchor}:~:text=` : ":~:text=";
   return `${article}#${fragment}${encodeURIComponent(highlight)}`;
 }
 
-function AssistantAnswer({ text, source }: { text: string; source?: Source | null }) {
+function AssistantAnswer({
+  text,
+  source,
+  sources,
+}: {
+  text: string;
+  source?: Source | null;
+  sources?: Source[];
+}) {
   const [showEvidence, setShowEvidence] = useState(false);
   const answer = parseAnswer(text);
 
@@ -81,6 +140,7 @@ function AssistantAnswer({ text, source }: { text: string; source?: Source | nul
 
   const noSource = /لا يوجد مصدر|No citation/.test(answer.citation);
   const arabic = /[\u0600-\u06ff]/.test(answer.recommendation);
+  const matchedSource = selectedSource(answer.citation, sources, source);
 
   return (
     <div dir={arabic ? "rtl" : "ltr"} className="space-y-3">
@@ -126,7 +186,7 @@ function AssistantAnswer({ text, source }: { text: string; source?: Source | nul
             {answer.citation.replace(/^\[|\]$/g, "")}
           </p>
           <a
-            href={sourceUrl(answer.citation, source)}
+            href={sourceUrl(answer.citation, matchedSource)}
             target="_blank"
             rel="noreferrer"
             className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#315a7e] px-3 text-xs font-semibold text-[#8dc8ff] transition-colors duration-200 hover:bg-[#102d49]"
@@ -186,6 +246,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
           role: "assistant",
           text: data.answer,
           source: data.source,
+          sources: data.sources ?? [],
         },
       ]);
     } catch (err) {
@@ -257,6 +318,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
                   <AssistantAnswer
                     text={message.text}
                     source={message.source}
+                    sources={message.sources}
                   />
                 ) : (
                   message.text

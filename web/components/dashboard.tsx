@@ -165,6 +165,15 @@ export default function AnalysisDashboard() {
 
   const activeReport = baseline ?? fallbackReport;
   const summary = activeReport.summary;
+  const comparisonData = topKData.map((row) =>
+    row.name === `k=${summary.top_k}`
+      ? {
+          ...row,
+          found: Number((summary.found_rate * 100).toFixed(2)),
+          precision: Number((summary.mean_precision_at_k * 100).toFixed(2)),
+        }
+      : row,
+  );
   const filteredRows = useMemo(() => {
     const searchText = query.trim().toLowerCase();
     return activeReport.rows.filter((row) => {
@@ -302,7 +311,7 @@ export default function AnalysisDashboard() {
           <Section title="Top-k comparison" description="Reference results showing the recall/precision trade-off.">
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={topKData}>
+                <BarChart data={comparisonData}>
                   <CartesianGrid stroke="#203b58" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" tick={{ fill: "#8ca6c1", fontSize: 12 }} axisLine={false} tickLine={false} />
                   <YAxis domain={[0, 100]} tick={{ fill: "#8ca6c1", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}%`} />
