@@ -2,7 +2,6 @@ FROM node:22-bookworm
 
 WORKDIR /app
 
-ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHON_EXECUTABLE=python3
@@ -16,10 +15,12 @@ COPY requirements.txt ./
 RUN python3 -m pip install --break-system-packages --no-cache-dir -r requirements.txt
 
 COPY web/package*.json ./web/
-RUN cd web && npm ci
+RUN cd web && npm ci --include=dev
 
 COPY . .
 RUN cd web && npm run build
+
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
