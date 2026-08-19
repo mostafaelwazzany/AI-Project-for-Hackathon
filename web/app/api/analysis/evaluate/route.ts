@@ -30,7 +30,7 @@ function runEvaluation(topK: number) {
       : path.join(root, ".venv", "bin", "python");
     const child = spawn(
       python,
-      ["evaluate.py", "--top-k", String(topK), "--no-save", "--json"],
+      ["evaluate.py", "--top-k", String(topK), "--json"],
       { cwd: root, windowsHide: true },
     );
     let stdout = "";

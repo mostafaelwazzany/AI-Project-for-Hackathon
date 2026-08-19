@@ -1,3 +1,0 @@
-﻿model_name,model_id,chunks,top_k,found,total,found_rate,arabic_found,arabic_total,english_found,english_total,average_strict_precision,out_of_scope_ar_score,out_of_scope_en_score,index_seconds,evaluation_seconds,selected,selection_reason
-multilingual_e5_small,intfloat/multilingual-e5-small,103,5,32,40,0.8,14,20,18,20,0.215,0.7982,0.844,17.02,7.8,no,
-multilingual_e5_base,intfloat/multilingual-e5-base,103,5,37,40,0.925,18,20,19,20,0.245,0.7923,0.8479,87.5,8.01,yes,"highest Found@5, then Precision@5, then faster evaluation"

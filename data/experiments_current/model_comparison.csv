@@ -1,3 +1,0 @@
-﻿top_k,total_questions,scored_questions,found_expected_evidence,found_rate,mean_precision_at_k,map_at_k,mrr,model_name,model_id,chunks
-5,66,64,52,0.8125,0.2,0.6501,0.6677,e5_small,intfloat/multilingual-e5-small,90
-5,66,64,58,0.9062,0.225,0.67,0.6896,e5_base,intfloat/multilingual-e5-base,90

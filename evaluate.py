@@ -8,9 +8,9 @@ Run:
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import re
+import csv
 
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -152,16 +152,8 @@ def evaluate(top_k: int) -> list[dict]:
     return report
 
 
-def save_report(rows: list[dict]) -> None:
-    config.EVALUATION_RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with config.EVALUATION_RESULTS_PATH.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=list(rows[0]))
-        writer.writeheader()
-        writer.writerows(rows)
-
-
 def build_summary(rows: list[dict]) -> dict:
-    """Calculate one summary row that can be opened directly in Excel."""
+    """Calculate the metrics displayed in the private analysis page."""
     scored = [row for row in rows if row["status"] != "REVIEW_REFUSAL"]
     passed = [row for row in scored if row["status"] == "PASS"]
     mean_precision = sum(float(row["precision_at_k"]) for row in scored) / len(scored)
@@ -187,14 +179,6 @@ def build_summary(rows: list[dict]) -> dict:
     return summary
 
 
-def save_summary(summary: dict) -> None:
-    """Save overall results separately from per-question details."""
-    with config.EVALUATION_SUMMARY_PATH.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=list(summary))
-        writer.writeheader()
-        writer.writerow(summary)
-
-
 def print_summary(rows: list[dict], summary: dict) -> None:
     print(f"\nFound expected evidence: {summary['found_expected_evidence']}/{summary['scored_questions']}")
     print(f"Found rate: {summary['found_rate']:.1%}")
@@ -210,18 +194,11 @@ def print_summary(rows: list[dict], summary: dict) -> None:
                 f"Out-of-scope ({row['language']}): top score={row['top_score']} "
                 f"-> choose a refusal threshold after comparing score distributions"
             )
-    print(f"Saved report: {config.EVALUATION_RESULTS_PATH}")
-    print(f"Saved summary: {config.EVALUATION_SUMMARY_PATH}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--top-k", type=int, default=config.TOP_K)
-    parser.add_argument(
-        "--no-save",
-        action="store_true",
-        help="Calculate a temporary experiment without replacing the saved k=5 reports.",
-    )
     parser.add_argument(
         "--json",
         action="store_true",
@@ -233,9 +210,6 @@ def main() -> None:
 
     rows = evaluate(args.top_k)
     summary = build_summary(rows)
-    if not args.no_save:
-        save_report(rows)
-        save_summary(summary)
     if args.json:
         print(json.dumps(summary, ensure_ascii=False))
     else:
