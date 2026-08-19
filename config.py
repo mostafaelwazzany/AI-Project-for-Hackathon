@@ -48,5 +48,8 @@ TOP_K = 5
 
 # Day 3 grounded generation settings (Groq free cloud API)
 GENERATION_MODEL = "qwen/qwen3.6-27b"
-GENERATION_MAX_OUTPUT_TOKENS = 1000
-MIN_RETRIEVAL_SCORE = 0.60
+GENERATION_MAX_OUTPUT_TOKENS = 400
+GENERATION_TIMEOUT_SECONDS = 10
+# Day 4 calibrated floor: the Day 2 in-scope sample stayed at or above 0.75.
+# This is only the first guardrail; claim and scope checks run after retrieval.
+MIN_RETRIEVAL_SCORE = 0.75

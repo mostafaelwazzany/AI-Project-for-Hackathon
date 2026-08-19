@@ -1,0 +1,4 @@
+﻿top_k,total_questions,scored_questions,found_expected_evidence,found_rate,mean_precision_at_k,map_at_k,mrr,chunk_size,overlap,chunks
+5,66,64,58,0.9062,0.225,0.6702,0.6904,300,50,106
+5,66,64,58,0.9062,0.225,0.67,0.6896,450,80,90
+5,66,64,56,0.875,0.2156,0.6633,0.693,600,100,86

@@ -33,6 +33,15 @@ ARABIC_REFUSAL = (
     "عن هذا السؤال بثقة. يُرجى إعادة صياغة السؤال أو استشارة طبيب."
 )
 
+DISCLAIMER = (
+    "Disclaimer: This guideline-based answer is for information only and does "
+    "not replace advice from a qualified clinician."
+)
+ARABIC_DISCLAIMER = (
+    "تنبيه: هذه الإجابة المبنية على الدليل للمعلومات فقط، ولا تغني عن استشارة "
+    "طبيب أو ممارس صحي مؤهل."
+)
+
 ARABIC_SECTIONS = {
     "1.1 Reduction in risk of colorectal cancer in people with Lynch syndrome": "1.1 تقليل خطر سرطان القولون والمستقيم لدى الأشخاص المصابين بمتلازمة لينش",
     "1.2 Information for people with colorectal cancer": "1.2 معلومات للأشخاص المصابين بسرطان القولون والمستقيم",
@@ -67,6 +76,10 @@ for a question about information that a care team should explain, passages about
 treatment options, benefits, risks, side effects, and treatment-plan changes
 are direct supporting evidence. Do not refuse merely because the wording of the
 question differs from the wording of a recommendation.
+
+Use calibrated language: say “the guideline recommends” when the passage is a
+direct recommendation; say “the guideline suggests” only when the passage is
+partial or indirect. Never present an inference as a definite clinical fact.
 
 """
 
@@ -151,6 +164,14 @@ def refusal_output(arabic: bool) -> str:
         "Excerpt:\nNo supporting passage found.\n\n"
         "Citation:\n[No citation]"
     )
+
+
+def add_disclaimer(answer: str, arabic: bool) -> str:
+    """Add a visible clinical-safety disclaimer once to every answer."""
+    disclaimer = ARABIC_DISCLAIMER if arabic else DISCLAIMER
+    if disclaimer in answer:
+        return answer
+    return f"{answer.rstrip()}\n\n{disclaimer}"
 
 
 def quota_output(arabic: bool) -> str:
@@ -270,6 +291,56 @@ def response_text(content: object) -> str:
     return str(content).strip()
 
 
+def answer_recommendation(answer: str, arabic: bool) -> str:
+    """Extract the recommendation field for the live claim guard."""
+    label = "التوصية:" if arabic else "Recommendation:"
+    start = answer.find(label)
+    if start < 0:
+        return ""
+    body = answer[start + len(label) :]
+    for end_label in ("\n\nالنص الداعم:", "\n\nExcerpt:"):
+        if end_label in body:
+            body = body.split(end_label, 1)[0]
+    return body.strip()
+
+
+def claim_words(text: str) -> set[str]:
+    # Regex101: [A-Za-z0-9\u0600-\u06FF]+
+    return {
+        word.lower()
+        for word in re.findall(r"[A-Za-z0-9\u0600-\u06FF]+", text)
+        if len(word) > 2
+    }
+
+
+def claims_are_supported(answer: str, rows: list[dict], arabic: bool) -> bool:
+    """Independent lexical safety check against retrieved evidence.
+
+    This is intentionally conservative: missing numbers or too many unseen
+    terms make the answer fail closed rather than silently reaching the user.
+    """
+    recommendation = answer_recommendation(answer, arabic)
+    if not recommendation:
+        return False
+    evidence = "\n".join(row["text"] for row in rows)
+    evidence_words = claim_words(evidence)
+    evidence_numbers = set(re.findall(r"\d+(?:\.\d+)?", evidence))
+    # Regex101: [.!؟\n]+
+    claims = [part.strip() for part in re.split(r"[.!؟\n]+", recommendation) if part.strip()]
+    for claim in claims:
+        current_words = claim_words(claim)
+        overlap = len(current_words & evidence_words) / max(len(current_words), 1)
+        current_numbers = set(re.findall(r"\d+(?:\.\d+)?", claim))
+        unseen = len(current_words - evidence_words)
+        if (
+            overlap < 0.30
+            or not current_numbers.issubset(evidence_numbers)
+            or unseen > max(1, int(len(current_words) * 0.40))
+        ):
+            return False
+    return True
+
+
 @lru_cache(maxsize=1)
 def get_generation_model(api_key: str) -> ChatGroq:
     """Create the Groq client once per running application."""
@@ -277,6 +348,8 @@ def get_generation_model(api_key: str) -> ChatGroq:
         model=config.GENERATION_MODEL,
         api_key=api_key,
         max_tokens=config.GENERATION_MAX_OUTPUT_TOKENS,
+        timeout=config.GENERATION_TIMEOUT_SECONDS,
+        max_retries=0,
         temperature=0.2,
         # Qwen 3.6 defaults to a long reasoning trace. RAG answers need a
         # concise, citation-bound final response, so disable thinking tokens.
@@ -290,7 +363,7 @@ def generate(question: str) -> str:
     rows = search(question)
     arabic = is_arabic(question)
     if not rows or rows[0]["score"] < config.MIN_RETRIEVAL_SCORE:
-        return refusal_output(arabic)
+        return add_disclaimer(refusal_output(arabic), arabic)
 
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -314,11 +387,13 @@ def generate(question: str) -> str:
         # exposing a long SDK traceback to the user.
         message = str(error)
         if "RESOURCE_EXHAUSTED" in message or "429" in message:
-            return quota_output(arabic)
+            return add_disclaimer(quota_output(arabic), arabic)
         raise
     answer = response_text(response.content)
     if is_valid_answer(answer, allowed_citations, arabic):
-        return answer
+        if claims_are_supported(answer, rows, arabic):
+            return add_disclaimer(answer, arabic)
+        return add_disclaimer(refusal_output(arabic), arabic)
 
     repaired = repair_answer_citation(
         answer,
@@ -326,7 +401,9 @@ def generate(question: str) -> str:
         citation_for(rows[0], arabic),
         arabic,
     )
-    return repaired if repaired else refusal_output(arabic)
+    if repaired and claims_are_supported(repaired, rows, arabic):
+        return add_disclaimer(repaired, arabic)
+    return add_disclaimer(refusal_output(arabic), arabic)
 
 
 def interactive_mode() -> None:

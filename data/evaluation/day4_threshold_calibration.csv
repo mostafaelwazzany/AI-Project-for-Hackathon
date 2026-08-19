@@ -1,0 +1,8 @@
+threshold,in_scope_above_threshold,in_scope_total,out_scope_above_threshold,out_scope_total,interpretation
+0.60,64,64,2,2,Too low; both out-of-scope questions would reach generation
+0.65,64,64,2,2,Too low; both out-of-scope questions would reach generation
+0.70,64,64,2,2,Too low; both out-of-scope questions would reach generation
+0.75,64,64,2,2,Selected floor; keeps all in-scope retrieval in this sample but needs claim/scope checks
+0.80,40,64,1,2,Stricter but causes many in-scope refusals
+0.85,26,64,0,2,Rejects both out-of-scope questions but over-refuses in-scope questions
+0.90,3,64,0,2,Very high; unsafe over-refusal

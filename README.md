@@ -125,10 +125,49 @@ Evaluate retrieval quality:
 python evaluate.py --top-k 5
 ```
 
+لمقارنة أحجام الـchunks والـembedding models والـTop-k:
+
+```powershell
+python current_experiments.py
+```
+
+لاختبارات الأمان والأسئلة خارج النطاق:
+
+```powershell
+python adversarial_tests.py
+```
+
+Run the Day 4 safety suite (confidence threshold, citation checks, unsupported
+claim detection, and faithfulness proxy):
+
+```powershell
+python day4_evaluation.py
+```
+
+Run the current Day 2 comparisons (chunk size/overlap, embedding model, and
+Top-k) on the same 66-question dataset:
+
+```powershell
+python current_experiments.py
+```
+
+Run the adversarial safety checks:
+
+```powershell
+python adversarial_tests.py
+```
+
 Evaluation files:
 
 - `data/evaluation/evaluation_results.csv`: result for every test question.
 - `data/evaluation/evaluation_summary.csv`: overall Found Rate, MAP, and MRR.
+- `data/evaluation/day4_safety_results.csv`: per-question Day 4 safety checks.
+- `data/evaluation/day4_safety_summary.csv`: Day 4 safety summary.
+- `data/evaluation/adversarial_results.csv`: adversarial safety results.
+- `data/experiments_current/`: current reproducible Day 2 comparisons.
+
+The Day 4 script accepts `--limit`, `--language ar|en`, and `--out-of-scope` so
+cloud checks can be run in small batches when the provider is slow or rate-limited.
 
 Close these CSV files in Excel or VS Code before rerunning evaluation, otherwise Windows may lock the file.
 
@@ -277,6 +316,8 @@ python evaluate.py --top-k 5
 
 - `data/evaluation/evaluation_results.csv`: نتيجة كل سؤال.
 - `data/evaluation/evaluation_summary.csv`: الملخص النهائي مثل Found Rate وMAP وMRR.
+- `data/evaluation/adversarial_results.csv`: نتائج اختبارات الأمان.
+- `data/experiments_current/`: المقارنات الحالية القابلة لإعادة التشغيل.
 
 اقفل ملفات CSV في Excel أو VS Code قبل إعادة التقييم حتى لا يقفلها Windows.
 

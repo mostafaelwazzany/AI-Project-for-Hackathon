@@ -1,0 +1,9 @@
+﻿answer,citation_accuracy,correct_decision,faithfulness,id,language,out_of_scope,question,refused,retrieval_found,threshold,threshold_refusal,top_score,unsupported_claims,variant
+"Recommendation:
+No supporting passage found.
+
+Excerpt:
+No supporting passage found.
+
+Citation:
+[No citation]",1.0,yes,,11,en,yes,What are the symptoms of stomach cancer?,yes,no,0.75,no,0.843,0,1
