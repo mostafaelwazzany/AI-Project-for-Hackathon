@@ -1,10 +1,12 @@
 language,question,expected_intent,expected_chunk_prefix
 ar,اعراض سرطان القولون,symptoms_referral,ng12-
+ar,اي اعراض المرحله الاولى,symptoms_referral,ng12-
 ar,ايه علامات سرطان الأمعاء,symptoms_referral,ng12-
 ar,امتى أعراض القولون تحتاج كشف أو تحليل,symptoms_referral,ng12-
 ar,هل تغير عادات الإخراج ممكن يحتاج فحص,symptoms_referral,ng12-
 ar,وجود دم من المستقيم يستدعي ايه,symptoms_referral,ng12-
 en,What are warning signs for colorectal cancer referral?,symptoms_referral,ng12-
+en,What are the early-stage symptoms?,symptoms_referral,ng12-
 en,When does rectal bleeding need investigation?,symptoms_referral,ng12-
 en,Does a change in bowel habit require FIT testing?,symptoms_referral,ng12-
 ar,انا اتشخصت سرطان قولون ابدأ منين,newly_diagnosed_information,ng151-p7-c3

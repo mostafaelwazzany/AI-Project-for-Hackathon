@@ -78,6 +78,17 @@ treatment options, benefits, risks, side effects, and treatment-plan changes
 are direct supporting evidence. Do not refuse merely because the wording of the
 question differs from the wording of a recommendation.
 
+This assistant is exclusively about colorectal cancer. If a short question
+mentions symptoms, stages, treatment, surgery or follow-up without repeating
+the cancer type, interpret it as referring to colorectal cancer unless the user
+explicitly names a different disease.
+
+If a question asks for symptoms of a particular stage but the passage lists
+warning symptoms without assigning them to stages, clearly say that the
+retrieved NICE passage does not classify those symptoms by stage, then give the
+relevant warning symptoms from the passage. Never label a symptom as belonging
+to a stage unless the passage explicitly does so.
+
 Use calibrated language: say “the guideline recommends” when the passage is a
 direct recommendation; say “the guideline suggests” only when the passage is
 partial or indirect. Never present an inference as a definite clinical fact.
@@ -203,6 +214,46 @@ def quota_output(arabic: bool) -> str:
         "Excerpt:\n"
         "Guideline results were found, but the generation service was unavailable.\n\n"
         "Citation:\n[No citation]"
+    )
+
+
+def asks_for_stage_symptoms(question: str, rows: list[dict]) -> bool:
+    """Detect stage-specific symptom wording after retrieval identifies the intent."""
+    if not rows or rows[0].get("intent") != "symptoms_referral":
+        return False
+    # Regex101: مرحل(?:ة|ه)|stage
+    return bool(re.search(r"مرحل(?:ة|ه)|stage", question, re.IGNORECASE))
+
+
+def stage_symptoms_output(row: dict, arabic: bool) -> str:
+    """Give a safe NG12 answer without assigning warning signs to a cancer stage."""
+    citation = citation_for(row, arabic)
+    if arabic:
+        return (
+            "التوصية:\n"
+            "النص المسترجع من NICE لا يصنّف هذه العلامات حسب مرحلة السرطان. "
+            "وبالنسبة لسرطان القولون والمستقيم، يوصي باستخدام اختبار FIT لتوجيه "
+            "الإحالة عند وجود كتلة بالبطن، أو تغير في عادات الإخراج، أو أنيميا نقص "
+            "الحديد، أو بعض حالات نزيف المستقيم والألم بالبطن وفقدان الوزن غير "
+            "المفسر، بحسب العمر والأعراض المصاحبة.\n\n"
+            "النص الداعم:\n"
+            "توصي NICE بإجراء اختبار FIT لتوجيه الإحالة عند الاشتباه بسرطان القولون "
+            "والمستقيم لدى البالغين الذين لديهم كتلة بالبطن، أو تغير في عادات "
+            "الإخراج، أو أنيميا نقص الحديد، مع معايير إضافية مرتبطة بالعمر ونزيف "
+            "المستقيم والألم بالبطن وفقدان الوزن.\n\n"
+            f"المصدر:\n{citation}"
+        )
+    return (
+        "Recommendation:\n"
+        "The retrieved NICE passage does not classify these warning signs by "
+        "cancer stage. For colorectal cancer, it recommends FIT to guide referral "
+        "for an abdominal mass, a change in bowel habit, iron-deficiency anaemia, "
+        "and specified combinations of rectal bleeding, abdominal pain or "
+        "unexplained weight loss depending on age.\n\n"
+        "Excerpt:\n"
+        "Offer quantitative faecal immunochemical testing (FIT) to guide referral "
+        "for suspected colorectal cancer in adults with the listed warning signs.\n\n"
+        f"Citation:\n{citation}"
     )
 
 
@@ -389,6 +440,8 @@ def generate(question: str, rows: list[dict] | None = None) -> str:
     arabic = is_arabic(question)
     if not rows or rows[0]["score"] < config.MIN_RETRIEVAL_SCORE:
         return add_disclaimer(refusal_output(arabic), arabic)
+    if asks_for_stage_symptoms(question, rows):
+        return add_disclaimer(stage_symptoms_output(rows[0], arabic), arabic)
     if rows[0].get("intent") == "symptoms_referral":
         rows = rows[:1]
 

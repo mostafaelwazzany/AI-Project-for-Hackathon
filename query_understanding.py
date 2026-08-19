@@ -37,6 +37,17 @@ INTENTS = {
     },
 }
 
+DOMAIN_CUES = (
+    "سرطان القولون",
+    "سرطان المستقيم",
+    "سرطان الامعاء",
+    "القولون والمستقيم",
+    "colorectal cancer",
+    "colon cancer",
+    "rectal cancer",
+    "bowel cancer",
+)
+
 
 def normalize_question(text: str) -> str:
     """Normalize common Arabic spelling and punctuation differences."""
@@ -48,6 +59,17 @@ def normalize_question(text: str) -> str:
     text = re.sub(r"[^\w\s\u0600-\u06FF-]", " ", text)
     # Regex101: \s+
     return re.sub(r"\s+", " ", text).strip()
+
+
+def add_domain_context(question: str) -> str:
+    """Assume short questions refer to colorectal cancer in this specialist app."""
+    normalized = normalize_question(question)
+    if any(normalize_question(cue) in normalized for cue in DOMAIN_CUES):
+        return question
+    # Regex101: [\u0600-\u06FF]
+    if re.search(r"[\u0600-\u06FF]", question):
+        return f"في سياق سرطان القولون والمستقيم: {question}"
+    return f"In the context of colorectal cancer: {question}"
 
 
 def understand_question(question: str, model) -> dict:
@@ -68,10 +90,18 @@ def understand_question(question: str, model) -> dict:
         intent = list(INTENTS)[best] if similarities[best] >= 0.73 else "general"
         confidence = similarities[best]
 
-    queries = [question, normalized]
+    domain_question = add_domain_context(question)
+    queries = [domain_question, question, normalize_question(domain_question), normalized]
     if intent != "general":
         queries.append(INTENTS[intent]["description"])
-    return {"original": question, "normalized": normalized, "intent": intent, "confidence": confidence, "queries": list(dict.fromkeys(queries))}
+    return {
+        "original": question,
+        "normalized": normalized,
+        "domain_question": domain_question,
+        "intent": intent,
+        "confidence": confidence,
+        "queries": list(dict.fromkeys(queries)),
+    }
 
 
 def keyword_score(text: str, query: str) -> float:
