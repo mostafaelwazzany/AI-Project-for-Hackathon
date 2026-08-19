@@ -15,6 +15,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 import config
+from query_understanding import keyword_score, understand_question
 
 
 NUMBERED_SECTIONS = {
@@ -29,12 +30,25 @@ NUMBERED_SECTIONS = {
 
 def is_patient_information_question(question: str) -> bool:
     """Recognise questions that belong to NICE section 1.2."""
+    question = question.lower()
     patient_information_cues = (
         "معلومات",
         "يشرح",
         "شرح",
         "فريق الرعاية",
         "فريق العلاج",
+        "اتكلم مع مين",
+        "أتكلم مع مين",
+        "استشير مين",
+        "مين يساعدني",
+        "المفروض اعمل اي",
+        "اعمل اي",
+        "أعمل إيه",
+        "i have colon cancer",
+        "i have colorectal cancer",
+        "what should i do",
+        "newly diagnosed",
+        "care team explain",
     )
     return any(cue in question for cue in patient_information_cues)
 
@@ -93,62 +107,64 @@ def get_collection():
 
 
 def search(question: str, top_k: int = config.TOP_K) -> list[dict]:
-    """Embed a question and return the closest chunks from Chroma."""
+    """Understand, multi-search and rerank a bilingual question."""
     model = get_embedding_model()
-    query_vector = model.encode_query(
-        f"query: {expand_question(question)}", normalize_embeddings=True
+    understanding = understand_question(str(question), model)
+    query_texts = [f"query: {text}" for text in understanding["queries"]]
+    query_vectors = model.encode(
+        query_texts,
+        normalize_embeddings=True,
+        convert_to_numpy=True,
+        show_progress_bar=False,
     )
 
     collection = get_collection()
-    # Retrieve a few extra candidates for the patient-information intent.  We
-    # then rerank section 1.2 recommendations without replacing semantic
-    # search; this prevents a generic treatment chunk from pushing the direct
-    # patient-information recommendation just outside Top-k.
-    patient_information = is_patient_information_question(question)
-    candidate_count = max(top_k, 20) if patient_information else top_k
+    candidate_count = min(max(top_k * 4, 20), collection.count())
     results = collection.query(
-        query_embeddings=[query_vector.tolist()],
-        n_results=min(candidate_count, collection.count()),
+        query_embeddings=query_vectors.tolist(),
+        n_results=candidate_count,
         where={"content_type": "recommendation"},
         include=["documents", "metadatas", "distances"],
     )
 
-    rows = []
-    for rank, (chunk_id, document, metadata, distance) in enumerate(
-        zip(
-            results["ids"][0],
-            results["documents"][0],
-            results["metadatas"][0],
-            results["distances"][0],
-        ),
-        start=1,
-    ):
-        section_title = correct_section_title(metadata["section_title"], document)
-        rows.append(
-            {
-                "rank": rank,
+    candidates = {}
+    for result_index in range(len(results["ids"])):
+        for chunk_id, document, metadata, distance in zip(
+            results["ids"][result_index], results["documents"][result_index],
+            results["metadatas"][result_index], results["distances"][result_index],
+        ):
+            semantic_score = 1 - float(distance)
+            existing = candidates.get(chunk_id)
+            if existing and existing["score"] >= semantic_score:
+                continue
+            candidates[chunk_id] = {
                 "chunk_id": chunk_id,
-                "score": 1 - float(distance),
+                "score": semantic_score,
                 "document_name": metadata["document_name"],
                 "page_number": metadata["page_number"],
-                "section_title": section_title,
+                "section_title": correct_section_title(metadata["section_title"], document),
                 "content_type": metadata.get("content_type", "unknown"),
                 "source_url": metadata["source_url"],
                 "text": document,
+                "intent": understanding["intent"],
             }
-        )
 
-    if patient_information:
-        rows.sort(
-            key=lambda row: (
-                # Regex101: ^\s*-?\s*1\.2\.\d+
-                1 if re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]) else 0,
-                row["score"],
-            ),
-            reverse=True,
-        )
-        for rank, row in enumerate(rows, start=1):
-            row["rank"] = rank
+    rows = list(candidates.values())
+    for row in rows:
+        lexical = max(keyword_score(row["text"], text) for text in understanding["queries"])
+        boost = 0.0
+        if understanding["intent"] == "symptoms_referral" and row["chunk_id"].startswith("ng12-"):
+            boost = 0.12
+        elif understanding["intent"] == "newly_diagnosed_information":
+            if re.match(r"^\s*-?\s*1\.2\.1\b", row["text"]):
+                boost = 0.12
+            elif re.match(r"^\s*-?\s*1\.2\.\d+", row["text"]):
+                boost = 0.06
+        row["rerank_score"] = row["score"] + (0.08 * lexical) + boost
+
+    rows.sort(key=lambda row: row["rerank_score"], reverse=True)
+    for rank, row in enumerate(rows, start=1):
+        row["rank"] = rank
     return rows[:top_k]
 
 

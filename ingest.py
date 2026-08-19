@@ -373,7 +373,12 @@ def main() -> None:
 
     print("3. Creating cleaned, token-aware chunks...")
     chunks = chunk_pages(pages, model.tokenizer)
+    from supplementary_sources import load_ng12_colorectal_chunks
+    supplementary = load_ng12_colorectal_chunks(model.tokenizer)
+    chunks.extend(supplementary)
+    write_jsonl(config.CHUNKS_PATH, chunks)
     print(f"   Created {len(chunks)} chunks")
+    print(f"   Included {len(supplementary)} colorectal recognition/referral chunks from NICE NG12")
 
     print(f"4. Creating embeddings with {config.EMBEDDING_MODEL}...")
     build_index(chunks, model)

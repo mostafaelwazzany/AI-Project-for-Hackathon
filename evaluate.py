@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 
 import chromadb
@@ -216,15 +217,29 @@ def print_summary(rows: list[dict], summary: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--top-k", type=int, default=config.TOP_K)
+    parser.add_argument(
+        "--no-save",
+        action="store_true",
+        help="Calculate a temporary experiment without replacing the saved k=5 reports.",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print the summary as JSON for the private web analysis page.",
+    )
     args = parser.parse_args()
     if args.top_k < 1:
         parser.error("--top-k must be at least 1")
 
     rows = evaluate(args.top_k)
-    save_report(rows)
     summary = build_summary(rows)
-    save_summary(summary)
-    print_summary(rows, summary)
+    if not args.no_save:
+        save_report(rows)
+        save_summary(summary)
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False))
+    else:
+        print_summary(rows, summary)
 
 
 if __name__ == "__main__":

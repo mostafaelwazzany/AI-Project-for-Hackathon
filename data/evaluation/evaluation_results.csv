@@ -4,7 +4,7 @@
 1,1,en,Does aspirin reduce colorectal cancer risk in Lynch syndrome patients?,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.9214,ng151-p7-c2,7
 1,2,en,What is aspirin's role in preventing colon cancer for Lynch syndrome patients?,Recommendation 1.1.1 - Page 7,1.1.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.9105,ng151-p7-c2,7
 2,1,ar,إيه علاجات سرطان المستقيم المبكر المتاحة؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,2,1,0.2,0.5,0.5,0.7972,ng151-p15-c5,15
-2,2,ar,لو عندي سرطان مستقيم في مرحلة مبكرة اختياراتي إيه؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,2,0.4,1.5,1.0,0.7996,ng151-p10-12-c2-part1,10-12
+2,2,ar,لو عندي سرطان مستقيم في مرحلة مبكرة اختياراتي إيه؟,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,1,2,0.4,1.4,1.0,0.7996,ng151-p10-12-c2-part1,10-12
 2,1,en,What treatments are available for early rectal cancer?,Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,FAIL,no,,0,0.0,0.0,0,0.869,ng151-p13-c1,13
 2,2,en,"If I have early-stage rectal cancer, what are my options?",Recommendation 1.3.3 - Table 1 - Page 10,1.3.3,5,PASS,yes,2,1,0.2,0.5,0.5,0.8587,ng151-p13-c2,13
 3,1,ar,هل المريض ياخد علاج إشعاعي قبل جراحة سرطان المستقيم؟,Recommendations 1.3.4-1.3.5 - Page 13,1.3.4;1.3.5,5,PASS,yes,2,2,0.4,0.5833,0.5,0.7912,ng151-p10-12-c2-part1,10-12
@@ -41,7 +41,7 @@
 10,2,en,What problems occur after sphincter-preserving surgery?,Recommendations 1.6.2-1.6.4 - Page 26,1.6.2;1.6.3;1.6.4,5,PASS,yes,1,1,0.2,0.3333,1.0,0.8411,ng151-p26-c3,26
 11,1,ar,إيه أعراض سرطان المعدة؟,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.789,ng151-p26-c3,26
 11,1,en,What are the symptoms of stomach cancer?,NOT COVERED - expect refusal,,5,REVIEW_REFUSAL,,,,,,,0.843,ng151-p26-c3,26
-12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendation 1.2.1 - Page 7,1.2.1,5,FAIL,no,,0,0.0,0.0,0,0.8038,ng151-p8-c3,8
+12,1,ar,أنا مشخص بسرطان القولون والمستقيم ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟,Recommendation 1.2.1 - Page 7,1.2.1,5,FAIL,no,,0,0.0,0.0,0,0.8106,ng12-rec-1-3-3-part1,15
 12,2,ar,ما خيارات العلاج وفوائده ومخاطره التي يجب أن أعرفها قبل العلاج؟,Recommendation 1.2.1 - Page 7,1.2.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.7915,ng151-p7-c3,7
 12,1,en,What information should the care team explain to a person with colorectal cancer?,Recommendation 1.2.1 - Page 7,1.2.1,5,FAIL,no,,0,0.0,0.0,0,0.8473,ng151-p9-c1,9
 12,2,en,What treatment options benefits and risks should be explained before colorectal cancer treatment?,Recommendation 1.2.1 - Page 7,1.2.1,5,PASS,yes,1,1,0.2,1.0,1.0,0.868,ng151-p7-c3,7

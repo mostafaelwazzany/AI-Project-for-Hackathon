@@ -19,7 +19,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 
 import config
-from query import search
+from query import get_embedding_model, search
 
 
 REFUSAL = (
@@ -46,6 +46,7 @@ ARABIC_SECTIONS = {
     "1.1 Reduction in risk of colorectal cancer in people with Lynch syndrome": "1.1 تقليل خطر سرطان القولون والمستقيم لدى الأشخاص المصابين بمتلازمة لينش",
     "1.2 Information for people with colorectal cancer": "1.2 معلومات للأشخاص المصابين بسرطان القولون والمستقيم",
     "1.3 Management of local disease": "1.3 علاج المرض الموضعي",
+    "1.3 Colorectal cancer recognition and referral": "1.3 التعرّف على سرطان القولون والمستقيم والإحالة",
     "1.4 Molecular biomarkers to guide systemic anticancer therapy": "1.4 المؤشرات الحيوية الجزيئية لتوجيه العلاج الجهازي المضاد للسرطان",
     "1.5 Management of advanced or metastatic colorectal cancer": "1.5 علاج سرطان القولون والمستقيم المتقدم أو المنتشر",
     "Follow-up for detection of local recurrence and distant metastases": "المتابعة لاكتشاف الانتكاس الموضعي والنقائل البعيدة",
@@ -80,6 +81,10 @@ question differs from the wording of a recommendation.
 Use calibrated language: say “the guideline recommends” when the passage is a
 direct recommendation; say “the guideline suggests” only when the passage is
 partial or indirect. Never present an inference as a definite clinical fact.
+
+Be concise. The recommendation must be at most 70 words. Use only one short
+supporting excerpt of at most 80 words and then immediately provide the citation.
+Do not list every retrieved passage or repeat the same point.
 
 """
 
@@ -130,6 +135,8 @@ def citation_for(row: dict, arabic: bool) -> str:
     """Create the required document / section / page citation."""
     if arabic:
         section = ARABIC_SECTIONS.get(row["section_title"], row["section_title"])
+        if row["document_name"] == config.NG12_DOCUMENT_NAME:
+            return f"[NICE NG12: الاشتباه بالسرطان والتعرّف عليه والإحالة، القسم: {section}، الصفحة: {row['page_number']}]"
         return f"[NICE NG151: سرطان القولون والمستقيم، القسم: {section}، الصفحة: {row['page_number']}]"
     return (
         f"[{row['document_name']}, Section: {row['section_title']}, "
@@ -323,6 +330,24 @@ def claims_are_supported(answer: str, rows: list[dict], arabic: bool) -> bool:
     if not recommendation:
         return False
     evidence = "\n".join(row["text"] for row in rows)
+    if arabic:
+        # The evidence is English while the answer is Arabic. A lexical overlap
+        # check would reject correct translations, so use our multilingual E5
+        # model for a cross-language semantic support check instead.
+        model = get_embedding_model()
+        claim_vector = model.encode(
+            [f"query: {recommendation}"], normalize_embeddings=True,
+            convert_to_numpy=True, show_progress_bar=False,
+        )[0]
+        evidence_vectors = model.encode(
+            [f"passage: {row['text']}" for row in rows],
+            normalize_embeddings=True, convert_to_numpy=True,
+            show_progress_bar=False,
+        )
+        similarity = max(float(claim_vector @ vector) for vector in evidence_vectors)
+        answer_numbers = set(re.findall(r"\d+(?:\.\d+)?", recommendation))
+        evidence_numbers = set(re.findall(r"\d+(?:\.\d+)?", evidence))
+        return similarity >= 0.72 and answer_numbers.issubset(evidence_numbers)
     evidence_words = claim_words(evidence)
     evidence_numbers = set(re.findall(r"\d+(?:\.\d+)?", evidence))
     # Regex101: [.!؟\n]+
@@ -358,12 +383,14 @@ def get_generation_model(api_key: str) -> ChatGroq:
     )
 
 
-def generate(question: str) -> str:
+def generate(question: str, rows: list[dict] | None = None) -> str:
     """Retrieve evidence, then produce a grounded answer or a safe refusal."""
-    rows = search(question)
+    rows = search(question) if rows is None else rows
     arabic = is_arabic(question)
     if not rows or rows[0]["score"] < config.MIN_RETRIEVAL_SCORE:
         return add_disclaimer(refusal_output(arabic), arabic)
+    if rows[0].get("intent") == "symptoms_referral":
+        rows = rows[:1]
 
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -414,7 +441,7 @@ def interactive_mode() -> None:
         if question.lower() in {"exit", "quit"}:
             break
         if question:
-            print("\n" + terminal_display(generate(question)))
+            print("\n" + generate(question))
 
 
 def main() -> None:
@@ -424,11 +451,17 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("question", nargs="?")
     parser.add_argument("--interactive", action="store_true")
+    parser.add_argument(
+        "--raw-output",
+        action="store_true",
+        help="Print normal Unicode text for web/API clients without terminal shaping.",
+    )
     args = parser.parse_args()
     if args.interactive:
         interactive_mode()
     elif args.question:
-        print(terminal_display(generate(args.question)))
+        answer = generate(args.question)
+        print(answer if args.raw_output else terminal_display(answer))
     else:
         parser.error("Write a question or use --interactive")
 

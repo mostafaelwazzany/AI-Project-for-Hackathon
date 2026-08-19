@@ -4,7 +4,7 @@
 
 ### Overview
 
-This is a Retrieval-Augmented Generation (RAG) system for answering questions about colorectal cancer using only the **NICE NG151: Colorectal cancer** guideline. Each answer is grounded in retrieved guideline evidence and includes a citation.
+This is a Retrieval-Augmented Generation (RAG) system for colorectal cancer using **NICE NG151** for management and the colorectal recommendations in **NICE NG12** for recognition and referral. Each answer is grounded in retrieved guideline evidence and includes a citation.
 
 > Educational project only. It is not a diagnostic tool and does not replace clinical advice.
 
@@ -20,7 +20,10 @@ NICE PDF
    ▼
 ingest.py ──► cleaned Markdown + chunks.jsonl ──► Chroma vector database
                                                     │
-User question ──► generate.py ──► retrieval ──────┘
+User question ──► query understanding ──► multi-query + hybrid retrieval ──┘
+                                                │
+                                                ▼
+                                           generate.py
                               │
                               ▼
                     Groq-hosted Qwen model
@@ -36,6 +39,9 @@ Creativa Hackathon/
 ├── config.py                  # All settings in one place
 ├── ingest.py                  # Build the local knowledge base
 ├── query.py                   # Test retrieval only
+├── query_understanding.py     # Normalize, classify intent and expand queries
+├── supplementary_sources.py   # Extract colorectal-only recommendations from NG12
+├── intent_tests.py            # Test varied Arabic/English phrasings
 ├── generate.py                # Run the complete RAG flow
 ├── evaluate.py                # Measure retrieval quality
 ├── requirements.txt
@@ -75,6 +81,11 @@ Creativa Hackathon/
 6. **Retrieve** the closest evidence chunks for a user question.
 7. **Generate** a grounded answer using only those chunks.
 8. **Evaluate** the retrieval result against manually defined expected evidence.
+
+Before retrieval, the system normalizes Arabic spelling, classifies the intent
+with multilingual E5, creates multiple search formulations, combines semantic
+and keyword signals, and reranks the candidates. This handles dialect, formal
+Arabic and English without calling another LLM.
 
 ### Chunking approach
 
@@ -157,6 +168,12 @@ Run the adversarial safety checks:
 python adversarial_tests.py
 ```
 
+Test intent detection across varied Arabic and English phrasings:
+
+```powershell
+python intent_tests.py
+```
+
 Evaluation files:
 
 - `data/evaluation/evaluation_results.csv`: result for every test question.
@@ -206,7 +223,7 @@ The example matches a recommendation number at the beginning of a line, such as 
 
 ### نظرة عامة
 
-ده نظام **RAG** للإجابة عن أسئلة سرطان القولون والمستقيم بالاعتماد فقط على دليل **NICE NG151: Colorectal cancer**. كل إجابة مبنية على أجزاء مسترجعة من الدليل وتظهر معها citation.
+ده نظام **RAG** لأسئلة سرطان القولون والمستقيم، ويستخدم **NICE NG151** للعلاج والمتابعة، وتوصيات القولون من **NICE NG12** للأعراض والتعرّف والإحالة. كل إجابة مبنية على دليل مسترجع وتظهر معها citation.
 
 > المشروع تعليمي فقط، وليس أداة تشخيص أو بديلًا عن الطبيب.
 
@@ -221,6 +238,9 @@ Creativa Hackathon/
 ├── config.py                  # جميع الإعدادات في مكان واحد
 ├── ingest.py                  # يبني قاعدة المعرفة المحلية
 ├── query.py                   # يختبر الاسترجاع فقط
+├── query_understanding.py     # يوحد السؤال ويفهم الـIntent ويولد صيغ بحث
+├── supplementary_sources.py  # يستخرج قسم القولون فقط من NG12
+├── intent_tests.py            # يختبر الصياغات العربية والإنجليزية
 ├── generate.py                # يشغل الـRAG كاملًا
 ├── evaluate.py                # يقيس جودة الاسترجاع
 ├── requirements.txt
@@ -260,6 +280,11 @@ Creativa Hackathon/
 6. **Retrieval**: نرجع أقرب evidence للسؤال.
 7. **Generation**: ننتج إجابة مبنية على الـevidence فقط.
 8. **Evaluation**: نقارن الاسترجاع بالدليل المتوقع لكل سؤال.
+
+قبل الاسترجاع، النظام يوحد اختلافات الكتابة العربية، ويفهم الـIntent باستخدام
+multilingual E5، وينشئ أكثر من صيغة بحث، ثم يجمع semantic similarity مع keyword
+matching ويعيد ترتيب النتائج. لذلك يفهم العامية والفصحى والإنجليزية بدون API
+إضافي.
 
 ### نوع الـChunking
 
@@ -310,6 +335,12 @@ python generate.py --interactive
 
 ```powershell
 python evaluate.py --top-k 5
+```
+
+لاختبار اختلاف صياغة الأسئلة والـIntent المتوقع:
+
+```powershell
+python intent_tests.py
 ```
 
 ملفات النتائج:

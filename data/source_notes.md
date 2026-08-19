@@ -10,6 +10,9 @@
   it does not publish or redistribute the original PDF. Before public deployment,
   confirm permission to use and display the guideline and follow NICE's notice of rights.
 - **Medical safety:** this is a retrieval demonstration, not medical advice.
+- **Supplementary source:** NICE NG12, *Suspected cancer: recognition and
+  referral*, colorectal recommendations 1.3.1–1.3.5 only. It covers recognition,
+  FIT testing and referral content that NG151 does not cover.
 
 ## العربية
 
@@ -20,3 +23,6 @@
 - **قرار الحقوق:** يحتفظ المشروع بالرابط وبيانات الاستشهاد، ولا يعيد نشر ملف
   الـPDF الأصلي. قبل النشر العام يجب التأكد من تصريح الاستخدام والالتزام بحقوق NICE.
 - **السلامة الطبية:** المشروع تجربة RAG تعليمية وليس بديلًا عن الطبيب.
+- **المصدر الإضافي:** NICE NG12 الخاص بالاشتباه بالسرطان والتعرّف عليه والإحالة.
+  نستخدم فقط توصيات القولون والمستقيم 1.3.1–1.3.5 لتغطية الأعراض والإحالة التي
+  لا يغطيها NG151.

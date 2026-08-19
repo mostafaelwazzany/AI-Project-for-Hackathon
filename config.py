@@ -20,6 +20,12 @@ DOCUMENT_NAME = "Colorectal cancer"
 GUIDELINE_CODE = "NICE NG151"
 SOURCE_URL = "https://www.nice.org.uk/guidance/ng151"
 
+# Supplementary NICE source for symptoms, recognition and referral.
+NG12_PDF_PATH = ROOT / "data" / "raw" / "nice_ng12_suspected_cancer.pdf"
+NG12_DOCUMENT_NAME = "Suspected cancer: recognition and referral"
+NG12_GUIDELINE_CODE = "NICE NG12"
+NG12_SOURCE_URL = "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+
 
 # Structure-aware Recursive Character Chunking with Overlap
 # document-based chunking with recursive splitting and overlap.
@@ -48,7 +54,7 @@ TOP_K = 5
 
 # Day 3 grounded generation settings (Groq free cloud API)
 GENERATION_MODEL = "qwen/qwen3.6-27b"
-GENERATION_MAX_OUTPUT_TOKENS = 400
+GENERATION_MAX_OUTPUT_TOKENS = 380
 GENERATION_TIMEOUT_SECONDS = 10
 # Day 4 calibrated floor: the Day 2 in-scope sample stayed at or above 0.75.
 # This is only the first guardrail; claim and scope checks run after retrieval.
