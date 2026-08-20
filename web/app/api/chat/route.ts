@@ -76,14 +76,21 @@ function startRag() {
   return child;
 }
 
+function timeoutMessage(payload: { question: string } | { warmup: true }) {
+  if ("warmup" in payload) return "The assistant is still warming up.";
+  return /[\u0600-\u06ff]/.test(payload.question)
+    ? "الرد استغرق وقتًا طويلًا. غالبًا السيرفر على Render ما زال يبدأ أو خدمة التوليد بطيئة. حاول مرة أخرى بعد لحظات."
+    : "The answer took too long. The Render server may still be starting or the generation service is slow. Please try again shortly.";
+}
+
 function sendRag(payload: { question: string } | { warmup: true }) {
   return new Promise<Result>((resolve) => {
     const child = startRag();
     const timer = setTimeout(() => {
       const index = state.pending.findIndex((item) => item.resolve === resolve);
       if (index >= 0) state.pending.splice(index, 1);
-      resolve({ error: "The answer took too long. Please try again." });
-    }, 90_000);
+      resolve({ error: timeoutMessage(payload) });
+    }, "warmup" in payload ? 20_000 : 45_000);
     state.pending.push({ resolve, timer });
     child.stdin.write(`${JSON.stringify(payload)}\n`);
   });

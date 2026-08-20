@@ -232,11 +232,15 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
     setLoading(true);
     setError("");
     try {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 50_000);
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: value }),
+        signal: controller.signal,
       });
+      window.clearTimeout(timeout);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setMessages((current) => [
@@ -250,7 +254,14 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
         },
       ]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      const timedOut = err instanceof Error && err.name === "AbortError";
+      setError(
+        timedOut
+          ? arabicUi
+            ? "الرد استغرق وقتًا طويلًا. لو التطبيق على Render Free، انتظر دقيقة وجرب تاني."
+            : "The answer took too long. If this is running on Render Free, wait a minute and try again."
+          : err instanceof Error ? err.message : "Something went wrong.",
+      );
     } finally {
       setLoading(false);
     }
