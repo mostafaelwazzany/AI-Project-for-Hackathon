@@ -7,8 +7,11 @@ import {
   ChevronDown,
   ExternalLink,
   FileText,
+  History,
   MessageCircle,
+  Plus,
   Send,
+  Trash2,
   User,
 } from "lucide-react";
 
@@ -27,6 +30,12 @@ type Message = {
   source?: Source | null;
   sources?: Source[];
 };
+type ChatSession = {
+  id: string;
+  title: string;
+  messages: Message[];
+  updatedAt: number;
+};
 
 type AnswerParts = {
   recommendation: string;
@@ -34,6 +43,41 @@ type AnswerParts = {
   citation: string;
   disclaimer: string;
 };
+
+const QUICK_QUESTIONS = {
+  ar: [
+    "ما المتابعة المطلوبة بعد الجراحة العلاجية لسرطان القولون والمستقيم؟",
+    "ما المعلومات التي يجب أن يشرحها لي فريق الرعاية؟",
+    "ما أعراض سرطان القولون والمستقيم التي تحتاج إحالة؟",
+    "هل يمكنني ممارسة الرياضة بعد العلاج؟",
+    "ما النصائح الغذائية بعد الخروج من المستشفى؟",
+    "هل هذا النظام يجيب عن سرطان الثدي؟",
+  ],
+  en: [
+    "What follow-up is needed after curative colorectal cancer surgery?",
+    "What information should my care team explain to me?",
+    "What colorectal cancer symptoms need referral?",
+    "Can I exercise after treatment?",
+    "What diet advice is recommended after discharge?",
+    "Can this assistant answer breast cancer questions?",
+  ],
+};
+const CHAT_STORAGE_KEY = "colorectal-cancer-assistant-chats";
+
+function newSession(): ChatSession {
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: "New chat",
+    messages: [],
+    updatedAt: Date.now(),
+  };
+}
+
+function sessionTitle(messages: Message[], fallback: string) {
+  const firstQuestion = messages.find((message) => message.role === "user")?.text.trim();
+  if (!firstQuestion) return fallback;
+  return firstQuestion.length > 44 ? `${firstQuestion.slice(0, 44)}…` : firstQuestion;
+}
 
 function parseAnswer(text: string): AnswerParts | null {
   const disclaimerStart = text.search(/\n\s*(?:تنبيه:|Disclaimer:)/);
@@ -209,22 +253,105 @@ function AssistantAnswer({
 }
 
 export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" }) {
+  const [sessions, setSessions] = useState<ChatSession[]>([]);
+  const [activeSessionId, setActiveSessionId] = useState("");
+  const [hydrated, setHydrated] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
   const arabicUi = language === "ar";
+  const activeSession = sessions.find((session) => session.id === activeSessionId);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(CHAT_STORAGE_KEY);
+      const parsed = saved ? (JSON.parse(saved) as ChatSession[]) : [];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setSessions(parsed);
+        setActiveSessionId(parsed[0].id);
+        setMessages(parsed[0].messages ?? []);
+      } else {
+        const session = newSession();
+        setSessions([session]);
+        setActiveSessionId(session.id);
+        setMessages([]);
+      }
+    } catch {
+      const session = newSession();
+      setSessions([session]);
+      setActiveSessionId(session.id);
+      setMessages([]);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(sessions));
+  }, [hydrated, sessions]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  async function ask(event: FormEvent) {
-    event.preventDefault();
-    const value = question.trim();
+  function updateActiveMessages(updater: (current: Message[]) => Message[]) {
+    setMessages((current) => {
+      const next = updater(current);
+      setSessions((currentSessions) =>
+        currentSessions.map((session) =>
+          session.id === activeSessionId
+            ? {
+                ...session,
+                title: sessionTitle(next, session.title),
+                messages: next,
+                updatedAt: Date.now(),
+              }
+            : session,
+        ),
+      );
+      return next;
+    });
+  }
+
+  function startNewChat() {
+    if (loading) return;
+    const session = newSession();
+    setSessions((current) => [session, ...current]);
+    setActiveSessionId(session.id);
+    setMessages([]);
+    setQuestion("");
+    setError("");
+  }
+
+  function openChat(session: ChatSession) {
+    if (loading) return;
+    setActiveSessionId(session.id);
+    setMessages(session.messages ?? []);
+    setQuestion("");
+    setError("");
+  }
+
+  function deleteChat(sessionId: string) {
+    if (loading) return;
+    setSessions((current) => {
+      const remaining = current.filter((session) => session.id !== sessionId);
+      if (sessionId === activeSessionId) {
+        const nextSession = remaining[0] ?? newSession();
+        if (remaining.length === 0) remaining.push(nextSession);
+        setActiveSessionId(nextSession.id);
+        setMessages(nextSession.messages ?? []);
+      }
+      return remaining;
+    });
+  }
+
+  async function sendQuestion(rawQuestion: string) {
+    const value = rawQuestion.trim();
     if (!value || loading) return;
-    setMessages((current) => [
+    updateActiveMessages((current) => [
       ...current,
       { id: Date.now(), role: "user", text: value },
     ]);
@@ -243,7 +370,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
       window.clearTimeout(timeout);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      setMessages((current) => [
+      updateActiveMessages((current) => [
         ...current,
         {
           id: Date.now() + 1,
@@ -267,8 +394,71 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
     }
   }
 
+  async function ask(event: FormEvent) {
+    event.preventDefault();
+    await sendQuestion(question);
+  }
+
+  const chatHistoryPanel = (
+    <aside className="rounded-2xl border border-[#203b58] bg-[#0d1b2d]/80 p-3 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-hidden">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-sm font-semibold text-[#d6e3f1]">
+          <History aria-hidden="true" size={17} className="text-[#8dc8ff]" />
+          {arabicUi ? "المحادثات المحفوظة" : "Saved chats"}
+        </div>
+        <button
+          type="button"
+          onClick={startNewChat}
+          disabled={loading}
+          className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-xl border border-[#315a7e] bg-[#10243a] px-3 text-xs font-semibold text-[#d6e3f1] transition-colors hover:border-[#5ba7ff] hover:bg-[#153c63] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <Plus aria-hidden="true" size={15} />
+          {arabicUi ? "محادثة جديدة" : "New chat"}
+        </button>
+      </div>
+      <div
+        className="flex gap-2 overflow-x-auto pb-1 lg:max-h-[calc(100vh-12rem)] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden"
+        dir={arabicUi ? "rtl" : "ltr"}
+      >
+        {sessions.map((session) => (
+          <div
+            key={session.id}
+            className={`group flex min-w-48 items-center gap-2 rounded-xl border px-3 py-2 text-start transition-colors lg:min-w-0 ${
+              session.id === activeSessionId
+                ? "border-[#46d6a0] bg-[#0b3a32]"
+                : "border-[#294864] bg-[#091525] hover:border-[#5ba7ff]"
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => openChat(session)}
+              disabled={loading}
+              className="min-w-0 flex-1 cursor-pointer text-start disabled:cursor-not-allowed"
+            >
+              <span className="block truncate text-xs font-semibold text-[#e7f0fb]">
+                {session.title}
+              </span>
+              <span className="mt-0.5 block text-[11px] text-[#8ca6c1]">
+                {new Date(session.updatedAt).toLocaleDateString(language === "ar" ? "ar-EG" : "en-US")}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => deleteChat(session.id)}
+              disabled={loading}
+              aria-label={arabicUi ? "حذف المحادثة" : "Delete chat"}
+              className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg text-[#8ca6c1] transition-colors hover:bg-[#3a1824] hover:text-[#ffb1bd] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Trash2 aria-hidden="true" size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
+
   return (
-    <section className="mx-auto flex max-w-5xl flex-col">
+    <section className="mx-auto flex max-w-7xl flex-col">
       <div className="mb-6">
         <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[.18em] text-[#5ba7ff]">
           <span className="size-2 rounded-full bg-[#46d6a0]" />
@@ -283,7 +473,9 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
             : "Ask in Arabic or English. Answers are grounded only in NICE guidance."}
         </p>
       </div>
-      <div className="flex min-h-[62vh] flex-col overflow-hidden rounded-2xl border border-[#203b58] bg-[#0d1b2d]/90">
+      <div className="grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
+        {chatHistoryPanel}
+        <div className="flex h-[calc(100vh-14rem)] min-h-[34rem] flex-col overflow-hidden rounded-2xl border border-[#203b58] bg-[#0d1b2d]/90 lg:h-[calc(100vh-8rem)]">
         <div
           className="flex-1 space-y-5 overflow-y-auto p-4 sm:p-6"
           aria-live="polite"
@@ -304,6 +496,23 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
                     ? "مثال: ما المتابعة المطلوبة بعد الجراحة العلاجية؟"
                     : "Example: What follow-up is needed after curative surgery?"}
                 </p>
+                <div
+                  className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2"
+                  dir={arabicUi ? "rtl" : "ltr"}
+                  aria-label={arabicUi ? "أسئلة سريعة" : "Quick questions"}
+                >
+                  {QUICK_QUESTIONS[language].map((quickQuestion) => (
+                    <button
+                      key={quickQuestion}
+                      type="button"
+                      disabled={loading}
+                      onClick={() => void sendQuestion(quickQuestion)}
+                      className="rounded-full border border-[#294864] bg-[#10243a] px-3 py-2 text-xs font-medium text-[#d6e3f1] transition-colors hover:border-[#5ba7ff] hover:bg-[#153c63] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {quickQuestion}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -413,6 +622,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
               : "Press Enter to send, or Shift + Enter for a new line"}
           </div>
         </form>
+        </div>
       </div>
     </section>
   );
