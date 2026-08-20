@@ -5,7 +5,6 @@ WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHON_EXECUTABLE=python3
-ENV EMBEDDING_LOCAL_FILES_ONLY=false
 ENV HF_HOME=/app/.cache/huggingface
 
 RUN apt-get update \
@@ -14,7 +13,9 @@ RUN apt-get update \
 
 COPY requirements.txt ./
 RUN python3 -m pip install --break-system-packages --no-cache-dir -r requirements.txt
+ENV EMBEDDING_LOCAL_FILES_ONLY=false
 RUN python3 -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('intfloat/multilingual-e5-base')"
+ENV EMBEDDING_LOCAL_FILES_ONLY=true
 
 COPY web/package*.json ./web/
 RUN cd web && npm ci --include=dev

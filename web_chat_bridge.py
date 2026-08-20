@@ -39,8 +39,10 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8", errors="strict")
     load_dotenv()
     for line in sys.stdin:
+        request_id = None
         try:
             request = json.loads(line)
+            request_id = request.get("id")
             if request.get("warmup"):
                 # Load the local model, run one tiny embedding and open Chroma
                 # before the user sends the first real question.
@@ -51,7 +53,7 @@ def main() -> None:
                     show_progress_bar=False,
                 )
                 get_collection().count()
-                print(json.dumps({"ready": True}), flush=True)
+                print(json.dumps({"id": request_id, "ready": True}), flush=True)
                 continue
             question = unicodedata.normalize(
                 "NFC", str(request.get("question", ""))
@@ -80,6 +82,8 @@ def main() -> None:
         except Exception as error:
             print(f"Chat bridge error: {error}", file=sys.stderr, flush=True)
             result = {"error": friendly_error(question if 'question' in locals() else "")}
+        if request_id is not None:
+            result["id"] = request_id
         print(json.dumps(result, ensure_ascii=False), flush=True)
 
 

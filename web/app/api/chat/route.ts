@@ -20,10 +20,15 @@ type Result = {
   source?: Source | null;
   sources?: Source[];
 };
-type Pending = { resolve: (value: Result) => void; timer: NodeJS.Timeout };
+type Pending = {
+  id: string;
+  resolve: (value: Result) => void;
+  timer: NodeJS.Timeout;
+};
 type RagState = {
   process?: ChildProcessWithoutNullStreams;
   pending: Pending[];
+  nextId?: number;
 };
 
 const globalRag = globalThis as typeof globalThis & { ragState?: RagState };
@@ -57,14 +62,21 @@ function startRag() {
   });
   state.process = child;
   readline.createInterface({ input: child.stdout }).on("line", (line) => {
-    const item = state.pending.shift();
+    let parsed: Result & { id?: string };
+    try {
+      parsed = JSON.parse(line) as Result & { id?: string };
+    } catch {
+      parsed = { error: "The RAG service returned an invalid response." };
+    }
+    const pendingIndex = parsed.id
+      ? state.pending.findIndex((pending) => pending.id === parsed.id)
+      : 0;
+    const item =
+      pendingIndex >= 0 ? state.pending.splice(pendingIndex, 1)[0] : undefined;
     if (!item) return;
     clearTimeout(item.timer);
-    try {
-      item.resolve(JSON.parse(line) as Result);
-    } catch {
-      item.resolve({ error: "The RAG service returned an invalid response." });
-    }
+    delete parsed.id;
+    item.resolve(parsed);
   });
   child.stderr.on("data", (chunk) =>
     console.error("RAG:", chunk.toString().trim()),
@@ -86,13 +98,14 @@ function timeoutMessage(payload: { question: string } | { warmup: true }) {
 function sendRag(payload: { question: string } | { warmup: true }) {
   return new Promise<Result>((resolve) => {
     const child = startRag();
+    const id = String(state.nextId = (state.nextId ?? 0) + 1);
     const timer = setTimeout(() => {
-      const index = state.pending.findIndex((item) => item.resolve === resolve);
+      const index = state.pending.findIndex((item) => item.id === id);
       if (index >= 0) state.pending.splice(index, 1);
       resolve({ error: timeoutMessage(payload) });
     }, "warmup" in payload ? 20_000 : 45_000);
-    state.pending.push({ resolve, timer });
-    child.stdin.write(`${JSON.stringify(payload)}\n`);
+    state.pending.push({ id, resolve, timer });
+    child.stdin.write(`${JSON.stringify({ ...payload, id })}\n`);
   });
 }
 
