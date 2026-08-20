@@ -8,7 +8,7 @@ type Language = "ar" | "en";
 
 function SiteLogo() {
   return (
-    <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-[#2b6a8a] bg-gradient-to-br from-[#0b3a55] via-[#123c63] to-[#0b3a32] text-[#b9f7e1] shadow-lg shadow-[#07111f]/40">
+    <div className="site-logo-3d grid size-11 shrink-0 place-items-center rounded-2xl border border-[#58d7ff]/35 bg-gradient-to-br from-[#0b3a55] via-[#123c63] to-[#0b3a32] text-[#b9f7e1] shadow-lg shadow-[#07111f]/40">
       <svg
         viewBox="0 0 48 48"
         aria-hidden="true"
@@ -66,7 +66,15 @@ export default function AssistantApp() {
   const arabic = language === "ar";
 
   return (
-    <div className="min-h-screen">
+    <div className="premium-shell min-h-screen overflow-x-hidden">
+      <div aria-hidden="true" className="scene-3d fixed inset-0 pointer-events-none">
+        <div className="orb orb-blue" />
+        <div className="orb orb-green" />
+        <div className="orb orb-violet" />
+        <div className="mesh-floor" />
+        <div className="floating-card floating-card-a" />
+        <div className="floating-card floating-card-b" />
+      </div>
       {showSplash && (
         <div
           role="status"
@@ -94,8 +102,8 @@ export default function AssistantApp() {
           </div>
         </div>
       )}
-      <header className="sticky top-0 z-20 border-b border-[#203b58]/80 bg-[#07111f]/90 px-4 py-3 backdrop-blur-xl sm:px-8">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
+      <header className="sticky top-0 z-20 border-b border-[#6fe9ff]/10 bg-[#07111f]/55 px-4 py-3 shadow-2xl shadow-black/20 backdrop-blur-2xl sm:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <SiteLogo />
             <div className="min-w-0">
@@ -121,7 +129,7 @@ export default function AssistantApp() {
           <button
             type="button"
             onClick={() => setLanguage(arabic ? "en" : "ar")}
-            className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-[#294864] bg-[#0d1b2d] px-3 text-sm font-medium transition-colors duration-200 hover:bg-[#102d49]"
+            className="interactive-lift inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-[#58d7ff]/25 bg-[#0d1b2d]/75 px-3 text-sm font-medium shadow-lg shadow-black/20 backdrop-blur-xl transition-colors duration-200 hover:bg-[#102d49]"
             aria-label={arabic ? "Switch to English" : "التبديل إلى العربية"}
           >
             <Languages aria-hidden="true" size={17} className="text-[#8dc8ff]" />
@@ -129,7 +137,7 @@ export default function AssistantApp() {
           </button>
         </div>
       </header>
-      <main className="px-4 py-7 sm:px-8 sm:py-10">
+      <main className="relative z-10 px-4 py-5 sm:px-8 lg:h-[calc(100vh-4.5rem)] lg:overflow-hidden">
         <ChatPanel language={language} />
       </main>
     </div>

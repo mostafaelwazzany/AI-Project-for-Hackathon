@@ -35,6 +35,52 @@ const globalRag = globalThis as typeof globalThis & { ragState?: RagState };
 const state = globalRag.ragState ?? { pending: [] };
 globalRag.ragState = state;
 
+function hfApiUrl() {
+  const base = process.env.HF_SPACE_API_URL?.replace(/\/$/, "");
+  return base ?? "";
+}
+
+async function sendRemote(question: string): Promise<Result> {
+  const base = hfApiUrl();
+  if (!base) return { error: "HF_SPACE_API_URL is not configured." };
+  const startResponse = await fetch(`${base}/gradio_api/call/v2/answer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: question }),
+    signal: AbortSignal.timeout(60_000),
+  });
+  const startData = (await startResponse.json().catch(() => null)) as {
+    event_id?: string;
+  } | null;
+  if (!startResponse.ok || !startData?.event_id) {
+    return { error: "The hosted RAG service could not start the answer job." };
+  }
+  const resultResponse = await fetch(
+    `${base}/gradio_api/call/answer/${startData.event_id}`,
+    { signal: AbortSignal.timeout(90_000) },
+  );
+  const eventText = await resultResponse.text();
+  if (!resultResponse.ok) {
+    return { error: "The hosted RAG service failed while preparing the answer." };
+  }
+  const dataLine = eventText
+    .split(/\r?\n/)
+    .find((line) => line.startsWith("data: "));
+  if (!dataLine) {
+    return { error: "The hosted RAG service returned an empty response." };
+  }
+  try {
+    const parsed = JSON.parse(dataLine.slice(6)) as unknown[];
+    return {
+      answer: typeof parsed[0] === "string" ? parsed[0] : "",
+      source: null,
+      sources: [],
+    };
+  } catch {
+    return { error: "The hosted RAG service returned an invalid response." };
+  }
+}
+
 function rejectPending(message: string) {
   while (state.pending.length) {
     const item = state.pending.shift()!;
@@ -110,6 +156,7 @@ function sendRag(payload: { question: string } | { warmup: true }) {
 }
 
 export async function GET() {
+  if (hfApiUrl()) return NextResponse.json({ ready: true });
   const result = await sendRag({ warmup: true });
   if (result.error)
     return NextResponse.json({ error: result.error }, { status: 502 });
@@ -132,7 +179,9 @@ export async function POST(request: NextRequest) {
       { error: "Question is too long." },
       { status: 400 },
     );
-  const result = await sendRag({ question });
+  const result = hfApiUrl()
+    ? await sendRemote(question)
+    : await sendRag({ question });
   if (result.error)
     return NextResponse.json({ error: result.error }, { status: 502 });
   return NextResponse.json({

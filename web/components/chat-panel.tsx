@@ -400,7 +400,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
   }
 
   const chatHistoryPanel = (
-    <aside className="rounded-2xl border border-[#203b58] bg-[#0d1b2d]/80 p-3 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-hidden">
+    <aside className="glass-panel rounded-2xl border border-[#203b58] bg-[#0d1b2d]/80 p-3 lg:h-full lg:overflow-hidden">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-sm font-semibold text-[#d6e3f1]">
           <History aria-hidden="true" size={17} className="text-[#8dc8ff]" />
@@ -417,13 +417,13 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
         </button>
       </div>
       <div
-        className="flex gap-2 overflow-x-auto pb-1 lg:max-h-[calc(100vh-12rem)] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden"
+        className="flex gap-2 overflow-x-auto pb-1 lg:h-[calc(100%-3.5rem)] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden"
         dir={arabicUi ? "rtl" : "ltr"}
       >
         {sessions.map((session) => (
           <div
             key={session.id}
-            className={`group flex min-w-48 items-center gap-2 rounded-xl border px-3 py-2 text-start transition-colors lg:min-w-0 ${
+            className={`interactive-lift group flex min-w-48 items-center gap-2 rounded-xl border px-3 py-2 text-start transition-colors lg:min-w-0 ${
               session.id === activeSessionId
                 ? "border-[#46d6a0] bg-[#0b3a32]"
                 : "border-[#294864] bg-[#091525] hover:border-[#5ba7ff]"
@@ -458,13 +458,13 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
   );
 
   return (
-    <section className="mx-auto flex max-w-7xl flex-col">
-      <div className="mb-6">
+    <section className="mx-auto flex max-w-7xl flex-col lg:h-full">
+      <div className="hero-panel mb-4 rounded-3xl border border-[#58d7ff]/10 bg-[#07111f]/30 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-5">
         <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[.18em] text-[#5ba7ff]">
           <span className="size-2 rounded-full bg-[#46d6a0]" />
           {arabicUi ? "مساعد مبني على الدليل" : "Guideline assistant"}
         </div>
-        <h1 className="text-3xl font-semibold sm:text-4xl">
+        <h1 className="text-2xl font-semibold sm:text-3xl">
           {arabicUi ? "اسأل عن سرطان القولون والمستقيم" : "Ask about colorectal cancer"}
         </h1>
         <p className="mt-2 text-sm text-[#8ca6c1]">
@@ -473,9 +473,9 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
             : "Ask in Arabic or English. Answers are grounded only in NICE guidance."}
         </p>
       </div>
-      <div className="grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <div className="grid gap-4 lg:min-h-0 lg:flex-1 lg:grid-cols-[18rem_minmax(0,1fr)]">
         {chatHistoryPanel}
-        <div className="flex h-[calc(100vh-14rem)] min-h-[34rem] flex-col overflow-hidden rounded-2xl border border-[#203b58] bg-[#0d1b2d]/90 lg:h-[calc(100vh-8rem)]">
+        <div className="chat-stage glass-panel flex h-[calc(100vh-14rem)] min-h-[34rem] flex-col overflow-hidden rounded-2xl border border-[#203b58] bg-[#0d1b2d]/90 lg:h-full lg:min-h-0">
         <div
           className="flex-1 space-y-5 overflow-y-auto p-4 sm:p-6"
           aria-live="polite"
@@ -519,7 +519,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+              className={`message-enter flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`mt-1 grid size-8 shrink-0 place-items-center rounded-full ${message.role === "user" ? "order-2 bg-[#1e5a91]" : "bg-[#0b3a32] text-[#71e5b9]"}`}
@@ -532,7 +532,7 @@ export default function ChatPanel({ language = "ar" }: { language?: "ar" | "en" 
               </div>
               <div
                 dir="auto"
-                className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-start text-sm leading-7 ${message.role === "user" ? "rounded-tr-sm bg-[#1e5a91] text-white" : "rounded-tl-sm border border-[#2b805f] bg-[#0a2826]"}`}
+                  className={`message-bubble max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-start text-sm leading-7 ${message.role === "user" ? "rounded-tr-sm bg-gradient-to-br from-[#2469a6] to-[#163f74] text-white" : "rounded-tl-sm border border-[#2b805f] bg-[#0a2826]"}`}
               >
                 {message.role === "assistant" ? (
                   <AssistantAnswer
